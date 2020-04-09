@@ -4,12 +4,12 @@ const users = [
   {
     // 123/123
     name: "123",
-    password: "$2b$10$KSAfjDM1aEkoAU/vW7HH9O2eATiClAJrKDSE1cVlSPNMdZSo5KOvW"
-  }
+    password: "$2b$10$KSAfjDM1aEkoAU/vW7HH9O2eATiClAJrKDSE1cVlSPNMdZSo5KOvW",
+  },
 ];
 
 const loginUser = async (name, password) => {
-  const user = users.find(user => user.name === name);
+  const user = users.find((user) => user.name === name);
   if (!user) {
     return [null, "cannot find user"];
   }
@@ -21,7 +21,7 @@ const loginUser = async (name, password) => {
 };
 
 const registerUser = async (name, password) => {
-  const userInDatabase = users.find(user => user.name === name);
+  const userInDatabase = users.find((user) => user.name === name);
   if (userInDatabase) {
     return [null, "user already exists"];
   }
@@ -29,7 +29,7 @@ const registerUser = async (name, password) => {
   const hashedPassword = await bcrypt.hash(password, salt);
   const user = {
     name,
-    password: hashedPassword
+    password: hashedPassword,
   };
 
   users.push(user);
@@ -39,5 +39,5 @@ const registerUser = async (name, password) => {
 
 module.exports = {
   loginUser,
-  registerUser
+  registerUser,
 };

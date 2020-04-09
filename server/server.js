@@ -4,13 +4,14 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const express = require("express");
+const originUrl = process.env.ORIGIN_URL || "http://localhost:3000";
 const port = process.env.PORT || 3001;
 
 const {
   createSession,
   fetchSession,
   removeSession,
-  checkSession
+  checkSession,
 } = require("./SessionService");
 const { loginUser, registerUser } = require("./UserRepository");
 
@@ -19,16 +20,15 @@ const app = express();
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: originUrl }));
 
-const cookieTokenExtractor = cookieName => (req, res, next) => {
+const cookieTokenExtractor = (cookieName) => (req, res, next) => {
   req.token = req.cookies[cookieName];
   next();
 };
 
 const authorizationHeaderTokenExtractor = (req, res, next) => {
   const authorizationHeader = req.headers.authorization;
-  console.log(req.headers);
   if (authorizationHeader) {
     req.token = authorizationHeader.replace("bearer ", "");
   }
@@ -54,16 +54,21 @@ const secured = (req, res, next) => {
 const authorizationChain = [
   cookieTokenExtractor("session"),
   authorizationHeaderTokenExtractor,
-  secured
+  secured,
 ];
 
 app.get("/", (req, res) => res.send("witaj na stronie"));
 
-app.post("/check", async (req, res) => {
+app.post("/check", async (req, res, next) => {
+  res.set("Access-Control-Allow-Origin", originUrl);
+  res.set("Access-Control-Allow-Credentials", true);
+  res.set("Set-Cookie", "HttpOnly;Secure;SameSite=None");
   const token = req.cookies.session;
-  console.log(token);
+  if (!token) return;
+  console.log("Token in check endpoint ", token);
   const [user, error] = await checkSession(token);
   if (!user) {
+    next();
     res.status(400).send(error);
   } else {
     res.send("ok!");
@@ -78,16 +83,16 @@ app.post("/register", async (req, res) => {
   const { name, password } = req.body;
   const [user, error] = await registerUser(name, password);
   if (error) {
-    res.status(409).send("Błąd rejestracji");
+    res.status(409).send(error);
   } else {
-    res.json({
-      user: { name: user.name },
-      message: "Zarejestrowano użytkownika"
-    });
+    res.json({ user: { name: user.name } });
   }
 });
 
 app.post("/login", async (req, res) => {
+  res.set("Access-Control-Allow-Origin", originUrl);
+  res.set("Access-Control-Allow-Credentials", true);
+  res.set("Set-Cookie", "HttpOnly;Secure;SameSite=None");
   const { name, password } = req.body;
   const [user, error] = await loginUser(name, password);
   if (error) {
@@ -98,16 +103,17 @@ app.post("/login", async (req, res) => {
     res.json({
       token,
       user: {
-        name: user.name
+        name: user.name,
       },
-      message: "everything is ok from server"
+      message: "everything is ok from server",
     });
   }
 });
 
 app.post("/logout", authorizationChain, async (req, res) => {
-  removeSession(req.token);
-  res.clearCookie("authorization");
+  console.log(req.token + " req token");
+  removeSession(req.token, req.session.user.name);
+  res.clearCookie("session");
   res.redirect("/");
 });
 
