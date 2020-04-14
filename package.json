@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:server": "cd server && nodemon server.js",
+    "dev:client": "cd client && npm start",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\""
   },
   "repository": {
     "type": "git",
@@ -16,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/kazbag/restaurant-management/issues"
   },
-  "homepage": "https://github.com/kazbag/restaurant-management#readme"
+  "homepage": "https://github.com/kazbag/restaurant-management#readme",
+  "dependencies": {
+    "concurrently": "^5.1.0"
+  }
 }

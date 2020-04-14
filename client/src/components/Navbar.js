@@ -1,34 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
-const Navbar = props => {
-  const { isLogged, setIsLogged } = props;
-  // console.log(props);
-  // useEffect(() => {}, [isLogged]);
+const Navbar = (props) => {
+  const { isAuthenticated } = useContext(AuthContext);
+  console.log(isAuthenticated);
   return (
-    <div className="nav">
-      <div className="menu">
-        <NavLink exact activeClassName="active" to="/">
-          Strona główna
-        </NavLink>
-        {!isLogged && (
-          <NavLink activeClassName="active" to="/login">
-            Logowanie
-          </NavLink>
-        )}
-        {!isLogged && (
-          <NavLink activeClassName="active" to="/register">
-            Rejestracja
-          </NavLink>
-        )}
-        {isLogged && (
-          <NavLink activeClassName="active" to="/logout">
-            Wyloguj
-          </NavLink>
-        )}
-      </div>
-    </div>
+    <AuthContext.Consumer>
+      {(context) => (
+        <div className="nav">
+          <div className="menu">
+            <NavLink exact activeClassName="active" to="/">
+              Strona główna
+            </NavLink>
+            {!isAuthenticated && (
+              <NavLink activeClassName="active" to="/login">
+                Logowanie
+              </NavLink>
+            )}
+            {!isAuthenticated && (
+              <NavLink activeClassName="active" to="/register">
+                Rejestracja
+              </NavLink>
+            )}
+            {isAuthenticated && (
+              <NavLink activeClassName="active" to="/logout">
+                Wyloguj
+              </NavLink>
+            )}
+            {isAuthenticated && (
+              <NavLink activeClassName="active" to="/secret">
+                Tajemnica
+              </NavLink>
+            )}
+          </div>
+        </div>
+      )}
+    </AuthContext.Consumer>
   );
 };
 

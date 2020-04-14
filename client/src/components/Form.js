@@ -1,63 +1,76 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Form.css";
 import axios from "axios";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
-const Form = props => {
-  const [isLogged, setIsLogged] = useState(false);
+const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+
+const Form = ({ history, location }) => {
+  const { isAuthenticated, setAuth } = useContext(AuthContext);
   const [isRegistered, setIsRegistered] = useState(false);
   const [message, setMessage] = useState("");
   const [data, setData] = useState({});
-  const handleInputChange = e =>
+
+  useEffect(() => {
+    if (isRegistered) {
+      history.push("/login");
+    }
+  }, [isRegistered]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/");
+    }
+  }, [isAuthenticated]);
+
+  const handleInputChange = (e) =>
     setData({
       ...data,
-      [e.currentTarget.name]: e.currentTarget.value
+      [e.currentTarget.name]: e.currentTarget.value,
     });
-  const registerHandler = e => {
+
+  const registerHandler = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/register", data)
-      .then(response => {
+      .post(`${serverUrl}/register`, data)
+      .then((response) => {
         console.log(response);
         setMessage("Stworzono konto");
         setIsRegistered(true);
-        setTimeout(() => {
-          props.history.push("/login");
-          window.location.reload();
-        }, 1000);
       })
-      .catch(error => {
+      .catch((error) => {
         setMessage(error.response.data);
         setIsRegistered(false);
       });
   };
-  console.log(message);
-  const loginHandler = e => {
+
+  const loginHandler = (e) => {
     e.preventDefault();
-    axios("http://localhost:3001/login", {
+    axios(`${serverUrl}/login`, {
       method: "POST",
       data: data,
-      withCredentials: true
+      withCredentials: true,
     })
-      .then(response => {
-        setIsLogged(true);
-        props.history.push("/");
-        window.location.reload();
+      .then((response) => {
+        setAuth(true);
+        history.push("/");
       })
-      .catch(error => {
-        setIsLogged(false);
+      .catch((err) => {
+        console.log(err);
+        setAuth(false);
       });
   };
 
   return (
     <>
       <h3 className="title">
-        {props.location.pathname === "/login" ? "Logowanie" : "Rejestracja"}
+        {location.pathname === "/login" ? "Logowanie" : "Rejestracja"}
       </h3>
       <form
         onSubmit={
-          props.location.pathname === "/login" ? loginHandler : registerHandler
+          location.pathname === "/login" ? loginHandler : registerHandler
         }
       >
         <input
@@ -74,7 +87,7 @@ const Form = props => {
         />
         <div className="buttons">
           <button type="submit">
-            {props.location.pathname === "/login" ? "zaloguj" : "zarejestruj"}
+            {location.pathname === "/login" ? "zaloguj" : "zarejestruj"}
           </button>
         </div>
       </form>

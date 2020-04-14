@@ -1,52 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Navbar from "./components/Navbar";
 import Form from "./components/Form";
 import Logout from "./components/Logout";
 import Greetings from "./components/Greetings";
+import Secret from "./components/Secret";
+import PrivateRoute from "./components/PrivateRoute";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import axios from "axios";
+import AuthContextProvider from "./contexts/AuthContext";
 
 const App = () => {
-  const [isLogged, setIsLogged] = useState(false);
-  useEffect(() => {
-    axios("http://localhost:3001/check", {
-      method: "POST",
-      withCredentials: true
-    })
-      .then(response => {
-        setIsLogged(true);
-      })
-      .catch(err => {
-        console.log(err);
-        setIsLogged(false);
-      });
-  }, []);
   return (
-    <Router>
-      <div className="App">
-        <Navbar isLogged={isLogged} setIsLogged={setIsLogged} />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => <Greetings isLogged={isLogged} seti />}
-          />
-          <Route
-            path="/login"
-            render={() => (
-              <Form isLogged={isLogged} setIsLogged={setIsLogged} />
-            )}
-          />
-          <Route path="/register" component={Form} />
-          <Route
-            path="/logout"
-            render={() => (
-              <Logout isLogged={isLogged} setIsLogged={setIsLogged} />
-            )}
-          />
-        </Switch>
-      </div>
-    </Router>
+    <AuthContextProvider>
+      <Router>
+        <div className="App">
+          <Navbar />
+          <Switch>
+            <Route exact path="/" component={Greetings} />
+            <Route path="/login" component={Form} />
+            <Route path="/register" component={Form} />
+            <PrivateRoute path="/logout" component={Logout} />
+            <PrivateRoute path="/secret" component={Secret} />
+          </Switch>
+        </div>
+      </Router>
+    </AuthContextProvider>
   );
 };
 
