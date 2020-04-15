@@ -17,6 +17,17 @@ const { loginUser, registerUser } = require("./UserRepository");
 
 const app = express();
 
+var pgp = require("pg-promise")(/* options */);
+var db = pgp(process.env.DATABASE_URL);
+
+db.one("SELECT $1 AS value", 123)
+  .then(function (data) {
+    console.log("DATA:", data.value);
+  })
+  .catch(function (error) {
+    console.log("ERROR:", error);
+  });
+
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
