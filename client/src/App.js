@@ -1,13 +1,13 @@
 import React from "react";
-import Navbar from "./components/Navbar";
-import Form from "./components/Form";
-import Logout from "./components/Logout";
-import Greetings from "./components/Greetings";
-import Secret from "./components/Secret";
-import PrivateRoute from "./components/PrivateRoute";
+import Navbar from "./components/Navbar/Navbar";
+import Form from "./components/Form/Form";
+import LogoutPage from "./pages/LogoutPage";
+import Greetings from "./pages/GreetingsPage";
+import Secret from "./pages/SecretPage";
+import PrivateRoute from "./routes/PrivateRoute";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AuthContextProvider from "./contexts/AuthContext";
-
+import "./App.css";
 const App = () => {
   return (
     <AuthContextProvider>
@@ -18,7 +18,7 @@ const App = () => {
             <Route exact path="/" component={Greetings} />
             <Route path="/login" component={Form} />
             <Route path="/register" component={Form} />
-            <PrivateRoute path="/logout" component={Logout} />
+            <PrivateRoute path="/logout" component={LogoutPage} />
             <PrivateRoute path="/secret" component={Secret} />
           </Switch>
         </div>

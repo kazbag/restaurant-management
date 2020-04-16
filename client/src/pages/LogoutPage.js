@@ -3,7 +3,7 @@ import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 import { withRouter } from "react-router-dom";
 
-const Logout = (props) => {
+const LogoutPage = (props) => {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
   useEffect(() => {
     axios("http://server.localhost/logout", {
@@ -30,4 +30,4 @@ const Logout = (props) => {
   );
 };
 
-export default withRouter(Logout);
+export default withRouter(LogoutPage);

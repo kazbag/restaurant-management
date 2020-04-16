@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { withRouter } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
-const Secret = () => {
+const SecretPage = () => {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
   return (
     <AuthContext.Consumer>
@@ -11,4 +11,4 @@ const Secret = () => {
     </AuthContext.Consumer>
   );
 };
-export default withRouter(Secret);
+export default withRouter(SecretPage);

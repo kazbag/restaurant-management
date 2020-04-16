@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "./Form.css";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
