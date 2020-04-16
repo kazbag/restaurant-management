@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { withRouter } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 const SecretPage = () => {
-  const { isAuthenticated, setAuth } = useContext(AuthContext);
   return (
     <AuthContext.Consumer>
       {(context) => (
