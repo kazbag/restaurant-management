@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./styles.css";
 const products = [
   {
     id: 1,
@@ -45,51 +46,21 @@ const products = [
 
 const Products = (props) => {
   return (
-    <ul
-      style={{
-        listStyle: "none",
-        marginTop: "24px",
-        textAlign: "left",
-        padding: "5px",
-      }}
-    >
+    <ul className="products-list">
       {products.map((product, id) => {
         return (
           <>
-            <li
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "24px",
-              }}
-              key={id}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  width: "240px",
-                }}
-              >
+            <li className="product-item" key={id}>
+              <div className="products-container">
                 <img
-                  style={{ marginRight: "12px", borderRadius: "50%" }}
+                  className="product-image"
                   width="50px"
                   height="50px"
                   src={product.imageUrl}
                 />
                 {product.name} - {product.price} zł
               </div>
-              <button
-                style={{
-                  display: "inline-block",
-                  background: "#ffffff",
-                  border: "1px solid #5bc0eb",
-                  color: "#272727",
-                  boxShadow: "5px 5px 5px -5px #000000",
-                }}
-              >
-                Zamów
-              </button>
+              <button className="button-add">Dodaj do koszyka</button>
             </li>
           </>
         );

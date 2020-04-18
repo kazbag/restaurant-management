@@ -14,8 +14,8 @@ const App = () => {
   return (
     <AuthContextProvider>
       <Router>
+        <Navbar />
         <div className="App">
-          <Navbar />
           <Switch>
             <Route exact path="/" component={Greetings} />
             <Route path="/login" component={Form} />

@@ -5,3 +5,9 @@
 body {
   background: #181818;
 }
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

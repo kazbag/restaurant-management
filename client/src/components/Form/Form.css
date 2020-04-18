@@ -6,7 +6,7 @@ form {
   align-items: center;
   flex-direction: column;
 }
-input {
+.input {
   margin-bottom: 12px;
   padding: 5px 15px;
   display: block;
@@ -15,7 +15,7 @@ input {
   color: #fafafa;
   border-color: #b0d332;
 }
-button {
+.button {
   border-color: #b0d332;
   background-color: #272727;
   color: #fafafa;

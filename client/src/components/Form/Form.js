@@ -78,15 +78,17 @@ const Form = ({ history, location }) => {
           placeholder="login"
           name="name"
           onChange={handleInputChange}
+          className="input"
         />
         <input
           type="password"
           placeholder="hasło"
           name="password"
           onChange={handleInputChange}
+          className="input"
         />
         <div className="buttons">
-          <button type="submit">
+          <button type="submit" className="button">
             {location.pathname === "/login" ? "zaloguj" : "zarejestruj"}
           </button>
         </div>
