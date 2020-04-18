@@ -5,36 +5,36 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 const Navbar = (props) => {
   const { isAuthenticated } = useContext(AuthContext);
-  console.log(isAuthenticated);
   return (
     <AuthContext.Consumer>
       {(context) => (
         <div className="nav">
-          <div className="menu">
-            <NavLink exact activeClassName="active" to="/">
-              Strona główna
-            </NavLink>
-            {!isAuthenticated && (
-              <NavLink activeClassName="active" to="/login">
-                Logowanie
+          {isAuthenticated && (
+            <div className="menu">
+              <NavLink exact activeClassName="active" to="/">
+                Strona główna
               </NavLink>
-            )}
-            {!isAuthenticated && (
-              <NavLink activeClassName="active" to="/register">
-                Rejestracja
-              </NavLink>
-            )}
-            {isAuthenticated && (
               <NavLink activeClassName="active" to="/logout">
                 Wyloguj
               </NavLink>
-            )}
-            {isAuthenticated && (
-              <NavLink activeClassName="active" to="/secret">
-                Tajemnica
+              <NavLink activeClassName="active" to="/products">
+                Zamów
               </NavLink>
-            )}
-          </div>
+            </div>
+          )}
+          {!isAuthenticated && (
+            <div className="menu">
+              <NavLink exact activeClassName="active" to="/">
+                Strona główna
+              </NavLink>
+              <NavLink activeClassName="active" to="/login">
+                Logowanie
+              </NavLink>
+              <NavLink activeClassName="active" to="/register">
+                Rejestracja
+              </NavLink>
+            </div>
+          )}
         </div>
       )}
     </AuthContext.Consumer>
