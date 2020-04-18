@@ -8,20 +8,18 @@ const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setAuth] = useState(false);
 
   useEffect(() => {
-    axios(`${serverUrl}/check`, {
+    axios(`http://localhost:3001/check`, {
       method: "POST",
       withCredentials: true,
     })
       .then((response) => {
-        console.log("elo");
         setAuth(true);
       })
       .catch((err) => {
-        console.log("elo2");
         console.log(err);
         setAuth(false);
       });
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, setAuth }}>
