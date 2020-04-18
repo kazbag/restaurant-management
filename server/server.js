@@ -71,9 +71,6 @@ const authorizationChain = [
 app.get("/", (req, res) => res.send("witaj na stronie"));
 
 app.post("/check", async (req, res, next) => {
-  res.set("Access-Control-Allow-Origin", originUrl);
-  res.set("Access-Control-Allow-Credentials", true);
-  res.set("Set-Cookie", "HttpOnly;Secure;SameSite=None");
   const token = req.cookies.session;
   if (!token) return;
   console.log("Token in check endpoint ", token);
