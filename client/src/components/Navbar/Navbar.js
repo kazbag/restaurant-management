@@ -5,7 +5,6 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 const Navbar = (props) => {
   const { isAuthenticated } = useContext(AuthContext);
-  console.log(isAuthenticated);
   return (
     <AuthContext.Consumer>
       {(context) => (
@@ -18,8 +17,8 @@ const Navbar = (props) => {
               <NavLink activeClassName="active" to="/logout">
                 Wyloguj
               </NavLink>
-              <NavLink activeClassName="active" to="/secret">
-                Tajemnica
+              <NavLink activeClassName="active" to="/products">
+                Zamów
               </NavLink>
             </div>
           )}

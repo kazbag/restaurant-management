@@ -3,10 +3,12 @@ import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 import { withRouter } from "react-router-dom";
 
+const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+
 const LogoutPage = ({ history }) => {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
   useEffect(() => {
-    axios("http://server.localhost/logout", {
+    axios(`${serverUrl}/logout`, {
       method: "POST",
       withCredentials: true,
     })
