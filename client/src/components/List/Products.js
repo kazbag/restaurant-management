@@ -18,7 +18,7 @@ const Products = ({ totalPrice, addToOrder }) => {
               {product.name} - {product.price} zł
             </div>
             <button
-              className="button-add"
+              className="order-button"
               value={product.price}
               onClick={addToOrder}
               id={product.name}

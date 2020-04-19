@@ -65,7 +65,7 @@ const Form = ({ history, location }) => {
 
   return (
     <>
-      <h3 className="title">
+      <h3 className="title" style={{ color: "white" }}>
         {location.pathname === "/login" ? "Logowanie" : "Rejestracja"}
       </h3>
       <form

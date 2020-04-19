@@ -17,9 +17,17 @@
   border: 1px solid dodgerblue;
 }
 .order-button {
+  box-shadow: 5px 5px 5px -5px #000000;
+
+  transition: 0.3s ease-in-out;
   padding: 5px 15px;
   background-color: white;
   border: 1px solid dodgerblue;
+}
+.order-button:hover {
+  background-color: dodgerblue;
+  color: white;
+  border-color: black;
 }
 .order-list {
   width: 400px;
@@ -76,14 +84,6 @@
 .product-image {
   margin-right: 12px;
   border-radius: 50%;
-}
-.button-add {
-  display: inline-block;
-  background: #ffffff;
-  border: 1px solid #5bc0eb;
-  color: #272727;
-  box-shadow: 5px 5px 5px -5px #000000;
-  padding: 5px 15px;
 }
 .order-button--submit {
   margin-top: 24px;

@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./styles.css";
 
-const Order = ({ totalPrice, setNewOrderValue, order, setOrder }) => {
+const Order = ({
+  totalPrice,
+  order,
+  setOrder,
+  addDiscountCode,
+  setDiscountCode,
+  discountCode,
+}) => {
   useEffect(() => {
     console.log(order);
   }, [order]);
@@ -15,8 +22,17 @@ const Order = ({ totalPrice, setNewOrderValue, order, setOrder }) => {
         <li>Koszt całkowity: {totalPrice} zł</li>
       </ul>
       <div className="code">
-        <input className="code-input" type="text" placeholder="kod rabatowy" />
-        <button className="order-button">Dodaj kod</button>
+        <input
+          className="code-input"
+          type="text"
+          placeholder="kod rabatowy"
+          onChange={(e) => {
+            setDiscountCode(e.target.value);
+          }}
+        />
+        <button className="order-button" onClick={addDiscountCode}>
+          Dodaj kod
+        </button>
       </div>
       <button className="order-button order-button--submit">Zamów</button>
     </div>
