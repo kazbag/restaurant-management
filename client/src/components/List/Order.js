@@ -7,7 +7,7 @@ const Order = ({ totalPrice, setNewOrderValue, order, setOrder }) => {
   }, [order]);
   return (
     <div className="order">
-      <h3>Twoje zamówienie</h3>
+      <h3 className="title">Twoje zamówienie</h3>
       <ul className="order-list">
         {order.map((item, id) => {
           return <li key={Math.random().toString()}>{item}</li>;
