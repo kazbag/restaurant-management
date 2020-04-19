@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./styles.css";
 
-const Order = ({ totalPrice, setNewOrderValue }) => {
+const Order = ({ totalPrice, setNewOrderValue, order, setOrder }) => {
+  useEffect(() => {
+    console.log(order);
+  }, [order]);
   return (
     <div className="order">
       <h3>Twoje zamówienie</h3>
