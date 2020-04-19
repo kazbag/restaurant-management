@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./styles.css";
 
-const Order = (props) => {
+const Order = ({ totalPrice, setNewOrderValue }) => {
   return (
     <div className="order">
       <h3>Twoje zamówienie</h3>
@@ -9,7 +9,7 @@ const Order = (props) => {
         <li>1</li>
         <li>2</li>
         <li>3</li>
-        <li>Koszt całkowity: 24.90 zł</li>
+        <li>Koszt całkowity: {totalPrice} zł</li>
       </ul>
       <div className="code">
         <input className="code-input" type="text" placeholder="kod rabatowy" />

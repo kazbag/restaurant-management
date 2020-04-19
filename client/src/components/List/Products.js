@@ -36,7 +36,7 @@ const products = [
       "https://upload.wikimedia.org/wikipedia/commons/5/50/Krem%C3%B3wka_Wadowicka_-_panoramio.jpg",
   },
   {
-    id: 5,
+    id: 6,
     name: "schabowy",
     price: 15,
     imageUrl:
@@ -44,25 +44,29 @@ const products = [
   },
 ];
 
-const Products = (props) => {
+const Products = ({ totalPrice, setNewOrderValue }) => {
   return (
     <ul className="products-list">
       {products.map((product, id) => {
         return (
-          <>
-            <li className="product-item" key={id}>
-              <div className="products-container">
-                <img
-                  className="product-image"
-                  width="50px"
-                  height="50px"
-                  src={product.imageUrl}
-                />
-                {product.name} - {product.price} zł
-              </div>
-              <button className="button-add">Dodaj do koszyka</button>
-            </li>
-          </>
+          <li className="product-item" key={product.id}>
+            <div className="products-container">
+              <img
+                className="product-image"
+                width="50px"
+                height="50px"
+                src={product.imageUrl}
+              />
+              {product.name} - {product.price} zł
+            </div>
+            <button
+              className="button-add"
+              value={product.price}
+              onClick={setNewOrderValue}
+            >
+              Dodaj do koszyka
+            </button>
+          </li>
         );
       })}
     </ul>
