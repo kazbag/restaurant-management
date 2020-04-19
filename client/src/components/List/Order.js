@@ -9,9 +9,9 @@ const Order = ({ totalPrice, setNewOrderValue, order, setOrder }) => {
     <div className="order">
       <h3>Twoje zamówienie</h3>
       <ul className="order-list">
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
+        {order.map((item, id) => {
+          return <li key={Math.random().toString()}>{item}</li>;
+        })}
         <li>Koszt całkowity: {totalPrice} zł</li>
       </ul>
       <div className="code">
