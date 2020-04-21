@@ -12,12 +12,16 @@ const ProductsPage = () => {
   const [discountCode, setDiscountCode] = useState(0);
   const [discountAmount, setDiscountAmount] = useState(0);
   const [finalOrderPrice, setFinalOrderPrice] = useState(0);
+  const [isCodeIncluded, setIsCodeIncluded] = useState(false);
 
   const addDiscountCode = (e) => {
     const code = discountCodes.find((_) => _.code === discountCode);
     if (!code) return console.log("niepoprawny kod");
-    setTotalPrice(totalPrice - totalPrice * code.amount);
-    console.log(totalPrice);
+    if (!isCodeIncluded) {
+      setTotalPrice(totalPrice - totalPrice * code.amount);
+      console.log(totalPrice);
+      setIsCodeIncluded(true);
+    }
   };
 
   const addToOrder = (e) => {
