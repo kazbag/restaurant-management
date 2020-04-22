@@ -4,9 +4,7 @@ import { AuthContext } from "../contexts/AuthContext";
 const SecretPage = () => {
   return (
     <AuthContext.Consumer>
-      {(context) => (
-        <div style={{ color: "white", textAlign: "center" }}>Dzień dobry</div>
-      )}
+      {(context) => <div className="box">Dzień dobry</div>}
     </AuthContext.Consumer>
   );
 };

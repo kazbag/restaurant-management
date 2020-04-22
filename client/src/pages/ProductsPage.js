@@ -21,7 +21,9 @@ const ProductsPage = () => {
       setTotalPrice(totalPrice - totalPrice * code.amount);
       console.log(totalPrice);
       setIsCodeIncluded(true);
+      return;
     }
+    alert("Wpisałeś już kod!");
   };
 
   const addToOrder = (e) => {

@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import { withRouter } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
+import "./styles.css";
 const GreetingsPage = () => {
   const { isAuthenticated } = useContext(AuthContext);
   return (
     <AuthContext.Consumer>
       {(context) => (
-        <div style={{ color: "white", textAlign: "center" }}>
+        <div className="box">
           {isAuthenticated
             ? "witaj zalogowany użytkowniku"
             : "witaj nieznajomy"}

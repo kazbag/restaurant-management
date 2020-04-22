@@ -24,7 +24,7 @@ const LogoutPage = ({ history }) => {
     <AuthContext.Consumer>
       {(context) => (
         <div>
-          <h3 style={{ color: "red", textAlign: "center" }}>Wylogowano</h3>
+          <h3 className="logout">Wylogowano</h3>
         </div>
       )}
     </AuthContext.Consumer>
