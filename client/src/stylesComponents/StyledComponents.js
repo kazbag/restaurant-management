@@ -36,3 +36,41 @@ export const StyledList = styled.ul`
   flex-direction: column;
   list-type: none;
 `;
+
+export const StyledListItem = styled.li`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin: 8px;
+`;
+export const StyledListItemLink = styled.a`
+  color: #000000;
+  width: auto;
+  &:hover {
+    color: #f0f0f0;
+    background: #000000;
+  }
+`;
+
+export const StyledDescription = styled.span``;
+
+export const StyledListItemHeader = styled.div`
+  border: 1px solid #000000;
+  display: flex;
+  margin-left: auto;
+  margin-right: 16px;
+`;
+export const StyledButton = styled.button`
+  display: flex;
+  padding: 5px 15px;
+  outline: none;
+  background: none;
+  color: #000000;
+  border: none;
+  transition: 0.25s ease-in-out;
+  &:hover {
+    background: #000000;
+    cursor: pointer;
+    color: #ffffff;
+  }
+`;
