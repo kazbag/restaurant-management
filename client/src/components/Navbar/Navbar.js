@@ -20,6 +20,9 @@ const Navbar = (props) => {
               <NavLink activeClassName="active" to="/products">
                 Zamów
               </NavLink>
+              <NavLink activeClassName="active" to="/kitchen">
+                Kuchnia
+              </NavLink>
             </div>
           )}
           {!isAuthenticated && (

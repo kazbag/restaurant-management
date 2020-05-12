@@ -10,23 +10,27 @@ import AuthContextProvider from "./contexts/AuthContext";
 import "./App.css";
 import ProductsPage from "./pages/ProductsPage";
 import axios from "axios";
+import KitchenPage from "./pages/KitchenPage";
 const App = () => {
   return (
-    <AuthContextProvider>
-      <Router>
-        <Navbar />
-        <div className="App">
-          <Switch>
-            <Route exact path="/" component={Greetings} />
-            <Route path="/login" component={Form} />
-            <Route path="/register" component={Form} />
-            <PrivateRoute path="/products" component={ProductsPage} />
-            <PrivateRoute path="/logout" component={LogoutPage} />
-            <PrivateRoute path="/secret" component={Secret} />
-          </Switch>
-        </div>
-      </Router>
-    </AuthContextProvider>
+    <div className="container">
+      <AuthContextProvider>
+        <Router>
+          <Navbar />
+          <div className="App">
+            <Switch>
+              <Route exact path="/" component={Greetings} />
+              <Route path="/login" component={Form} />
+              <Route path="/register" component={Form} />
+              <PrivateRoute path="/products" component={ProductsPage} />
+              <PrivateRoute path="/logout" component={LogoutPage} />
+              <PrivateRoute path="/secret" component={Secret} />
+              <PrivateRoute path="/kitchen" component={KitchenPage} />
+            </Switch>
+          </div>
+        </Router>
+      </AuthContextProvider>
+    </div>
   );
 };
 
