@@ -57,6 +57,18 @@ const KitchenPage = ({ history }) => {
     },
   ]);
 
+  const moveOrder = (e) => {
+    const orderId = e.target.getAttribute("order");
+    const myOrder = orders.find((order) => order.id.toString() === orderId);
+    const { isCompleted } = myOrder;
+    const updatedOrder = { ...myOrder, isCompleted: !isCompleted };
+    console.log(updatedOrder);
+    // setOrders([...orders, updatedOrder]);
+    setOrders((prevOrders) => [...prevOrders, updatedOrder]);
+
+    // console.log(myOrder);
+  };
+
   const itemsCompleted = orders.map((item) => {
     const { id, phone, cost, products, address, time, isCompleted } = item;
     if (isCompleted) {
@@ -79,7 +91,9 @@ const KitchenPage = ({ history }) => {
             <StyledListItemLink target="_blank" href={`/order/${id}`}>
               Pokaż zamówienie
             </StyledListItemLink>
-            <StyledButton>Archiwizuj</StyledButton>
+            <StyledButton order={id} onClick={moveOrder}>
+              Przywróć
+            </StyledButton>
           </StyledListItemHeader>
         </StyledListItem>
       );
@@ -108,7 +122,9 @@ const KitchenPage = ({ history }) => {
             <StyledListItemLink target="_blank" href={`/order/${id}`}>
               Pokaż zamówienie
             </StyledListItemLink>
-            <StyledButton>Archiwizuj</StyledButton>
+            <StyledButton order={id} onClick={moveOrder}>
+              Archiwizuj
+            </StyledButton>
           </StyledListItemHeader>
         </StyledListItem>
       );
@@ -121,11 +137,11 @@ const KitchenPage = ({ history }) => {
         <StyledContainer>
           <StyledBox>
             <StyledHeader>Zamówienia do zrealizowania</StyledHeader>
-            <StyledList>{itemsCompleted}</StyledList>
+            <StyledList>{itemsNotCompleted}</StyledList>
           </StyledBox>
           <StyledBox>
             <StyledHeader>Zamówienia zrealizowane</StyledHeader>
-            <StyledList>{itemsNotCompleted}</StyledList>
+            <StyledList>{itemsCompleted}</StyledList>
           </StyledBox>
           <StyledBox>e</StyledBox>
           <StyledBox>e</StyledBox>
