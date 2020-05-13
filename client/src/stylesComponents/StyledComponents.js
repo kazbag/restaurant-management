@@ -53,6 +53,7 @@ export const StyledListItemLink = styled.a`
 `;
 
 export const StyledDescription = styled.span``;
+export const StyledSpan = styled.span``;
 
 export const StyledListItemHeader = styled.div`
   border: 1px solid #000000;
