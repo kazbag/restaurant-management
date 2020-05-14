@@ -61,6 +61,7 @@ export const StyledListItemHeader = styled.div`
   margin-left: auto;
   margin-right: 16px;
 `;
+
 export const StyledButton = styled.button`
   display: flex;
   padding: 5px 15px;
@@ -74,4 +75,19 @@ export const StyledButton = styled.button`
     cursor: pointer;
     color: #ffffff;
   }
+`;
+export const StyledContainerBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+`;
+export const StyledImageContainerBox = styled.div`
+  width: 50%;
+  padding-left: 5%;
+  padding-right: 7%;
+`;
+export const StyledTextContainerBox = styled.div`
+  font-size: 25px;
+  width: 50%;
 `;

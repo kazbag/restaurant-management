@@ -23,6 +23,9 @@ const Navbar = (props) => {
               <NavLink activeClassName="active" to="/kitchen">
                 Kuchnia
               </NavLink>
+              <NavLink activeClassName="active" to="/about">
+                O Nas
+              </NavLink>
             </div>
           )}
           {!isAuthenticated && (
@@ -32,6 +35,9 @@ const Navbar = (props) => {
               </NavLink>
               <NavLink activeClassName="active" to="/login">
                 Logowanie
+              </NavLink>
+              <NavLink activeClassName="active" to="/about">
+                O Nas
               </NavLink>
               <NavLink activeClassName="active" to="/register">
                 Rejestracja

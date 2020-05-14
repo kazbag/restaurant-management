@@ -11,6 +11,8 @@ import "./App.css";
 import ProductsPage from "./pages/ProductsPage";
 import axios from "axios";
 import KitchenPage from "./pages/KitchenPage";
+import AboutPage from "./pages/AboutPage";
+
 const App = () => {
   return (
     <div className="container">
@@ -22,6 +24,8 @@ const App = () => {
               <Route exact path="/" component={Greetings} />
               <Route path="/login" component={Form} />
               <Route path="/register" component={Form} />
+              <Route path="/about" component={AboutPage} />
+              <PrivateRoute path="/about" component={AboutPage} />
               <PrivateRoute path="/products" component={ProductsPage} />
               <PrivateRoute path="/logout" component={LogoutPage} />
               <PrivateRoute path="/secret" component={Secret} />
