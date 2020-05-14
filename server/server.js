@@ -4,6 +4,9 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const express = require("express");
+
+const ordersRoutes = require("./routes/orders-routes");
+
 const originUrl = process.env.ORIGIN_URL || "http://localhost:3000";
 const port = process.env.PORT || 3001;
 
@@ -32,7 +35,7 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({ credentials: true, origin: originUrl }));
-
+app.use(ordersRoutes);
 const cookieTokenExtractor = (cookieName) => (req, res, next) => {
   req.token = req.cookies[cookieName];
   next();

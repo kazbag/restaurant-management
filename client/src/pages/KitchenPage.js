@@ -59,14 +59,10 @@ const KitchenPage = ({ history }) => {
 
   const moveOrder = (e) => {
     const orderId = e.target.getAttribute("order");
-    const myOrder = orders.find((order) => order.id.toString() === orderId);
-    const { isCompleted } = myOrder;
-    const updatedOrder = { ...myOrder, isCompleted: !isCompleted };
-    console.log(updatedOrder);
-    // setOrders([...orders, updatedOrder]);
-    setOrders((prevOrders) => [...prevOrders, updatedOrder]);
-
-    // console.log(myOrder);
+    let newOrders = [...orders];
+    const myOrder = newOrders.find((order) => order.id.toString() === orderId);
+    myOrder.isCompleted = !myOrder.isCompleted;
+    setOrders(newOrders);
   };
 
   const itemsCompleted = orders.map((item) => {
