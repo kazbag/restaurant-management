@@ -91,3 +91,20 @@ export const StyledTextContainerBox = styled.div`
   font-size: 25px;
   width: 50%;
 `;
+
+export const StyledGalleryImagesContainerBox = styled.div`
+  width: 90%;
+  hright: 80%;
+  margin-left: 6%;
+  margin-top:2%;
+
+`;
+
+export const StyledGalleryImage = styled.img`
+  width: 10%;
+  hright: 10%;
+  padding: 1%;
+  &:hover {
+    cursor: pointer;
+    transform: scale(2.5);
+`;
