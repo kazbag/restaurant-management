@@ -12,12 +12,12 @@ const AboutPage = () => {
   return (
     <StyledContainerBox>
       <StyledTextContainerBox>
-        <a>
+        <p>
           Istniejemy na rynku od ponad 20 lat. Gotowanie jest naszą pasją.
           Obsługujemy różne wydarzenia (wesela, chrzciny, komunie, stypy,
           catering), jedzenie z dostawą na terenie Krakowa. W roku 2018
           zostaliśmy wyróżnieni nagrodą Złotej Miski
-        </a>
+        </p>
       </StyledTextContainerBox>
       <StyledImageContainerBox>
         <img src="https://dziendobry.tvn.pl/media/cache/content/kucharz-i-obsluga-restauracji-jpg.jpg" />
