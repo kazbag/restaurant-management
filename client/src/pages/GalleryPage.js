@@ -1,13 +1,9 @@
-import React, { useContext, useState, useEffect } from "react";
+import React from "react";
 import { withRouter } from "react-router";
-import { AuthContext } from "../contexts/AuthContext";
-import "./styles.css";
 import {
   StyledContainerBox,
   StyledGalleryImagesContainerBox,
   StyledGalleryImage,
-  StyledImageContainerBox,
-  StyledTextContainerBox,
 } from "../stylesComponents/StyledComponents";
 
 const GalleryPage = () => {

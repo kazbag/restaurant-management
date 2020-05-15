@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { withRouter } from "react-router";
-import { AuthContext } from "../contexts/AuthContext";
 import "./styles.css";
 import {
   StyledContainerBox,

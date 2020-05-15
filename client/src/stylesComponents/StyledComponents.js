@@ -96,8 +96,7 @@ export const StyledGalleryImagesContainerBox = styled.div`
   width: 90%;
   hright: 80%;
   margin-left: 6%;
-  margin-top:2%;
-
+  margin-top: 2%;
 `;
 
 export const StyledGalleryImage = styled.img`
@@ -107,4 +106,36 @@ export const StyledGalleryImage = styled.img`
   &:hover {
     cursor: pointer;
     transform: scale(2.5);
+`;
+
+export const StyledForm = styled.form`
+  margin: 0 auto;
+  max-width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+export const StyledH3 = styled.h3`
+  color: white;
+  text-align: center;
+  margin-bottom: 24px;
+`;
+export const StyledInput = styled.input`
+  margin-bottom: 12px;
+  padding: 5px 15px;
+  display: block;
+  border-radius: 6px;
+  background-color: #272727;
+  color: #fafafa;
+  border-color: #b0d332;
+`;
+export const StyledFormButton = styled.button`
+  border-color: #b0d332;
+  background-color: #272727;
+  color: #fafafa;
+  border-radius: 6px;
+  margin-right: 5px;
+  padding: 5px 10px;
+  display: inline;
 `;

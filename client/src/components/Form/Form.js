@@ -1,9 +1,14 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from "react";
-import "./Form.css";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import {
+  StyledForm,
+  StyledH3,
+  StyledInput,
+  StyledFormButton,
+} from "../../stylesComponents/StyledComponents";
 
 const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
@@ -65,35 +70,30 @@ const Form = ({ history, location }) => {
 
   return (
     <>
-      <h3 className="title" style={{ color: "white" }}>
+      <StyledH3>
         {location.pathname === "/login" ? "Logowanie" : "Rejestracja"}
-      </h3>
-      <form
+      </StyledH3>
+      <StyledForm
         onSubmit={
           location.pathname === "/login" ? loginHandler : registerHandler
         }
       >
-        <input
+        <StyledInput
           type="text"
           placeholder="login"
           name="name"
           onChange={handleInputChange}
-          className="input"
         />
-        <input
+        <StyledInput
           type="password"
           placeholder="hasło"
           name="password"
           onChange={handleInputChange}
-          className="input"
         />
-        <div className="buttons">
-          <button type="submit" className="button">
-            {location.pathname === "/login" ? "zaloguj" : "zarejestruj"}
-          </button>
-        </div>
-      </form>
-      <h3 style={{ textAlign: "center", color: "green" }}>{message}</h3>
+        <StyledFormButton type="submit">
+          {location.pathname === "/login" ? "zaloguj" : "zarejestruj"}
+        </StyledFormButton>
+      </StyledForm>
     </>
   );
 };
