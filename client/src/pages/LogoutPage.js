@@ -19,7 +19,7 @@ const LogoutPage = ({ history }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [isAuthenticated]);
   return (
     <AuthContext.Consumer>
       {(context) => (

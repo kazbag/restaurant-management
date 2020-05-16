@@ -97,12 +97,16 @@ export const StyledGalleryImagesContainerBox = styled.div`
   hright: 80%;
   margin-left: 6%;
   margin-top: 2%;
+  &:hover {
+    // filter: grayscale(1);
+  }
 `;
 
 export const StyledGalleryImage = styled.img`
   width: 10%;
-  hright: 10%;
+  height: 10%;
   padding: 1%;
+  transition: 0.25s;
   &:hover {
     cursor: pointer;
     transform: scale(2.5);
