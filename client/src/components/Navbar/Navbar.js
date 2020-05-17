@@ -5,6 +5,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 const Navbar = (props) => {
   const { isAuthenticated } = useContext(AuthContext);
+  console.log(window.location);
   return (
     <AuthContext.Consumer>
       {(context) => (
