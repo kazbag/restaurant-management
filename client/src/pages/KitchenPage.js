@@ -20,14 +20,14 @@ const KitchenPage = ({ history }) => {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [completedItemsValue, setCompletedItemsValue] = useState(0);
+  const [notCompletedItemsValue, setNotCompletedItemsValue] = useState(0);
 
   useEffect(() => {
-    (async function getOrders() {
-      let response = await fetch(`${serverUrl}/orders`);
-      response = await response.json();
-      setOrders(response);
-      setLoading(false);
-    })();
+    axios
+      .get(`${serverUrl}/orders`)
+      .then((response) => setOrders(response.data))
+      .then(() => setLoading(false));
   }, []);
 
   const moveOrder = (e) => {
@@ -100,6 +100,29 @@ const KitchenPage = ({ history }) => {
     }
   });
 
+  const showCompletedItems = () => {
+    const completedItems = orders.filter((item) => item.isCompleted === true);
+    const costsArray = [];
+    completedItems.forEach((item) => costsArray.push(item.cost));
+    const totalCost = costsArray.reduce((a, b) => a + b, 0);
+    setCompletedItemsValue(totalCost);
+  };
+
+  const showNotCompletedItems = () => {
+    const notCompletedItems = orders.filter(
+      (item) => item.isCompleted === false
+    );
+    const costsArray = [];
+    notCompletedItems.forEach((item) => costsArray.push(item.cost));
+    const totalCost = costsArray.reduce((a, b) => a + b, 0);
+    setNotCompletedItemsValue(totalCost);
+  };
+
+  useEffect(() => {
+    showCompletedItems();
+    showNotCompletedItems();
+  }, [orders]);
+
   return (
     <AuthContext.Consumer>
       {(context) => (
@@ -116,8 +139,8 @@ const KitchenPage = ({ history }) => {
               {loading ? <div>ładowanie danych...</div> : itemsCompleted}
             </StyledList>
           </StyledBox>
-          <StyledBox>e</StyledBox>
-          <StyledBox>e</StyledBox>
+          <StyledBox>{notCompletedItemsValue} zł</StyledBox>
+          <StyledBox>{completedItemsValue} zł</StyledBox>
         </StyledContainer>
       )}
     </AuthContext.Consumer>

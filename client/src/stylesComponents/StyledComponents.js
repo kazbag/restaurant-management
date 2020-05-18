@@ -24,6 +24,12 @@ export const StyledBox = styled.div`
   &:nth-of-type(4) {
     grid-area: d;
   }
+  &:nth-of-type(3),
+  &:nth-of-type(4) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export const StyledHeader = styled.h3`
