@@ -30,7 +30,7 @@ const AboutPage = () => {
         </StyledCountersBox>
       </StyledAside>
       <StyledImageContainerBox>
-        <img src="https://dziendobry.tvn.pl/media/cache/content/kucharz-i-obsluga-restauracji-jpg.jpg" />
+        <StyledImage src="https://dziendobry.tvn.pl/media/cache/content/kucharz-i-obsluga-restauracji-jpg.jpg" />
       </StyledImageContainerBox>
     </StyledContainer>
   );
@@ -44,13 +44,21 @@ const StyledAside = styled.div`
 const StyledContainer = styled.div`
   display: flex;
 `;
+
+const StyledImage = styled.img``;
+
 const StyledCountersBox = styled.div`
+  box-sizing: border-box;
+  border-radius: 0.6rem;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-auto-rows: minmax(min-content, max-content);
   text-align: center;
   grid-row-gap: 2rem;
+  border: 1px solid #b0d332;
+  padding: 1rem;
+  box-shadow: 0 0 5px #b0d332;
   span {
     color: #b0d332;
   }
@@ -61,9 +69,11 @@ const StyledText = styled.p`
   background-color: #d0d0d0;
   color: #000;
   margin-bottom: 1rem;
+  box-shadow: 0 0 5px #b0d332;
   border-radius: 0.6rem;
 `;
 const StyledInfo = styled.h3`
+  font-size: 1rem;
   color: #b0d332;
 `;
 
