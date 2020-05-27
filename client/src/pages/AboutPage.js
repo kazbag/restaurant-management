@@ -4,7 +4,6 @@ import "./styles.css";
 import Countup from "react-countup";
 import {
   StyledContainerBox,
-  StyledImageContainerBox,
   StyledTextContainerBox,
 } from "../stylesComponents/StyledComponents";
 import styled from "styled-components";
@@ -35,6 +34,26 @@ const AboutPage = () => {
     </StyledContainer>
   );
 };
+
+const StyledImageContainerBox = styled.div`
+  width: 35%;
+  z-index: 1000;
+  margin-left: 10rem;
+  position: relative;
+  &::after {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(12.5%, 12.5%);
+    width: 100%;
+    height: 100%;
+    border: 1px solid #b0d332;
+    border-radius: 1rem;
+    content: "";
+    box-shadow: 0 0 5px #b0d332;
+  }
+`;
 const StyledAside = styled.div`
   width: 50%;
   flex-direction: column;
@@ -45,7 +64,12 @@ const StyledContainer = styled.div`
   display: flex;
 `;
 
-const StyledImage = styled.img``;
+const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  transform: rotate(4deg);
+`;
 
 const StyledCountersBox = styled.div`
   box-sizing: border-box;
