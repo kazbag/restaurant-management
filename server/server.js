@@ -4,8 +4,13 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const express = require("express");
+const mongoose = require("mongoose");
 
 const ordersRoutes = require("./routes/orders-routes");
+//const ordersRoutes = require("./routes/orders");
+const productsRoutes = require("./routes/products");
+const discountCodesRoutes = require("./routes/discountCodes");
+const usersRoutes = require("./routes/users");
 
 const originUrl = process.env.ORIGIN_URL || "http://localhost:3000";
 const port = process.env.PORT || 3001;
@@ -20,9 +25,9 @@ const { loginUser, registerUser } = require("./UserRepository");
 
 const app = express();
 
-var pgp = require("pg-promise")(/* options */);
-var db = pgp(process.env.DATABASE_URL);
-
+//var pgp = require("pg-promise")(/* options */);
+//var db = pgp(process.env.DB_CONNECT);
+/*
 db.one("SELECT $1 AS value", 123)
   .then(function (data) {
     console.log("DATA:", data.value);
@@ -30,12 +35,21 @@ db.one("SELECT $1 AS value", 123)
   .catch(function (error) {
     console.log("ERROR:", error);
   });
+*/
+mongoose.connect(process.env.DB_CONNECT,
+  { useNewUrlParser: true },
+  () => console.log("connected to DB"));
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({ credentials: true, origin: originUrl }));
 app.use(ordersRoutes);
+//app.use('/orders', ordersRoutes);
+app.use('/discountCodes', discountCodesRoutes);
+app.use('/products', productsRoutes),
+  app.use('/users', usersRoutes)
+
 const cookieTokenExtractor = (cookieName) => (req, res, next) => {
   req.token = req.cookies[cookieName];
   next();
@@ -73,6 +87,7 @@ const authorizationChain = [
 
 app.get("/", (req, res) => res.send("witaj na stronie"));
 
+
 app.post("/check", async (req, res, next) => {
   const token = req.cookies.session;
   if (!token) return;
@@ -86,6 +101,7 @@ app.post("/check", async (req, res, next) => {
     res.send("ok!");
   }
 });
+
 
 app.get("/private", authorizationChain, (req, res) => {
   res.json({ session: req.session });
@@ -127,3 +143,4 @@ app.post("/logout", authorizationChain, async (req, res) => {
 });
 
 app.listen(port, () => console.log(`app listening on port ${port}!`));
+//app.listen(3001);
