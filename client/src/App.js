@@ -3,7 +3,6 @@ import Navbar from "./components/Navbar/Navbar";
 import Form from "./components/Form/Form";
 import LogoutPage from "./pages/LogoutPage";
 import Greetings from "./pages/GreetingsPage";
-import Secret from "./pages/SecretPage";
 import PrivateRoute from "./routes/PrivateRoute";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AuthContextProvider from "./contexts/AuthContext";
@@ -29,7 +28,6 @@ const App = () => {
               <Route path="/gallery" component={GalleryPage} />
               <PrivateRoute path="/products" component={ProductsPage} />
               <PrivateRoute path="/logout" component={LogoutPage} />
-              <PrivateRoute path="/secret" component={Secret} />
               <PrivateRoute path="/kitchen" component={KitchenPage} />
             </Switch>
           </div>
