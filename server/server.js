@@ -102,7 +102,7 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const { name, password } = req.body;
+  const { name, password, role } = req.body;
   const [user, error] = await loginUser(name, password);
   if (error) {
     res.status(400).send(error);
@@ -113,6 +113,7 @@ app.post("/login", async (req, res) => {
       token,
       user: {
         name: user.name,
+        role: user.role,
       },
       message: "everything is ok from server",
     });
