@@ -15,7 +15,6 @@ const ProductsPage = () => {
   const [discountAmount, setDiscountAmount] = useState(0);
   const [finalOrderPrice, setFinalOrderPrice] = useState(0);
   const [isCodeIncluded, setIsCodeIncluded] = useState(false);
-  const [isError, setError] = useState(false);
   const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
   useEffect(() => {
@@ -25,11 +24,6 @@ const ProductsPage = () => {
       .then((response) => {
         setDiscountCodes(response.data);
       })
-      .catch((err) => {
-        console.log(err);
-        setError(!isError)
-      });
-
   }, []);
 
 
@@ -37,7 +31,7 @@ const ProductsPage = () => {
   const addDiscountCode = (e) => {
     const code = discountCodes.find((_) => _.code === discountCode);
     if (!code) {
-      console.log("niepoprawny kod");
+
       alert("niepoprawny kod");
 
     }
