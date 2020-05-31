@@ -4,6 +4,7 @@ import Form from "./components/Form/Form";
 import LogoutPage from "./pages/LogoutPage";
 import Greetings from "./pages/GreetingsPage";
 import PrivateRoute from "./routes/PrivateRoute";
+import AdminRoute from "./routes/AdminRoute";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AuthContextProvider from "./contexts/AuthContext";
 import "./App.css";
@@ -12,6 +13,7 @@ import axios from "axios";
 import KitchenPage from "./pages/KitchenPage";
 import AboutPage from "./pages/AboutPage";
 import GalleryPage from "./pages/GalleryPage";
+import AdminPage from "./pages/AdminPage";
 
 const App = () => {
   return (
@@ -29,6 +31,7 @@ const App = () => {
               <PrivateRoute path="/products" component={ProductsPage} />
               <PrivateRoute path="/logout" component={LogoutPage} />
               <PrivateRoute path="/kitchen" component={KitchenPage} />
+              <AdminRoute path="/admin" component={AdminPage} />
             </Switch>
           </div>
         </Router>

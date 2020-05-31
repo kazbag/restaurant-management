@@ -30,6 +30,9 @@ const Navbar = (props) => {
               <NavLink activeClassName="active" to="/gallery">
                 Galeria
               </NavLink>
+              <NavLink activeClassName="active" to="/admin">
+                admin
+              </NavLink>
             </div>
           )}
           {!isAuthenticated && (
