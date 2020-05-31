@@ -83,7 +83,7 @@ app.post("/check", async (req, res, next) => {
     next();
     return;
   } else {
-    res.send("ok!");
+    res.send(user);
   }
 });
 
