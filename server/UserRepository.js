@@ -9,10 +9,16 @@ const users = [
   },
   // admin/123
   {
-    // 123/123
+    // admin/123
     name: "admin",
     password: "$2b$10$KSAfjDM1aEkoAU/vW7HH9O2eATiClAJrKDSE1cVlSPNMdZSo5KOvW",
     role: "admin",
+  },
+  {
+    // chef/123
+    name: "chef",
+    password: "$2b$10$KSAfjDM1aEkoAU/vW7HH9O2eATiClAJrKDSE1cVlSPNMdZSo5KOvW",
+    role: "employee",
   },
 ];
 
