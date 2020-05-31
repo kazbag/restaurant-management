@@ -15,6 +15,7 @@ const AuthContextProvider = ({ children }) => {
       withCredentials: true,
     })
       .then((response) => {
+        console.log(response);
         setUserRole(response.data.user.role);
         setAuth(true);
       })

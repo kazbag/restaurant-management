@@ -38,7 +38,7 @@ const registerUser = async (name, password) => {
   const user = {
     name,
     password: hashedPassword,
-    role,
+    role: "user",
   };
 
   users.push(user);
