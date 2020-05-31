@@ -5,9 +5,11 @@ import List from "../components/List/List";
 import Products from "../components/List/Products";
 import Order from "../components/List/Order";
 import discountCodes from "../components/mocks/discountCodes";
+import axios from "axios";
 
 
 const ProductsPage = () => {
+  const [discountCodes, setDiscountCodes] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [order, setOrder] = useState([]);
   const [discountCode, setDiscountCode] = useState(0);
@@ -15,7 +17,26 @@ const ProductsPage = () => {
   const [finalOrderPrice, setFinalOrderPrice] = useState(0);
   const [isCodeIncluded, setIsCodeIncluded] = useState(false);
 
+  useEffect(() => {
 
+    axios
+      .get(`${serverUrl}/discountCodes/:discountCodeId`)
+      .then((response) => {
+        setProducts(response.data);
+      })
+    /*
+    .catch((err) => {
+      console.log(err);
+      setError(!isError)
+    });
+    */
+  }, []);
+
+
+  const addDisscountCode1 = (e) => {
+    const code = discountCode;
+    if (!code) return console.log("niepoprawny kod")
+  }
 
 
 
