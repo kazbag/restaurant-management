@@ -33,6 +33,7 @@ const ProductsPage = () => {
     if (!code) {
 
       alert("niepoprawny kod");
+      return;
 
     }
     if (!isCodeIncluded) {
