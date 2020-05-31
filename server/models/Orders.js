@@ -4,26 +4,24 @@ const OrdersSchema = mongoose.Schema({
 
     price: {
         type: Number,
-        require: true
-
-
+        required: true
     },
     orderDate: {
         type: Date,
-        require: true
+        required: true
 
     },
     paymentStatus: {
         type: Boolean,
-        require: true
+        required: true
     },
     orderStatus: {
         type: Boolean,
-        require: true
+        required: true
     },
     products: {
         type: Array,
-        require: true
+        required: true
     }
 });
 module.exports = mongoose.model('Orders', OrdersSchema);

@@ -4,12 +4,13 @@ const ProductsSchema = mongoose.Schema({
 
     name: {
         type: String,
-        require: true,
+        required: true,
+        unique: true
 
     },
     price: {
         type: Number,
-        require: true,
+        required: true,
 
     },
     description: {
@@ -18,10 +19,12 @@ const ProductsSchema = mongoose.Schema({
     },
     photo: {
         type: String,
+        unique: true
 
     },
     category: {
         type: String,
+
     }
 })
 module.exports = mongoose.model('Products', ProductsSchema);
