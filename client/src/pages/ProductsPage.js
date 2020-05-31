@@ -4,7 +4,6 @@ import { AuthContext } from "../contexts/AuthContext";
 import List from "../components/List/List";
 import Products from "../components/List/Products";
 import Order from "../components/List/Order";
-import discountCodes from "../components/mocks/discountCodes";
 import axios from "axios";
 
 
@@ -16,36 +15,34 @@ const ProductsPage = () => {
   const [discountAmount, setDiscountAmount] = useState(0);
   const [finalOrderPrice, setFinalOrderPrice] = useState(0);
   const [isCodeIncluded, setIsCodeIncluded] = useState(false);
+  const [isError, setError] = useState(false);
+  const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
   useEffect(() => {
 
     axios
-      .get(`${serverUrl}/discountCodes/:discountCodeId`)
+      .get(`${serverUrl}/discountCodes`)
       .then((response) => {
-        setProducts(response.data);
+        setDiscountCodes(response.data);
       })
-    /*
-    .catch((err) => {
-      console.log(err);
-      setError(!isError)
-    });
-    */
+      .catch((err) => {
+        console.log(err);
+        setError(!isError)
+      });
+
   }, []);
-
-
-  const addDisscountCode1 = (e) => {
-    const code = discountCode;
-    if (!code) return console.log("niepoprawny kod")
-  }
-
 
 
 
   const addDiscountCode = (e) => {
     const code = discountCodes.find((_) => _.code === discountCode);
-    if (!code) return console.log("niepoprawny kod");
+    if (!code) {
+      console.log("niepoprawny kod");
+      alert("niepoprawny kod");
+
+    }
     if (!isCodeIncluded) {
-      setTotalPrice(totalPrice - totalPrice * code.amount);
+      setTotalPrice(totalPrice - totalPrice * code.value);
       console.log(totalPrice);
       setIsCodeIncluded(true);
       return;
@@ -57,6 +54,7 @@ const ProductsPage = () => {
     setTotalPrice(parseInt(totalPrice) + parseInt(e.target.value));
     setOrder([...order, e.target.id]);
   };
+
   return (
     <AuthContext.Consumer>
       {(context) => (
@@ -73,5 +71,8 @@ const ProductsPage = () => {
       )}
     </AuthContext.Consumer>
   );
-};
+}
+
+
+
 export default withRouter(ProductsPage);
