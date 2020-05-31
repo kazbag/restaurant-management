@@ -6,8 +6,8 @@ const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 
-const ordersRoutes = require("./routes/orders-routes");
-//const ordersRoutes = require("./routes/orders");
+//const ordersRoutes = require("./routes/orders-routes");
+const ordersRoutes = require("./routes/orders");
 const productsRoutes = require("./routes/products");
 const discountCodesRoutes = require("./routes/discountCodes");
 const usersRoutes = require("./routes/users");
@@ -44,8 +44,8 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({ credentials: true, origin: originUrl }));
-app.use(ordersRoutes);
-//app.use('/orders', ordersRoutes);
+//app.use(ordersRoutes);
+app.use('/orders', ordersRoutes);
 app.use('/discountCodes', discountCodesRoutes);
 app.use('/products', productsRoutes),
   app.use('/users', usersRoutes)

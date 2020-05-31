@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { withRouter } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import List from "../components/List/List";
 import Products from "../components/List/Products";
 import Order from "../components/List/Order";
 import discountCodes from "../components/mocks/discountCodes";
+
 
 const ProductsPage = () => {
   const [totalPrice, setTotalPrice] = useState(0);
@@ -13,6 +14,11 @@ const ProductsPage = () => {
   const [discountAmount, setDiscountAmount] = useState(0);
   const [finalOrderPrice, setFinalOrderPrice] = useState(0);
   const [isCodeIncluded, setIsCodeIncluded] = useState(false);
+
+
+
+
+
 
   const addDiscountCode = (e) => {
     const code = discountCodes.find((_) => _.code === discountCode);
@@ -40,6 +46,7 @@ const ProductsPage = () => {
             order={order}
             addDiscountCode={addDiscountCode}
             setDiscountCode={setDiscountCode}
+
           />
         </List>
       )}
