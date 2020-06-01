@@ -65,6 +65,22 @@ router.delete("/:orderId", async (req, res) => {
   }
 });
 
+// toggle status
+
+router.patch("/status/:id", async (req, res) => {
+  try {
+    const order = await Orders.findOne({ _id: req.params.id });
+    const status = order.orderStatus;
+    const updatedOrder = await Orders.updateOne(
+      { _id: req.params.id },
+      { $set: { orderStatus: !status } }
+    ).exec();
+    res.json(updatedOrder);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
 router.patch("/:orderId", async (req, res) => {
   try {
     const updatedOrder = await Orders.updateOne(
