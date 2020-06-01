@@ -6,6 +6,8 @@ const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setAuth] = useState(false);
+  // default assign role as user, can be changed
+  const [userRole, setUserRole] = useState("user");
 
   useEffect(() => {
     axios(`http://localhost:3001/check`, {
@@ -13,6 +15,8 @@ const AuthContextProvider = ({ children }) => {
       withCredentials: true,
     })
       .then((response) => {
+        console.log(response);
+        setUserRole(response.data.user.role);
         setAuth(true);
       })
       .catch((err) => {
@@ -22,7 +26,9 @@ const AuthContextProvider = ({ children }) => {
   }, [isAuthenticated]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setAuth }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, setAuth, userRole, setUserRole }}
+    >
       {children}
     </AuthContext.Provider>
   );

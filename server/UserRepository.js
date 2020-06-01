@@ -5,6 +5,20 @@ const users = [
     // 123/123
     name: "123",
     password: "$2b$10$KSAfjDM1aEkoAU/vW7HH9O2eATiClAJrKDSE1cVlSPNMdZSo5KOvW",
+    role: "user",
+  },
+  // admin/123
+  {
+    // admin/123
+    name: "admin",
+    password: "$2b$10$KSAfjDM1aEkoAU/vW7HH9O2eATiClAJrKDSE1cVlSPNMdZSo5KOvW",
+    role: "admin",
+  },
+  {
+    // chef/123
+    name: "chef",
+    password: "$2b$10$KSAfjDM1aEkoAU/vW7HH9O2eATiClAJrKDSE1cVlSPNMdZSo5KOvW",
+    role: "employee",
   },
 ];
 
@@ -30,6 +44,7 @@ const registerUser = async (name, password) => {
   const user = {
     name,
     password: hashedPassword,
+    role: "user",
   };
 
   users.push(user);

@@ -19,7 +19,7 @@ const fetchSession = (token) => {
  */
 const createSession = (user) => {
   const token = Math.floor(Math.random() * 1000000000000).toString(36);
-  const session = { token, user: { name: user.name } };
+  const session = { token, user: { name: user.name, role: user.role } };
   sessions.push(session);
   return token;
 };
