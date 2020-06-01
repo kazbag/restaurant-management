@@ -26,9 +26,12 @@ const KitchenPage = ({ history }) => {
   useEffect(() => {
     axios
       .get(`${serverUrl}/orders`)
-      .then((response) => setOrders(response.data))
+      .then((response) => {
+        setOrders(response.data);
+        console.log("ok");
+      })
       .then(() => setLoading(false));
-  }, []);
+  }, [setOrders]);
 
   const moveOrder = (e) => {
     const orderId = e.target.getAttribute("order");
