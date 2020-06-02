@@ -20,36 +20,48 @@ const KitchenPage = ({ history }) => {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
   const [ordersPending, setOrdersPending] = useState([]);
   const [ordersCompleted, setOrdersCompleted] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [completedItemsValue, setCompletedItemsValue] = useState(0);
   const [notCompletedItemsValue, setNotCompletedItemsValue] = useState(0);
 
   const togglePending = (_id) => {
     axios
       .patch(`${serverUrl}/orders/status/${_id}`)
-      .then((response) => console.log(response))
+      .then(() => setLoading(true))
+      .then(() => setLoading(false))
       .catch((err) => console.log(err));
   };
 
-  useEffect(() => {
+  const getCompletedOrders = () => {
     axios
       .get(`${serverUrl}/orders/completed`)
       .then((response) => {
         setOrdersCompleted(response.data);
-        // console.log(response.data);
       })
-      .then(() => setLoading(false));
-  }, []);
+      .then(() => setLoading(false))
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
 
-  useEffect(() => {
+  const getPendingOrders = () => {
     axios
       .get(`${serverUrl}/orders/pending`)
       .then((response) => {
         setOrdersPending(response.data);
-        // console.log("ok");
       })
-      .then(() => setLoading(false));
-  }, []);
+      .then(() => setLoading(false))
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    getCompletedOrders();
+    getPendingOrders();
+  }, [isLoading]);
 
   const itemsNotCompleted = ordersPending.map((item, index) => {
     const { _id, phone, price, products, address, time, isCompleted } = item;
@@ -104,13 +116,13 @@ const KitchenPage = ({ history }) => {
           <StyledBox>
             <StyledHeader>Zamówienia do zrealizowania</StyledHeader>
             <StyledList>
-              {loading ? <li>ładowanie danych...</li> : itemsNotCompleted}
+              {isLoading ? <li>ładowanie danych...</li> : itemsNotCompleted}
             </StyledList>
           </StyledBox>
           <StyledBox>
             <StyledHeader>Zamówienia zrealizowane</StyledHeader>
             <StyledList>
-              {loading ? <li>ładowanie danych...</li> : itemsCompleted}
+              {isLoading ? <li>ładowanie danych...</li> : itemsCompleted}
             </StyledList>
           </StyledBox>
           <StyledBox>{notCompletedItemsValue} zł</StyledBox>
