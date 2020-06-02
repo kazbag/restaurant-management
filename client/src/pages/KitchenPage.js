@@ -18,110 +18,84 @@ const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 const KitchenPage = ({ history }) => {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
-  const [orders, setOrders] = useState([]);
+  const [ordersPending, setOrdersPending] = useState([]);
+  const [ordersCompleted, setOrdersCompleted] = useState([]);
   const [loading, setLoading] = useState(true);
   const [completedItemsValue, setCompletedItemsValue] = useState(0);
   const [notCompletedItemsValue, setNotCompletedItemsValue] = useState(0);
 
+  const togglePending = (_id) => {
+    axios
+      .patch(`${serverUrl}/orders/status/${_id}`)
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     axios
-      .get(`${serverUrl}/orders`)
-      .then((response) => setOrders(response.data))
+      .get(`${serverUrl}/orders/completed`)
+      .then((response) => {
+        setOrdersCompleted(response.data);
+        // console.log(response.data);
+      })
       .then(() => setLoading(false));
   }, []);
 
-  const moveOrder = (e) => {
-    const orderId = e.target.getAttribute("order");
-    let newOrders = [...orders];
-    const myOrder = newOrders.find((order) => order.id.toString() === orderId);
-    myOrder.isCompleted = !myOrder.isCompleted;
-    setOrders(newOrders);
-  };
-
-  const itemsCompleted = orders.map((item) => {
-    const { id, phone, cost, products, address, time, isCompleted } = item;
-    if (isCompleted) {
-      const productsList = products.map((prod) => {
-        return (
-          <StyledSpan key={(Math.random() * 1000).toString()}>
-            {prod},{" "}
-          </StyledSpan>
-        );
-      });
-      return (
-        <StyledListItem key={(Math.random() * 1000).toString()}>
-          <StyledDescription>
-            #{id} {cost} zł: {productsList} {address} {time}
-          </StyledDescription>
-          <StyledListItemHeader>
-            <StyledListItemLink href={`tel:${phone}`}>
-              Zadzwoń
-            </StyledListItemLink>
-            <StyledListItemLink target="_blank" href={`/order/${id}`}>
-              Pokaż zamówienie
-            </StyledListItemLink>
-            <StyledButton order={id} onClick={moveOrder}>
-              Przywróć
-            </StyledButton>
-          </StyledListItemHeader>
-        </StyledListItem>
-      );
-    }
-  });
-
-  const itemsNotCompleted = orders.map((item) => {
-    const { id, phone, cost, products, address, time, isCompleted } = item;
-    if (!isCompleted) {
-      const productsList = products.map((prod) => {
-        return (
-          <StyledSpan key={(Math.random() * 1000).toString()}>
-            {prod},{" "}
-          </StyledSpan>
-        );
-      });
-      return (
-        <StyledListItem key={(Math.random() * 1000).toString()}>
-          <StyledDescription>
-            #{id} {cost} zł: {productsList} {address} {time}
-          </StyledDescription>
-          <StyledListItemHeader>
-            <StyledListItemLink href={`tel:${phone}`}>
-              Zadzwoń
-            </StyledListItemLink>
-            <StyledListItemLink target="_blank" href={`/order/${id}`}>
-              Pokaż zamówienie
-            </StyledListItemLink>
-            <StyledButton order={id} onClick={moveOrder}>
-              Archiwizuj
-            </StyledButton>
-          </StyledListItemHeader>
-        </StyledListItem>
-      );
-    }
-  });
-
-  const showCompletedItems = () => {
-    const completedItems = orders.filter((item) => item.isCompleted === true);
-    const costsArray = [];
-    completedItems.forEach((item) => costsArray.push(item.cost));
-    const totalCost = costsArray.reduce((a, b) => a + b, 0);
-    setCompletedItemsValue(totalCost);
-  };
-
-  const showNotCompletedItems = () => {
-    const notCompletedItems = orders.filter(
-      (item) => item.isCompleted === false
-    );
-    const costsArray = [];
-    notCompletedItems.forEach((item) => costsArray.push(item.cost));
-    const totalCost = costsArray.reduce((a, b) => a + b, 0);
-    setNotCompletedItemsValue(totalCost);
-  };
-
   useEffect(() => {
-    showCompletedItems();
-    showNotCompletedItems();
-  }, [orders]);
+    axios
+      .get(`${serverUrl}/orders/pending`)
+      .then((response) => {
+        setOrdersPending(response.data);
+        // console.log("ok");
+      })
+      .then(() => setLoading(false));
+  }, []);
+
+  const itemsNotCompleted = ordersPending.map((item, index) => {
+    const { _id, phone, price, products, address, time, isCompleted } = item;
+    const productsList = products.map((prod, index) => {
+      return <StyledSpan key={index}>{prod}, </StyledSpan>;
+    });
+    return (
+      <StyledListItem key={(Math.random() * 1000).toString()}>
+        <StyledDescription>
+          #{index + 1} {price} zł: {productsList} {address} {time}
+        </StyledDescription>
+        <StyledListItemHeader>
+          <StyledListItemLink href={`tel:${phone}`}>Zadzwoń</StyledListItemLink>
+          <StyledListItemLink target="_blank" href={`/order/${_id}`}>
+            Pokaż zamówienie
+          </StyledListItemLink>
+          <StyledButton order={_id} onClick={() => togglePending(_id)}>
+            Archiwizuj
+          </StyledButton>
+        </StyledListItemHeader>
+      </StyledListItem>
+    );
+  });
+
+  const itemsCompleted = ordersCompleted.map((item, index) => {
+    const { _id, phone, price, products, address, time, isCompleted } = item;
+    const productsList = products.map((prod, index) => {
+      return <StyledSpan key={index}>{prod}, </StyledSpan>;
+    });
+    return (
+      <StyledListItem key={(Math.random() * 1000).toString()}>
+        <StyledDescription>
+          #{index + 1} {price} zł: {productsList} {address} {time}
+        </StyledDescription>
+        <StyledListItemHeader>
+          <StyledListItemLink href={`tel:${phone}`}>Zadzwoń</StyledListItemLink>
+          <StyledListItemLink target="_blank" href={`/order/${_id}`}>
+            Pokaż zamówienie
+          </StyledListItemLink>
+          <StyledButton order={_id} onClick={() => togglePending(_id)}>
+            Przywróć
+          </StyledButton>
+        </StyledListItemHeader>
+      </StyledListItem>
+    );
+  });
 
   return (
     <AuthContext.Consumer>
@@ -130,13 +104,13 @@ const KitchenPage = ({ history }) => {
           <StyledBox>
             <StyledHeader>Zamówienia do zrealizowania</StyledHeader>
             <StyledList>
-              {loading ? <div>ładowanie danych...</div> : itemsNotCompleted}
+              {loading ? <li>ładowanie danych...</li> : itemsNotCompleted}
             </StyledList>
           </StyledBox>
           <StyledBox>
             <StyledHeader>Zamówienia zrealizowane</StyledHeader>
             <StyledList>
-              {loading ? <div>ładowanie danych...</div> : itemsCompleted}
+              {loading ? <li>ładowanie danych...</li> : itemsCompleted}
             </StyledList>
           </StyledBox>
           <StyledBox>{notCompletedItemsValue} zł</StyledBox>

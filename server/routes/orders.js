@@ -1,89 +1,104 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Orders = require('../models/Orders');
+const Orders = require("../models/Orders");
 
-router.get('/', async (req, res) => {
-    try {
-        const orders = await Orders.find();
-        res.json(orders);
+router.get("/", async (req, res) => {
+  try {
+    const orders = await Orders.find();
+    res.json(orders);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+// completed orders
+router.get("/completed", async (req, res) => {
+  try {
+    const orders = await Orders.find({ orderStatus: true });
+    res.json(orders);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+// not completed yet orders
+router.get("/pending", async (req, res) => {
+  try {
+    const orders = await Orders.find({ orderStatus: false });
+    res.json(orders);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
 
-    } catch (err) {
-        res.json({ message: err })
-    }
+router.get("/:orderId", async (req, res) => {
+  try {
+    const order = await Orders.findById(req.params.orderId);
+    res.json(order);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
 
-})
+router.post("/", async (req, res) => {
+  const order = new Orders({
+    price: req.body.price,
+    orderDate: req.body.orderDate,
+    paymentStatus: req.body.paymentStatus,
+    orderStatus: req.body.orderStatus,
+    products: req.body.products,
+  });
+  try {
+    const savedOrder = await order.save();
+    res.json(savedOrder);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
 
-router.get('/:orderId', async (req, res) => {
-    try {
-        const order = await Orders.findById(req.params.orderId);
-        res.json(order);
-
-    } catch (err) {
-        res.json({ message: err })
-    }
-
-})
-
-
-
-
-router.post('/', async (req, res) => {
-    const order = new Orders({
-        price: req.body.price,
-        orderDate: req.body.orderDate,
-        paymentStatus: req.body.paymentStatus,
-        orderStatus: req.body.orderStatus,
-        products: req.body.products,
-        phone: req.body.phone,
-        address: req.body.address
-
+router.delete("/:orderId", async (req, res) => {
+  try {
+    const removedOrder = await DiscountCodes.remove({
+      _id: req.params.orderId,
     });
-    try {
-        const savedOrder = await order.save()
-        res.json(savedOrder);
-    } catch (err) {
-        res.json({ message: err })
-    }
+    res.json(removedOrder);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
 
-})
+// toggle status
 
-router.delete('/:orderId', async (req, res) => {
-    try {
-        const removedOrder = await DiscountCodes.remove({ _id: req.params.orderId })
-        res.json(removedOrder);
-    }
-    catch (err) {
-        res.json({ message: err })
-    }
+router.patch("/status/:id", async (req, res) => {
+  try {
+    const order = await Orders.findOne({ _id: req.params.id });
+    const status = order.orderStatus;
+    const updatedOrder = await Orders.updateOne(
+      { _id: req.params.id },
+      { $set: { orderStatus: !status } }
+    ).exec();
+    res.json(updatedOrder);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
 
-})
-
-router.patch('/:orderId', async (req, res) => {
-    try {
-        const updatedOrder = await Orders.updateOne(
-            { _id: req.params.orderId },
-            {
-                $set:
-                {
-                    price: req.body.price,
+router.patch("/:orderId", async (req, res) => {
+  try {
+    const updatedOrder = await Orders.updateOne(
+      { _id: req.params.orderId },
+      { $set: { price: req.body.price,
                     orderDate: req.body.orderDate,
                     paymentStatus: req.body.paymentStatus,
                     orderStatus: req.body.orderStatus,
                     products: req.body.products,
                     phone: req.body.phone,
-                    address: req.body.address
+                    address: req.body.address } }
+      
+    );
 
-                }
-            }
-        )
-
-        res.json(updatedOrder);
-    }
-    catch (err) {
-        res.json({ message: err })
-    }
-
-})
-
+    res.json(updatedOrder);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
 
 module.exports = router;
