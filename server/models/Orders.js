@@ -22,6 +22,12 @@ const OrdersSchema = mongoose.Schema({
     products: {
         type: Array,
         required: true
+    },
+    phone: {
+        type: Number
+    },
+    address: {
+        type: Number
     }
 });
 module.exports = mongoose.model('Orders', OrdersSchema);
