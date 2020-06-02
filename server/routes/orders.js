@@ -33,7 +33,9 @@ router.post('/', async (req, res) => {
         orderDate: req.body.orderDate,
         paymentStatus: req.body.paymentStatus,
         orderStatus: req.body.orderStatus,
-        products: req.body.products
+        products: req.body.products,
+        phone: req.body.phone,
+        address: req.body.address
 
     });
     try {
@@ -67,7 +69,9 @@ router.patch('/:orderId', async (req, res) => {
                     orderDate: req.body.orderDate,
                     paymentStatus: req.body.paymentStatus,
                     orderStatus: req.body.orderStatus,
-                    products: req.body.products
+                    products: req.body.products,
+                    phone: req.body.phone,
+                    address: req.body.address
 
                 }
             }
