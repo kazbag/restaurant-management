@@ -59,8 +59,18 @@ router.delete('/:productId', async (req, res) => {
 router.patch('/:productId', async (req, res) => {
     try {
         const updatedProducts = await Products.updateOne(
-            { _id: req.params.postId },
-            { $set: { name: req.body.name } }
+            { _id: req.params.productId },
+            {
+                $set:
+                {
+                    name: req.body.name,
+                    price: req.body.price,
+                    description: req.body.description,
+                    photo: req.body.photo,
+                    category: req.body.category
+                }
+
+            }
         )
 
         res.json(updatedProducts);

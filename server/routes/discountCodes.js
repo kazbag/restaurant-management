@@ -61,7 +61,20 @@ router.patch('/:discountCodeId', async (req, res) => {
     try {
         const updatedDiscountCodes = await DiscountCodes.updateOne(
             { _id: req.params.discountCodeId },
-            { $set: { code: req.body.code } }
+            {
+                $set:
+                {
+                    code: req.body.code,
+                    startDate: req.body.startDate,
+                    expirationDate: req.body.expirationDate,
+                    value: req.body.value,
+                    percentage: req.body.percentage,
+                    reusable: req.body.reusable,
+                    used: req.body.used,
+
+
+                }
+            }
         )
 
         res.json(updatedDiscountCodes);

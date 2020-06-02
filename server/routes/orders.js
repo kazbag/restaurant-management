@@ -85,7 +85,14 @@ router.patch("/:orderId", async (req, res) => {
   try {
     const updatedOrder = await Orders.updateOne(
       { _id: req.params.orderId },
-      { $set: { price: req.body.price } }
+      { $set: { price: req.body.price,
+                    orderDate: req.body.orderDate,
+                    paymentStatus: req.body.paymentStatus,
+                    orderStatus: req.body.orderStatus,
+                    products: req.body.products,
+                    phone: req.body.phone,
+                    address: req.body.address } }
+      
     );
 
     res.json(updatedOrder);
