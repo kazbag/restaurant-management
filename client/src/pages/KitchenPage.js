@@ -24,25 +24,32 @@ const KitchenPage = ({ history }) => {
   const [completedItemsValue, setCompletedItemsValue] = useState(0);
   const [notCompletedItemsValue, setNotCompletedItemsValue] = useState(0);
 
+  const togglePending = (_id) => {
+    axios
+      .patch(`${serverUrl}/orders/status/${_id}`)
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     axios
       .get(`${serverUrl}/orders/completed`)
       .then((response) => {
         setOrdersCompleted(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       })
       .then(() => setLoading(false));
-  }, [setOrdersCompleted]);
+  }, []);
 
   useEffect(() => {
     axios
       .get(`${serverUrl}/orders/pending`)
       .then((response) => {
         setOrdersPending(response.data);
-        console.log("ok");
+        // console.log("ok");
       })
       .then(() => setLoading(false));
-  }, [setOrdersPending]);
+  }, []);
 
   const itemsNotCompleted = ordersPending.map((item, index) => {
     const { _id, phone, price, products, address, time, isCompleted } = item;
@@ -59,7 +66,7 @@ const KitchenPage = ({ history }) => {
           <StyledListItemLink target="_blank" href={`/order/${_id}`}>
             Pokaż zamówienie
           </StyledListItemLink>
-          <StyledButton order={_id} onClick={() => console.log(_id)}>
+          <StyledButton order={_id} onClick={() => togglePending(_id)}>
             Archiwizuj
           </StyledButton>
         </StyledListItemHeader>
@@ -82,7 +89,7 @@ const KitchenPage = ({ history }) => {
           <StyledListItemLink target="_blank" href={`/order/${_id}`}>
             Pokaż zamówienie
           </StyledListItemLink>
-          <StyledButton order={_id} onClick={() => console.log(_id)}>
+          <StyledButton order={_id} onClick={() => togglePending(_id)}>
             Przywróć
           </StyledButton>
         </StyledListItemHeader>
