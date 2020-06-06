@@ -24,22 +24,42 @@ const KitchenPage = ({ history }) => {
   const [loading, setLoading] = useState(true);
   const [completedItemsValue, setCompletedItemsValue] = useState(0);
   const [notCompletedItemsValue, setNotCompletedItemsValue] = useState(0);
+  const [pusherLoading, setPusherLoading] = useState(false);
 
-  const togglePending = (_id) => {
-    axios
-      .patch(`${serverUrl}/orders/status/${_id}`)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
+  const getAllOrders = () => {
     axios
       .get(`${serverUrl}/orders/completed`)
       .then((response) => {
         setOrdersCompleted(response.data);
       })
       .then(() => setLoading(false));
+    axios
+      .get(`${serverUrl}/orders/pending`)
+      .then((response) => {
+        setOrdersPending(response.data);
+      })
+      .then(() => setLoading(false));
+  };
+
+  // Pusher.logToConsole = true;
+  useEffect(() => {
+    const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_KEY}`, {
+      cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
+    });
+
+    const channel = pusher.subscribe("my-channel");
+    channel.bind("updated", function(data) {
+      setPusherLoading(data);
+    });
   }, []);
+
+  useEffect(() => {
+    getAllOrders();
+  }, []);
+
+  useEffect(() => {
+    getAllOrders();
+  }, [pusherLoading]);
 
   useEffect(() => {
     axios
@@ -50,20 +70,14 @@ const KitchenPage = ({ history }) => {
       .then(() => setLoading(false));
   }, []);
 
-  // pusher
-
-  useEffect(() => {
-    Pusher.logToConsole = true;
-
-    const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_KEY}`, {
-      cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
-    });
-
-    const channel = pusher.subscribe("my-channel");
-    channel.bind("my-event", function(data) {
-      console.log(JSON.stringify(data));
-    });
-  }, []);
+  const togglePending = (_id) => {
+    axios
+      .patch(`${serverUrl}/orders/status/${_id}`)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const itemsNotCompleted = ordersPending.map((item, index) => {
     const { _id, phone, price, products, address, time, isCompleted } = item;
