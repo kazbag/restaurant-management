@@ -1,5 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "./styles.css";
+import axios from "axios";
+
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+
+const mockOrder = {
+  products: ["pizza"],
+  price: 155,
+  orderDate: "2012-12-11T23:00:00.000Z",
+  paymentStatus: true,
+  orderStatus: true,
+  phone: "222643341",
+  address: "ul. Pawia 22/3",
+};
+
+const submitOrder = () => {
+  axios
+    .post(`${SERVER_URL}/orders`, mockOrder)
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+};
 
 const Order = ({
   order,
@@ -12,6 +32,7 @@ const Order = ({
   useEffect(() => {
     console.log(order);
   }, [order]);
+
   return (
     <div className="order">
       <h3 className="title">Twoje zamówienie</h3>
@@ -34,7 +55,12 @@ const Order = ({
           Dodaj kod
         </button>
       </div>
-      <button className="order-button order-button--submit">Zamów</button>
+      <button
+        onClick={submitOrder}
+        className="order-button order-button--submit"
+      >
+        Zamów
+      </button>
     </div>
   );
 };
