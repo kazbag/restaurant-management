@@ -15,6 +15,7 @@ import {
   StyledDescription,
   StyledSpan,
 } from "../stylesComponents/StyledComponents";
+import Loader from "../components/Loader/Loader";
 const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 const KitchenPage = ({ history }) => {
@@ -28,13 +29,13 @@ const KitchenPage = ({ history }) => {
 
   const getAllOrders = () => {
     axios
-      .get(`${serverUrl}/orders/completed`)
+      .get(`${serverUrl}/orders/completed`, setLoading(true))
       .then((response) => {
         setOrdersCompleted(response.data);
       })
       .then(() => setLoading(false));
     axios
-      .get(`${serverUrl}/orders/pending`)
+      .get(`${serverUrl}/orders/pending`, setLoading(true))
       .then((response) => {
         setOrdersPending(response.data);
       })
@@ -128,26 +129,29 @@ const KitchenPage = ({ history }) => {
   return (
     <AuthContext.Consumer>
       {(context) => (
-        <StyledContainer>
-          <span style={{ color: "red" }}>
-            Try publishing an event to channel <code>my-channel</code>
-            with event name <code>my-event</code>.
-          </span>
-          <StyledBox>
-            <StyledHeader>Zamówienia do zrealizowania</StyledHeader>
-            <StyledList>
-              {loading ? <li>ładowanie danych...</li> : itemsNotCompleted}
-            </StyledList>
-          </StyledBox>
-          <StyledBox>
-            <StyledHeader>Zamówienia zrealizowane</StyledHeader>
-            <StyledList>
-              {loading ? <li>ładowanie danych...</li> : itemsCompleted}
-            </StyledList>
-          </StyledBox>
-          <StyledBox>{notCompletedItemsValue} zł</StyledBox>
-          <StyledBox>{completedItemsValue} zł</StyledBox>
-        </StyledContainer>
+        <>
+          <Loader loading={loading.toString()} />
+          <StyledContainer>
+            <span style={{ color: "red" }}>
+              Try publishing an event to channel <code>my-channel</code>
+              with event name <code>my-event</code>.
+            </span>
+            <StyledBox>
+              <StyledHeader>Zamówienia do zrealizowania</StyledHeader>
+              <StyledList>
+                {loading ? <li>ładowanie danych...</li> : itemsNotCompleted}
+              </StyledList>
+            </StyledBox>
+            <StyledBox>
+              <StyledHeader>Zamówienia zrealizowane</StyledHeader>
+              <StyledList>
+                {loading ? <li>ładowanie danych...</li> : itemsCompleted}
+              </StyledList>
+            </StyledBox>
+            <StyledBox>{notCompletedItemsValue} zł</StyledBox>
+            <StyledBox>{completedItemsValue} zł</StyledBox>
+          </StyledContainer>
+        </>
       )}
     </AuthContext.Consumer>
   );
