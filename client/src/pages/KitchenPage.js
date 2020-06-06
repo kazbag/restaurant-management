@@ -42,14 +42,16 @@ const KitchenPage = ({ history }) => {
       .then(() => setLoading(false));
   };
 
+  const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_KEY}`, {
+    cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
+  });
+  const channel = pusher.subscribe("my-channel");
   // Pusher.logToConsole = true;
   useEffect(() => {
-    const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_KEY}`, {
-      cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
-    });
-
-    const channel = pusher.subscribe("my-channel");
     channel.bind("updated", function(data) {
+      setPusherLoading(data);
+    });
+    channel.bind("inserted", function(data) {
       setPusherLoading(data);
     });
   }, []);
@@ -70,6 +72,10 @@ const KitchenPage = ({ history }) => {
       })
       .then(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    console.log("siema");
+  }, [Pusher]);
 
   const togglePending = (_id) => {
     axios
@@ -132,10 +138,6 @@ const KitchenPage = ({ history }) => {
         <>
           <Loader loading={loading.toString()} />
           <StyledContainer>
-            <span style={{ color: "red" }}>
-              Try publishing an event to channel <code>my-channel</code>
-              with event name <code>my-event</code>.
-            </span>
             <StyledBox>
               <StyledHeader>Zamówienia do zrealizowania</StyledHeader>
               <StyledList>

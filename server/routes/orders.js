@@ -45,6 +45,9 @@ router.post("/", async (req, res) => {
     paymentStatus: req.body.paymentStatus,
     orderStatus: req.body.orderStatus,
     products: req.body.products,
+    address: req.body.address,
+    phone: req.body.phone,
+    price: req.body.price,
   });
   try {
     const savedOrder = await order.save();
@@ -56,9 +59,10 @@ router.post("/", async (req, res) => {
 
 router.delete("/:orderId", async (req, res) => {
   try {
-    const removedOrder = await DiscountCodes.remove({
+    const removedOrder = await Orders.remove({
       _id: req.params.orderId,
-    });
+    }).exec();
+    console.log("usunięto");
     res.json(removedOrder);
   } catch (err) {
     res.json({ message: err });
@@ -85,14 +89,17 @@ router.patch("/:orderId", async (req, res) => {
   try {
     const updatedOrder = await Orders.updateOne(
       { _id: req.params.orderId },
-      { $set: { price: req.body.price,
-                    orderDate: req.body.orderDate,
-                    paymentStatus: req.body.paymentStatus,
-                    orderStatus: req.body.orderStatus,
-                    products: req.body.products,
-                    phone: req.body.phone,
-                    address: req.body.address } }
-      
+      {
+        $set: {
+          price: req.body.price,
+          orderDate: req.body.orderDate,
+          paymentStatus: req.body.paymentStatus,
+          orderStatus: req.body.orderStatus,
+          products: req.body.products,
+          phone: req.body.phone,
+          address: req.body.address,
+        },
+      }
     );
 
     res.json(updatedOrder);
