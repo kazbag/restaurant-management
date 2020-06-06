@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./styles.css";
 
 const Order = ({
-  totalPrice,
   order,
   setOrder,
   addDiscountCode,
   setDiscountCode,
   discountCode,
+  clientPrice,
 }) => {
   useEffect(() => {
     console.log(order);
@@ -19,7 +19,7 @@ const Order = ({
         {order.map((item, id) => {
           return <li key={Math.random().toString()}>{item}</li>;
         })}
-        <li>Koszt całkowity: {totalPrice} zł</li>
+        <li>Koszt całkowity: {clientPrice} zł</li>
       </ul>
       <div className="code">
         <input
