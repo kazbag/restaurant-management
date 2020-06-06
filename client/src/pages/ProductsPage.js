@@ -5,6 +5,7 @@ import List from "../components/List/List";
 import Products from "../components/List/Products";
 import Order from "../components/List/Order";
 import axios from "axios";
+import Pusher from "pusher-js";
 
 const ProductsPage = () => {
   const [discountCodes, setDiscountCodes] = useState([]);
@@ -12,10 +13,27 @@ const ProductsPage = () => {
   const [order, setOrder] = useState([]);
   const [discountCode, setDiscountCode] = useState(0);
   const [discountAmount, setDiscountAmount] = useState(1);
+  const [pusherLoading, setPusherLoading] = useState(false);
   const [isCodeIncluded, setIsCodeIncluded] = useState(false);
   const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
   const clientPrice = (totalPrice * discountAmount).toFixed(2);
+
+  // pusher
+  const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_KEY}`, {
+    cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
+  });
+
+  const channel = pusher.subscribe("my-channel");
+  useEffect(() => {
+    channel.bind("inserted", function(data) {
+      setPusherLoading(data);
+    });
+    channel.bind("updated", function(data) {
+      setPusherLoading(data);
+    });
+  }, []);
+  // end pusher
 
   useEffect(() => {
     axios.get(`${serverUrl}/discountCodes`).then((response) => {

@@ -59,9 +59,10 @@ router.post("/", async (req, res) => {
 
 router.delete("/:orderId", async (req, res) => {
   try {
-    const removedOrder = await DiscountCodes.remove({
+    const removedOrder = await Orders.remove({
       _id: req.params.orderId,
-    });
+    }).exec();
+    console.log("usunięto");
     res.json(removedOrder);
   } catch (err) {
     res.json({ message: err });
