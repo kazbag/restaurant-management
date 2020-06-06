@@ -29,9 +29,6 @@ const ProductsPage = () => {
     channel.bind("inserted", function(data) {
       setPusherLoading(data);
     });
-    channel.bind("updated", function(data) {
-      setPusherLoading(data);
-    });
   }, []);
   // end pusher
 
