@@ -15,13 +15,17 @@ const StyledModalContainer = styled.div`
   height: 100%;
   position: fixed;
   background: rgba(0, 0, 0, 0.35);
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s, opacity 1s linear;
   ${({ loading }) =>
     loading === "true" &&
     css`
-      display: flex;
+      visibility: visible;
+      opacity: 1;
     `}
 `;
 
