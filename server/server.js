@@ -36,19 +36,18 @@ db.one("SELECT $1 AS value", 123)
     console.log("ERROR:", error);
   });
 */
-mongoose.connect(process.env.DB_CONNECT,
-  { useNewUrlParser: true },
-  () => console.log("connected to DB"));
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, () =>
+  console.log("connected to DB")
+);
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({ credentials: true, origin: originUrl }));
 //app.use(ordersRoutes);
-app.use('/orders', ordersRoutes);
-app.use('/discountCodes', discountCodesRoutes);
-app.use('/products', productsRoutes),
-  app.use('/users', usersRoutes)
+app.use("/orders", ordersRoutes);
+app.use("/discountCodes", discountCodesRoutes);
+app.use("/products", productsRoutes), app.use("/users", usersRoutes);
 
 const cookieTokenExtractor = (cookieName) => (req, res, next) => {
   req.token = req.cookies[cookieName];
@@ -87,7 +86,6 @@ const authorizationChain = [
 
 app.get("/", (req, res) => res.send("witaj na stronie"));
 
-
 app.post("/check", async (req, res, next) => {
   const token = req.cookies.session;
   if (!token) return;
@@ -101,7 +99,6 @@ app.post("/check", async (req, res, next) => {
     res.send(user);
   }
 });
-
 
 app.get("/private", authorizationChain, (req, res) => {
   res.json({ session: req.session });
@@ -141,6 +138,21 @@ app.post("/logout", authorizationChain, async (req, res) => {
   removeSession(req.token, req.session.user.name);
   res.clearCookie("session");
   res.redirect("/");
+});
+
+// pusher
+var Pusher = require("pusher");
+
+var pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: process.env.PUSHER_CLUSTER,
+  encrypted: true,
+});
+
+pusher.trigger("my-channel", "my-event", {
+  message: "hello world",
 });
 
 app.listen(port, () => console.log(`app listening on port ${port}!`));

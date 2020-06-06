@@ -1,3 +1,4 @@
+import Pusher from "pusher-js";
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
@@ -36,7 +37,6 @@ const KitchenPage = ({ history }) => {
       .get(`${serverUrl}/orders/completed`)
       .then((response) => {
         setOrdersCompleted(response.data);
-        // console.log(response.data);
       })
       .then(() => setLoading(false));
   }, []);
@@ -46,9 +46,23 @@ const KitchenPage = ({ history }) => {
       .get(`${serverUrl}/orders/pending`)
       .then((response) => {
         setOrdersPending(response.data);
-        // console.log("ok");
       })
       .then(() => setLoading(false));
+  }, []);
+
+  // pusher
+
+  useEffect(() => {
+    Pusher.logToConsole = true;
+
+    const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_KEY}`, {
+      cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
+    });
+
+    const channel = pusher.subscribe("my-channel");
+    channel.bind("my-event", function(data) {
+      console.log(JSON.stringify(data));
+    });
   }, []);
 
   const itemsNotCompleted = ordersPending.map((item, index) => {
@@ -101,6 +115,10 @@ const KitchenPage = ({ history }) => {
     <AuthContext.Consumer>
       {(context) => (
         <StyledContainer>
+          <span style={{ color: "red" }}>
+            Try publishing an event to channel <code>my-channel</code>
+            with event name <code>my-event</code>.
+          </span>
           <StyledBox>
             <StyledHeader>Zamówienia do zrealizowania</StyledHeader>
             <StyledList>
