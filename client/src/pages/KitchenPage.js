@@ -138,10 +138,6 @@ const KitchenPage = ({ history }) => {
         <>
           <Loader loading={loading.toString()} />
           <StyledContainer>
-            <span style={{ color: "red" }}>
-              Try publishing an event to channel <code>my-channel</code>
-              with event name <code>my-event</code>.
-            </span>
             <StyledBox>
               <StyledHeader>Zamówienia do zrealizowania</StyledHeader>
               <StyledList>

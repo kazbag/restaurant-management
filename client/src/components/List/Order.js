@@ -4,23 +4,6 @@ import axios from "axios";
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
-const mockOrder = {
-  products: ["pizza"],
-  price: 155,
-  orderDate: "2012-12-11T23:00:00.000Z",
-  paymentStatus: true,
-  orderStatus: true,
-  phone: "222643341",
-  address: "ul. Pawia 22/3",
-};
-
-const submitOrder = () => {
-  axios
-    .post(`${SERVER_URL}/orders`, mockOrder)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
-};
-
 const Order = ({
   order,
   setOrder,
@@ -29,10 +12,30 @@ const Order = ({
   discountCode,
   clientPrice,
 }) => {
+  const mockOrder = {
+    products: order,
+    price: clientPrice,
+    orderDate: new Date(),
+    paymentStatus: true,
+    orderStatus: false,
+    // todo get user phone and address
+    phone: "222643341",
+    address: "ul. Pawia 22/3",
+  };
+
+  const submitOrder = () => {
+    axios
+      .post(`${SERVER_URL}/orders`, mockOrder)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     console.log(order);
   }, [order]);
-
+  useEffect(() => {
+    // todo check user credentials and create order object
+  }, []);
   return (
     <div className="order">
       <h3 className="title">Twoje zamówienie</h3>
