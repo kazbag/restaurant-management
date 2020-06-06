@@ -1,3 +1,4 @@
+import Pusher from "pusher-js";
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
@@ -14,6 +15,7 @@ import {
   StyledDescription,
   StyledSpan,
 } from "../stylesComponents/StyledComponents";
+import Loader from "../components/Loader/Loader";
 const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 const KitchenPage = ({ history }) => {
@@ -23,33 +25,60 @@ const KitchenPage = ({ history }) => {
   const [loading, setLoading] = useState(true);
   const [completedItemsValue, setCompletedItemsValue] = useState(0);
   const [notCompletedItemsValue, setNotCompletedItemsValue] = useState(0);
+  const [pusherLoading, setPusherLoading] = useState(false);
 
-  const togglePending = (_id) => {
+  const getAllOrders = () => {
     axios
-      .patch(`${serverUrl}/orders/status/${_id}`)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-    axios
-      .get(`${serverUrl}/orders/completed`)
+      .get(`${serverUrl}/orders/completed`, setLoading(true))
       .then((response) => {
         setOrdersCompleted(response.data);
-        // console.log(response.data);
       })
       .then(() => setLoading(false));
+    axios
+      .get(`${serverUrl}/orders/pending`, setLoading(true))
+      .then((response) => {
+        setOrdersPending(response.data);
+      })
+      .then(() => setLoading(false));
+  };
+
+  // Pusher.logToConsole = true;
+  useEffect(() => {
+    const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_KEY}`, {
+      cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
+    });
+
+    const channel = pusher.subscribe("my-channel");
+    channel.bind("updated", function(data) {
+      setPusherLoading(data);
+    });
   }, []);
+
+  useEffect(() => {
+    getAllOrders();
+  }, []);
+
+  useEffect(() => {
+    getAllOrders();
+  }, [pusherLoading]);
 
   useEffect(() => {
     axios
       .get(`${serverUrl}/orders/pending`)
       .then((response) => {
         setOrdersPending(response.data);
-        // console.log("ok");
       })
       .then(() => setLoading(false));
   }, []);
+
+  const togglePending = (_id) => {
+    axios
+      .patch(`${serverUrl}/orders/status/${_id}`)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const itemsNotCompleted = ordersPending.map((item, index) => {
     const { _id, phone, price, products, address, time, isCompleted } = item;
@@ -100,22 +129,29 @@ const KitchenPage = ({ history }) => {
   return (
     <AuthContext.Consumer>
       {(context) => (
-        <StyledContainer>
-          <StyledBox>
-            <StyledHeader>Zamówienia do zrealizowania</StyledHeader>
-            <StyledList>
-              {loading ? <li>ładowanie danych...</li> : itemsNotCompleted}
-            </StyledList>
-          </StyledBox>
-          <StyledBox>
-            <StyledHeader>Zamówienia zrealizowane</StyledHeader>
-            <StyledList>
-              {loading ? <li>ładowanie danych...</li> : itemsCompleted}
-            </StyledList>
-          </StyledBox>
-          <StyledBox>{notCompletedItemsValue} zł</StyledBox>
-          <StyledBox>{completedItemsValue} zł</StyledBox>
-        </StyledContainer>
+        <>
+          <Loader loading={loading.toString()} />
+          <StyledContainer>
+            <span style={{ color: "red" }}>
+              Try publishing an event to channel <code>my-channel</code>
+              with event name <code>my-event</code>.
+            </span>
+            <StyledBox>
+              <StyledHeader>Zamówienia do zrealizowania</StyledHeader>
+              <StyledList>
+                {loading ? <li>ładowanie danych...</li> : itemsNotCompleted}
+              </StyledList>
+            </StyledBox>
+            <StyledBox>
+              <StyledHeader>Zamówienia zrealizowane</StyledHeader>
+              <StyledList>
+                {loading ? <li>ładowanie danych...</li> : itemsCompleted}
+              </StyledList>
+            </StyledBox>
+            <StyledBox>{notCompletedItemsValue} zł</StyledBox>
+            <StyledBox>{completedItemsValue} zł</StyledBox>
+          </StyledContainer>
+        </>
       )}
     </AuthContext.Consumer>
   );
