@@ -13,13 +13,20 @@ const StyledList = styled.div`
   display: grid;
   grid-column-gap: 2rem;
   grid-template-columns: 1fr 1fr;
-  max-width: 1400px;
+  max-width: 45%;
   padding: 2rem;
-  @media (max-width: ${variables.mediumScreen}) {
+  @media (max-width: ${variables.largeScreen}) {
     grid-template-columns: 1fr;
+    max-width: 60%;
+    grid-row-gap: 2rem;
+  }
+
+  @media (max-width: ${variables.mediumScreen}) {
+    max-width: 100%;
   }
   @media (max-width: ${variables.smallScreen}) {
     padding: 0.3rem;
+    max-width: 100%;
   }
 `;
 export default List;

@@ -1,5 +1,6 @@
 export default {
-  mediumScreen: "1200px",
+  largeScreen: "1500px",
+  mediumScreen: "1100px",
   smallScreen: "500px",
   blackColor: "#000000",
   lightColor: "#fdfffc",
