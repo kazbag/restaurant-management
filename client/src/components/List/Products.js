@@ -39,7 +39,7 @@ const Products = ({ totalPrice, addToOrder }) => {
                   onClick={addToOrder}
                   id={product.name}
                 >
-                  Dodaj do koszyka
+                  Dodaj
                 </StyledOrderButton>
               </StyledProductContainer>
             </StyledProductListItem>
@@ -72,7 +72,7 @@ const StyledProductList = styled.ul`
 const StyledProductListItem = styled.li``;
 const StyledProductContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 0.5fr;
 `;
 const StyledProductImage = styled.img`
   border-radius: 50%;
@@ -87,6 +87,9 @@ const StyledOrderButton = styled.button`
     background-color: ${variables.primaryColor};
     cursor: pointer;
     border: 1px solid ${variables.blackColor};
+  }
+  @media screen and (max-width: ${variables.smallScreen}) {
+    font-size: 1rem;
   }
 `;
 const StyledError = styled.div;

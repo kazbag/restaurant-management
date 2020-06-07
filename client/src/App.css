@@ -1,22 +1,9 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 body {
   background: #181818;
   font-family: "Open-Sans", sans-serif;
-}
-.App {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 24px;
-}
-.container {
-  height: 100vh;
-}
-.title {
-  font-family: "Proza Libre", sans-serif;
-  color: #000;
 }
