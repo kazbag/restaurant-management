@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./styles.css";
 import axios from "axios";
 
-
-
 const Products = ({ totalPrice, addToOrder }) => {
   const [products, setProducts] = useState([]);
   const [isError, setError] = useState(false);
   const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
   useEffect(() => {
-
     axios
       .get(`${serverUrl}/products`)
       .then((response) => {
@@ -18,11 +15,11 @@ const Products = ({ totalPrice, addToOrder }) => {
       })
       .catch((err) => {
         console.log(err);
-        setError(!isError)
+        setError(!isError);
       });
   }, []);
-  if (products.length > 0) {
 
+  if (products.length > 0) {
     return (
       <ul className="products-list">
         {products.map((product) => {
@@ -36,7 +33,7 @@ const Products = ({ totalPrice, addToOrder }) => {
                   src={product.photo}
                 />
                 {product.name} - {product.price} zł
-            </div>
+              </div>
               <button
                 className="order-button"
                 value={product.price}
@@ -44,25 +41,21 @@ const Products = ({ totalPrice, addToOrder }) => {
                 id={product.name}
               >
                 Dodaj do koszyka
-            </button>
+              </button>
             </li>
           );
         })}
       </ul>
     );
-  }
-  else if (isError) {
-    return <div>Niestety nie udało się załadować produktów z bazy</div>
-  }
-  else {
+  } else if (isError) {
+    return <div>Niestety nie udało się załadować produktów z bazy</div>;
+  } else {
     return (
       <ul className="products-list">
         <li>wczytuję listę produktów...</li>
       </ul>
     );
   }
-
-
 };
 
 export default Products;

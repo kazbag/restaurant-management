@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./styles.css";
+// import "./styles.css";
 import axios from "axios";
-
+import styled, { css } from "styled-components";
+import variables from "../../variables/variables";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 const Order = ({
@@ -33,39 +34,49 @@ const Order = ({
   useEffect(() => {
     console.log(order);
   }, [order]);
+
   useEffect(() => {
     // todo check user credentials and create order object
   }, []);
+
   return (
-    <div className="order">
-      <h3 className="title">Twoje zamówienie</h3>
-      <ul className="order-list">
+    <StyledOrderCointainer>
+      <StyledTitle>Twoje zamówienie</StyledTitle>
+      <StyledOrderList>
         {order.map((item, id) => {
-          return <li key={Math.random().toString()}>{item}</li>;
+          return <StyledOrderItem key={id}>{item}</StyledOrderItem>;
         })}
-        <li>Koszt całkowity: {clientPrice} zł</li>
-      </ul>
-      <div className="code">
-        <input
-          className="code-input"
-          type="text"
+        <StyledOrderItem>Koszt całkowity: {clientPrice} zł</StyledOrderItem>
+      </StyledOrderList>
+      <StyledDiscountCodeContainer>
+        <StyledInput
           placeholder="kod rabatowy"
           onChange={(e) => {
             setDiscountCode(e.target.value);
           }}
         />
-        <button className="order-button" onClick={addDiscountCode}>
+        <StyledButton small onClick={addDiscountCode}>
           Dodaj kod
-        </button>
-      </div>
-      <button
-        onClick={submitOrder}
-        className="order-button order-button--submit"
-      >
-        Zamów
-      </button>
-    </div>
+        </StyledButton>
+      </StyledDiscountCodeContainer>
+      <StyledButton onClick={submitOrder}>Zamów</StyledButton>
+    </StyledOrderCointainer>
   );
 };
+const StyledOrderCointainer = styled.div``;
+const StyledOrderList = styled.ul``;
+const StyledOrderItem = styled.li``;
+const StyledTitle = styled.h3``;
+const StyledDiscountCodeContainer = styled.div``;
+const StyledInput = styled.input``;
+const StyledButton = styled.button`
+  padding: 0.5rem 1.5rem;
+  border: 1px solid ${variables.primaryColor};
+  ${({ small }) =>
+    small &&
+    css`
+      padding: 0.3rem 0.9rem;
+    `}
+`;
 
 export default Order;
