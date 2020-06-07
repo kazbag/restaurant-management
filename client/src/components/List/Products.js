@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled, { css } from "styled-components";
-
+import variables from "../../variables/variables";
 const Products = ({ totalPrice, addToOrder }) => {
   const [products, setProducts] = useState([]);
   const [isError, setError] = useState(false);
@@ -25,21 +25,23 @@ const Products = ({ totalPrice, addToOrder }) => {
         {products.map((product, id) => {
           return (
             <StyledProductListItem key={product.name}>
-              <StyledProductsContainer>
+              <StyledProductContainer>
                 <StyledProductImage
                   width="50px"
                   height="50px"
                   src={product.photo}
                 />
-                {product.name} - {product.price} zł
-              </StyledProductsContainer>
-              <StyledOrderButton
-                value={product.price}
-                onClick={addToOrder}
-                id={product.name}
-              >
-                Dodaj do koszyka
-              </StyledOrderButton>
+                <StyledProductDescription>
+                  {product.name} - {product.price} zł
+                </StyledProductDescription>
+                <StyledOrderButton
+                  value={product.price}
+                  onClick={addToOrder}
+                  id={product.name}
+                >
+                  Dodaj do koszyka
+                </StyledOrderButton>
+              </StyledProductContainer>
             </StyledProductListItem>
           );
         })}
@@ -62,11 +64,36 @@ const Products = ({ totalPrice, addToOrder }) => {
   }
 };
 
-const StyledProductList = styled.ul``;
+const StyledProductList = styled.ul`
+  list-style: none;
+  display: grid;
+  grid-row-gap: 1rem;
+`;
 const StyledProductListItem = styled.li``;
-const StyledProductsContainer = styled.div``;
-const StyledProductImage = styled.img``;
-const StyledOrderButton = styled.button``;
+const StyledProductContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+`;
+const StyledProductImage = styled.img`
+  border-radius: 50%;
+  width: 5rem;
+  height: 5rem;
+`;
+const StyledOrderButton = styled.button`
+  align-self: center;
+  padding: 0.5rem 1.5rem;
+  transition: 0.25s ease-in-out;
+  &:hover {
+    background-color: ${variables.primaryColor};
+    cursor: pointer;
+    border: 1px solid ${variables.blackColor};
+  }
+`;
 const StyledError = styled.div;
+const StyledProductDescription = styled.h6`
+  font-size: 1rem;
+  font-weight: normal;
+  align-self: center;
+`;
 
 export default Products;

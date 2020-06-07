@@ -100,7 +100,7 @@ export const StyledTextContainerBox = styled.div`
 
 export const StyledGalleryImagesContainerBox = styled.div`
   width: 90%;
-  hright: 80%;
+  height: 80%;
   margin-left: 6%;
   margin-top: 2%;
   &:hover {

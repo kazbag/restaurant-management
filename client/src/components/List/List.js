@@ -7,10 +7,19 @@ const List = (props) => {
 };
 
 const StyledList = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  margin: 0 auto;
   background-color: ${variables.whiteColor};
-  padding: 2rem;
   border-radius: 0.6rem;
+  display: grid;
+  grid-column-gap: 2rem;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1400px;
+  padding: 2rem;
+  @media (max-width: ${variables.mediumScreen}) {
+    grid-template-columns: 1fr;
+  }
+  @media (max-width: ${variables.smallScreen}) {
+    padding: 0.3rem;
+  }
 `;
 export default List;
