@@ -57,8 +57,21 @@ const ProductsPage = () => {
   };
 
   const addToOrder = (e) => {
+    const checkThatProductExists = () => {
+      const productIndex = order.findIndex((item) =>
+        item.includes(e.target.id)
+      );
+      if (productIndex > -1) {
+        const str = order[productIndex];
+        let count = str.split(" x ")[1];
+        count++;
+        order[productIndex] = e.target.id + ` x ${count}`;
+      } else {
+        setOrder([...order, `${e.target.id} x 1`]);
+      }
+    };
+    checkThatProductExists();
     setTotalPrice(parseInt(totalPrice) + parseInt(e.target.value));
-    setOrder([...order, e.target.id]);
   };
 
   return (

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./styles.css";
+// import "./styles.css";
 import axios from "axios";
-
+import styled, { css } from "styled-components";
+import variables from "../../variables/variables";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 const Order = ({
@@ -33,39 +34,86 @@ const Order = ({
   useEffect(() => {
     console.log(order);
   }, [order]);
+
   useEffect(() => {
     // todo check user credentials and create order object
   }, []);
+
   return (
-    <div className="order">
-      <h3 className="title">Twoje zamówienie</h3>
-      <ul className="order-list">
+    <StyledOrderCointainer>
+      <StyledTitle>Twoje zamówienie</StyledTitle>
+      <StyledOrderList>
         {order.map((item, id) => {
-          return <li key={Math.random().toString()}>{item}</li>;
+          return <StyledOrderItem key={id}>{item}</StyledOrderItem>;
         })}
-        <li>Koszt całkowity: {clientPrice} zł</li>
-      </ul>
-      <div className="code">
-        <input
-          className="code-input"
-          type="text"
+        <StyledOrderItem>Koszt całkowity: {clientPrice} zł</StyledOrderItem>
+      </StyledOrderList>
+      <StyledDiscountCodeContainer>
+        <StyledInput
           placeholder="kod rabatowy"
           onChange={(e) => {
             setDiscountCode(e.target.value);
           }}
         />
-        <button className="order-button" onClick={addDiscountCode}>
+        <StyledButton small onClick={addDiscountCode}>
           Dodaj kod
-        </button>
-      </div>
-      <button
-        onClick={submitOrder}
-        className="order-button order-button--submit"
-      >
+        </StyledButton>
+      </StyledDiscountCodeContainer>
+      <StyledButton submit onClick={submitOrder}>
         Zamów
-      </button>
-    </div>
+      </StyledButton>
+    </StyledOrderCointainer>
   );
 };
+const StyledOrderCointainer = styled.div`
+  display: grid;
+  grid-template-rows: repeat(12, 1fr);
+`;
+const StyledOrderList = styled.ul`
+  grid-row: 2/9;
+  list-style: none;
+  border: 1px solid ${variables.blackColor};
+  padding: 0.5rem;
+`;
+const StyledOrderItem = styled.li`
+  &:last-child {
+    background: ${variables.whiteColor};
+  }
+`;
+const StyledTitle = styled.h3`
+  grid-row: 1/1;
+`;
+const StyledDiscountCodeContainer = styled.div`
+  grid-row: 10/10;
+`;
+const StyledInput = styled.input`
+  padding: 0.3rem 0.9rem;
+  margin-right: 1rem;
+`;
+const StyledButton = styled.button`
+  padding: 0.5rem 1.5rem;
+  border: 1px solid ${variables.primaryColor};
+  ${({ small }) =>
+    small &&
+    css`
+      grid-column: 2/3;
+      padding: 0.3rem 0.9rem;
+    `}
+  ${({ submit }) =>
+    submit &&
+    css`
+      grid-row: 12/12;
+      background: ${variables.primaryColor};
+      font-size: 1.5rem;
+      border-radius: 0.3rem;
+      text-transform: uppercase;
+      transition: 0.2s;
+      &:hover {
+        border: 1px solid ${variables.primaryColor};
+        background-color: ${variables.whiteColor};
+        cursor: pointer;
+      }
+    `}
+`;
 
 export default Order;
