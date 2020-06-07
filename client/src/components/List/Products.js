@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./styles.css";
 import axios from "axios";
+import styled, { css } from "styled-components";
 
 const Products = ({ totalPrice, addToOrder }) => {
   const [products, setProducts] = useState([]);
@@ -21,41 +21,52 @@ const Products = ({ totalPrice, addToOrder }) => {
 
   if (products.length > 0) {
     return (
-      <ul className="products-list">
-        {products.map((product) => {
+      <StyledProductList>
+        {products.map((product, id) => {
           return (
-            <li className="product-item" key={product.name}>
-              <div className="products-container">
-                <img
-                  className="product-image"
+            <StyledProductListItem key={product.name}>
+              <StyledProductsContainer>
+                <StyledProductImage
                   width="50px"
                   height="50px"
                   src={product.photo}
                 />
                 {product.name} - {product.price} zł
-              </div>
-              <button
-                className="order-button"
+              </StyledProductsContainer>
+              <StyledOrderButton
                 value={product.price}
                 onClick={addToOrder}
                 id={product.name}
               >
                 Dodaj do koszyka
-              </button>
-            </li>
+              </StyledOrderButton>
+            </StyledProductListItem>
           );
         })}
-      </ul>
+      </StyledProductList>
     );
   } else if (isError) {
-    return <div>Niestety nie udało się załadować produktów z bazy</div>;
+    return (
+      <StyledError>
+        Niestety nie udało się załadować produktów z bazy
+      </StyledError>
+    );
   } else {
     return (
-      <ul className="products-list">
-        <li>wczytuję listę produktów...</li>
-      </ul>
+      <StyledProductList>
+        <StyledProductListItem>
+          wczytuję listę produktów...
+        </StyledProductListItem>
+      </StyledProductList>
     );
   }
 };
+
+const StyledProductList = styled.ul``;
+const StyledProductListItem = styled.li``;
+const StyledProductsContainer = styled.div``;
+const StyledProductImage = styled.img``;
+const StyledOrderButton = styled.button``;
+const StyledError = styled.div;
 
 export default Products;
