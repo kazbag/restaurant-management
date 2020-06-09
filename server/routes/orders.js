@@ -38,7 +38,7 @@ router.get("/:orderId", async (req, res) => {
   }
 });
 
-router.get("/:orderDate", async (req, res) => {
+router.get("/date/:orderDate", async (req, res) => {
   try {
     const orders = await Orders.find({ orderDate: req.params.orderDate })
     res.json(orders);
