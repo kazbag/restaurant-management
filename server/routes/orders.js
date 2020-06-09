@@ -38,6 +38,15 @@ router.get("/:orderId", async (req, res) => {
   }
 });
 
+router.get("/:orderDate", async (req, res) => {
+  try {
+    const orders = await Orders.find({ orderDate: req.params.orderDate })
+    res.json(orders);
+  } catch (err) {
+    res.json({ message: err })
+  }
+})
+
 router.post("/", async (req, res) => {
   const order = new Orders({
     price: req.body.price,
