@@ -94,17 +94,32 @@ const StyledButton = styled.button`
 const StyledSelect = styled.select``;
 const StyledOption = styled.option``;
 
-const StyledOrdersList = styled.ul``;
-const StyledOrdersListItem = styled.li``;
+const StyledOrdersList = styled.ul`
+  border-radius: 0.3rem;
+  line-height: 1.7;
+  margin-top: 1rem;
+  list-style: none;
+  background: ${variables.lightColor};
+  padding: 0.5rem;
+`;
+const StyledOrdersListItem = styled.li`
+  color: ${variables.blackColor};
+`;
 const StyledOrdersPanel = styled.div``;
 const StyledOrdersPanelDate = styled.div`
+  margin-top: 1rem;
   align-items: center;
+
   display: flex;
 `;
 const StyledLabel = styled.label`
   margin: 0 0.6rem;
 `;
-const StyledInput = styled.input``;
+const StyledInput = styled.input`
+  &:last-of-type {
+    margin-right: 0.6rem;
+  }
+`;
 const options = userRoles.map((role, index) => {
   return (
     <StyledOption key={index} value={role} name={role}>
@@ -130,27 +145,28 @@ const users = mockedUsers.map((user, index) => {
 });
 
 const AdminPage = () => {
-  const [ordersCompleted, setOrdersCompleted] = useState([]);
-  const [ordersPending, setOrdersPending] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const getAllOrders = () => {
+  const getOrders = () => {
     axios
-      .get(`${serverUrl}/orders/completed`, setLoading(true))
+      .get(`${serverUrl}/orders`, setLoading(true))
       .then((response) => {
-        setOrdersCompleted(response.data);
-      })
-      .then(() => setLoading(false));
-    axios
-      .get(`${serverUrl}/orders/pending`, setLoading(true))
-      .then((response) => {
-        setOrdersPending(response.data);
+        setOrders(response.data);
       })
       .then(() => setLoading(false));
   };
 
+  const mappedOrders = orders.map((order, index) => {
+    return (
+      <StyledOrdersListItem key={index}>
+        #{index} {order.address} - {order.price} zł
+      </StyledOrdersListItem>
+    );
+  });
+
   useEffect(() => {
-    getAllOrders();
+    getOrders();
   }, []);
 
   return (
@@ -183,8 +199,14 @@ const AdminPage = () => {
               defaultValue={new Date().toDateInputValue()}
               onChange={(e) => console.log(e)}
             />
+            <StyledButton save>Wyszukaj</StyledButton>
           </StyledOrdersPanelDate>
         </StyledOrdersPanel>
+        {orders.length > 0 ? (
+          <StyledOrdersList>{mappedOrders}</StyledOrdersList>
+        ) : (
+          <div style={{ color: "red" }}>loading...</div>
+        )}
       </StyledBox>
     </StyledContainer>
   );
