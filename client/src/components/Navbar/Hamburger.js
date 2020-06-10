@@ -8,7 +8,7 @@ const Hamburger = ({ isHamburgerOpen, setIsHamburgerOpen }) => {
   };
 
   return (
-    <StyledHamburger onClick={handleHamburgerClick}>
+    <StyledHamburger className="hamburger" onClick={handleHamburgerClick}>
       <StyledLine isHamburgerOpen={isHamburgerOpen} />
       <StyledLine isHamburgerOpen={isHamburgerOpen} />
       <StyledLine isHamburgerOpen={isHamburgerOpen} />

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import styled, { css } from "styled-components";
@@ -8,8 +8,28 @@ import Hamburger from "./Hamburger";
 const Navbar = (props) => {
   const { isAuthenticated, userRole } = useContext(AuthContext);
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
+  const [hamburgerValue, setHamburgerValue] = useState(0);
   const [isHamburgerVisible, setIsHamburgerVisible] = useState(false);
-  console.log(window.location);
+  // console.log(window.location);
+
+  const ref = useRef();
+
+  useEffect(() => {
+    const isOpen = isHamburgerOpen;
+    const handleClickOutside = (e) => {
+      if (
+        ref.current &&
+        !ref.current.contains(e.target) &&
+        !e.target.classList.contains("hamburger")
+      ) {
+        setIsHamburgerOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
 
   return (
     <AuthContext.Consumer>
@@ -22,7 +42,7 @@ const Navbar = (props) => {
                 isHamburgerOpen={isHamburgerOpen}
                 setIsHamburgerOpen={setIsHamburgerOpen}
               />
-              <StyledNavbar isHamburgerOpen={isHamburgerOpen}>
+              <StyledNavbar isHamburgerOpen={isHamburgerOpen} ref={ref}>
                 <StyledNavLink exact to="/">
                   Strona główna
                 </StyledNavLink>
@@ -42,7 +62,7 @@ const Navbar = (props) => {
                 setIsHamburgerOpen={setIsHamburgerOpen}
               />
 
-              <StyledNavbar isHamburgerOpen={isHamburgerOpen}>
+              <StyledNavbar isHamburgerOpen={isHamburgerOpen} ref={ref}>
                 <StyledNavLink exact to="/">
                   Strona główna
                 </StyledNavLink>
@@ -59,7 +79,7 @@ const Navbar = (props) => {
                 setIsHamburgerOpen={setIsHamburgerOpen}
               />
 
-              <StyledNavbar isHamburgerOpen={isHamburgerOpen}>
+              <StyledNavbar isHamburgerOpen={isHamburgerOpen} ref={ref}>
                 <StyledNavLink exact to="/">
                   Strona główna
                 </StyledNavLink>
@@ -78,7 +98,7 @@ const Navbar = (props) => {
                 setIsHamburgerOpen={setIsHamburgerOpen}
               />
 
-              <StyledNavbar isHamburgerOpen={isHamburgerOpen}>
+              <StyledNavbar isHamburgerOpen={isHamburgerOpen} ref={ref}>
                 <StyledNavLink exact to="/">
                   Strona główna
                 </StyledNavLink>
