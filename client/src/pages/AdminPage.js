@@ -1,23 +1,25 @@
 import React from "react";
 import { withRouter } from "react-router";
 import styled from "styled-components";
+import variables from "../variables/variables";
 
 const AdminPage = () => {
   return (
-    <StyledModal>
-      <StyledText>Jesteś zalogowany jako administrator</StyledText>
-    </StyledModal>
+    <StyledContainer>
+      <StyledText>Użytkownicy</StyledText>
+      <StyledText>Zamówienia</StyledText>
+    </StyledContainer>
   );
 };
 
-const StyledModal = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const StyledContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 `;
 
 const StyledText = styled.p`
-  color: red;
+  text-align: center;
+  color: ${variables.primaryColor};
 `;
 
 export default withRouter(AdminPage);
