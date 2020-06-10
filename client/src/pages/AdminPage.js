@@ -40,6 +40,7 @@ const StyledUsersListItem = styled.li`
   padding: 0.3rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  justify-items: start;
 `;
 
 const StyledUserText = styled.span`
@@ -53,7 +54,6 @@ const StyledUserText = styled.span`
 
 const StyledButton = styled.button`
   padding: 0.5rem 1.5rem;
-  max-width: 6rem;
   border: none;
   text-align: center;
   border: 1px solid ${variables.blackColor};
