@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router";
 import styled, { css } from "styled-components";
 import variables from "../variables/variables";
+import axios from "axios";
 
 const mockedUsers = [
   { name: "andrzej", role: "user" },
@@ -15,7 +16,16 @@ const mockedUsers = [
   { name: "aniaaa", role: "employee" },
 ];
 
+const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+
 const userRoles = ["user", "employee", "admin"];
+
+const getOrders = () => {
+  axios
+    .get(`${serverUrl}/orders`)
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+};
 
 const StyledContainer = styled.div`
   display: grid;
@@ -85,19 +95,24 @@ const StyledButton = styled.button`
 const StyledSelect = styled.select``;
 const StyledOption = styled.option``;
 
-const options = userRoles.map((role) => {
+const options = userRoles.map((role, index) => {
   return (
-    <StyledOption value={role} name={role}>
+    <StyledOption key={index} value={role} name={role}>
       {role}
     </StyledOption>
   );
 });
 
-const users = mockedUsers.map((user) => {
+const users = mockedUsers.map((user, index) => {
   return (
-    <StyledUsersListItem>
+    <StyledUsersListItem key={index}>
       <StyledUserText>{user.name}</StyledUserText>
-      <StyledSelect value={user.role}>{options}</StyledSelect>
+      <StyledSelect
+        onChange={(e) => console.log(e.target.value)}
+        value={user.role}
+      >
+        {options}
+      </StyledSelect>
       <StyledButton remove>Usuń</StyledButton>
       <StyledButton save>Zapisz</StyledButton>
     </StyledUsersListItem>
@@ -105,14 +120,17 @@ const users = mockedUsers.map((user) => {
 });
 
 const AdminPage = () => {
+  useEffect(() => {
+    getOrders();
+  }, []);
   return (
     <StyledContainer>
       <StyledBox>
         <StyledText>Użytkownicy</StyledText>
         <StyledUsersList>
           <StyledUsersListItem>
-            <StyledUserText title>Użytkownik</StyledUserText>
-            <StyledUserText title>Rola</StyledUserText>
+            <StyledUserText title="true">Użytkownik</StyledUserText>
+            <StyledUserText title="true">Rola</StyledUserText>
           </StyledUsersListItem>
           {users}
         </StyledUsersList>
