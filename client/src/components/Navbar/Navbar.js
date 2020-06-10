@@ -137,8 +137,10 @@ const StyledNavbarContainer = styled.div`
   padding: 0.5rem;
 `;
 const StyledNavbar = styled.nav`
+  box-shadow: 0.1rem 0.1rem 0.5rem -0.2rem ${variables.lightColor};
   max-width: 50%;
   margin-left: auto;
+  margin-bottom: 1rem;
   justify-content: space-around;
   transition: 0.3s;
   display: none;
