@@ -15,6 +15,8 @@ const mockedUsers = [
   { name: "aniaaa", role: "employee" },
 ];
 
+const userRoles = ["user", "employee", "admin"];
+
 const StyledContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -80,11 +82,22 @@ const StyledButton = styled.button`
     `}
 `;
 
+const StyledSelect = styled.select``;
+const StyledOption = styled.option``;
+
+const options = userRoles.map((role) => {
+  return (
+    <StyledOption value={role} name={role}>
+      {role}
+    </StyledOption>
+  );
+});
+
 const users = mockedUsers.map((user) => {
   return (
     <StyledUsersListItem>
       <StyledUserText>{user.name}</StyledUserText>
-      <StyledUserText>{user.role}</StyledUserText>
+      <StyledSelect value={user.role}>{options}</StyledSelect>
       <StyledButton remove>Usuń</StyledButton>
       <StyledButton save>Zapisz</StyledButton>
     </StyledUsersListItem>
