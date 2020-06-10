@@ -22,6 +22,7 @@ const Hamburger = ({
 };
 
 const StyledHamburger = styled.div`
+  margin-left: auto;
   width: 3rem;
   height: 3rem;
   display: flex;
@@ -34,7 +35,7 @@ const StyledLine = styled.span`
   width: 100%;
   height: 0.2rem;
   background-color: ${variables.primaryColor};
-  transition: 0.65s ease-in-out;
+  transition: 0.35s ease-in-out;
   ${({ isHamburgerOpen }) =>
     isHamburgerOpen &&
     css`
