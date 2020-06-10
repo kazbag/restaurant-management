@@ -4,6 +4,12 @@ import styled, { css } from "styled-components";
 import variables from "../variables/variables";
 import axios from "axios";
 
+Date.prototype.toDateInputValue = function() {
+  var local = new Date(this);
+  local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+  return local.toJSON().slice(0, 10);
+};
+
 const mockedUsers = [
   { name: "andrzej", role: "user" },
   { name: "kucharz22", role: "employee" },
@@ -19,13 +25,6 @@ const mockedUsers = [
 const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 const userRoles = ["user", "employee", "admin"];
-
-const getOrders = () => {
-  axios
-    .get(`${serverUrl}/orders`)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
-};
 
 const StyledContainer = styled.div`
   display: grid;
@@ -95,6 +94,17 @@ const StyledButton = styled.button`
 const StyledSelect = styled.select``;
 const StyledOption = styled.option``;
 
+const StyledOrdersList = styled.ul``;
+const StyledOrdersListItem = styled.li``;
+const StyledOrdersPanel = styled.div``;
+const StyledOrdersPanelDate = styled.div`
+  align-items: center;
+  display: flex;
+`;
+const StyledLabel = styled.label`
+  margin: 0 0.6rem;
+`;
+const StyledInput = styled.input``;
 const options = userRoles.map((role, index) => {
   return (
     <StyledOption key={index} value={role} name={role}>
@@ -120,9 +130,29 @@ const users = mockedUsers.map((user, index) => {
 });
 
 const AdminPage = () => {
+  const [ordersCompleted, setOrdersCompleted] = useState([]);
+  const [ordersPending, setOrdersPending] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const getAllOrders = () => {
+    axios
+      .get(`${serverUrl}/orders/completed`, setLoading(true))
+      .then((response) => {
+        setOrdersCompleted(response.data);
+      })
+      .then(() => setLoading(false));
+    axios
+      .get(`${serverUrl}/orders/pending`, setLoading(true))
+      .then((response) => {
+        setOrdersPending(response.data);
+      })
+      .then(() => setLoading(false));
+  };
+
   useEffect(() => {
-    getOrders();
+    getAllOrders();
   }, []);
+
   return (
     <StyledContainer>
       <StyledBox>
@@ -137,6 +167,24 @@ const AdminPage = () => {
       </StyledBox>
       <StyledBox>
         <StyledText>Zamówienia</StyledText>
+        <StyledOrdersPanel>
+          <StyledOrdersPanelDate>
+            <StyledLabel htmlFor="date_from">Od</StyledLabel>
+            <StyledInput
+              type="date"
+              name="date_from"
+              defaultValue={new Date().toDateInputValue()}
+              onChange={(e) => console.log(e)}
+            />
+            <StyledLabel htmlFor="date_to">Do</StyledLabel>
+            <StyledInput
+              type="date"
+              name="date_to"
+              defaultValue={new Date().toDateInputValue()}
+              onChange={(e) => console.log(e)}
+            />
+          </StyledOrdersPanelDate>
+        </StyledOrdersPanel>
       </StyledBox>
     </StyledContainer>
   );
