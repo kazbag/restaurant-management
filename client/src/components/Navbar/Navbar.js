@@ -21,8 +21,6 @@ const Navbar = (props) => {
               <Hamburger
                 isHamburgerOpen={isHamburgerOpen}
                 setIsHamburgerOpen={setIsHamburgerOpen}
-                isHamburgerVisible={isHamburgerVisible}
-                setIsHamburgerVisible={setIsHamburgerVisible}
               />
               <StyledNavbar isHamburgerOpen={isHamburgerOpen}>
                 <StyledNavLink exact to="/">
@@ -42,8 +40,6 @@ const Navbar = (props) => {
               <Hamburger
                 isHamburgerOpen={isHamburgerOpen}
                 setIsHamburgerOpen={setIsHamburgerOpen}
-                isHamburgerVisible={isHamburgerVisible}
-                setIsHamburgerVisible={setIsHamburgerVisible}
               />
 
               <StyledNavbar isHamburgerOpen={isHamburgerOpen}>
@@ -61,8 +57,6 @@ const Navbar = (props) => {
               <Hamburger
                 isHamburgerOpen={isHamburgerOpen}
                 setIsHamburgerOpen={setIsHamburgerOpen}
-                isHamburgerVisible={isHamburgerVisible}
-                setIsHamburgerVisible={setIsHamburgerVisible}
               />
 
               <StyledNavbar isHamburgerOpen={isHamburgerOpen}>
@@ -82,8 +76,6 @@ const Navbar = (props) => {
               <Hamburger
                 isHamburgerOpen={isHamburgerOpen}
                 setIsHamburgerOpen={setIsHamburgerOpen}
-                isHamburgerVisible={isHamburgerVisible}
-                setIsHamburgerVisible={setIsHamburgerVisible}
               />
 
               <StyledNavbar isHamburgerOpen={isHamburgerOpen}>
@@ -115,14 +107,28 @@ const StyledNavLink = styled(NavLink).attrs({
   padding: 10px;
   text-decoration: none;
   color: ${variables.primaryColor};
+  transition: 0.25s ease-in-out;
+  &:hover {
+    background-color: ${variables.primaryColor};
+    color: ${variables.blackColor};
+  }
 `;
 const StyledNavbarContainer = styled.div`
   padding: 0.5rem;
 `;
 const StyledNavbar = styled.nav`
-  display: none;
+  max-width: 50%;
+  margin-left: auto;
   justify-content: space-around;
   transition: 0.3s;
+  display: none;
+  @media screen and (max-width: ${variables.mediumScreen}) {
+    max-width: 100%;
+  }
+  @media screen and (min-width: ${variables.smallScreen}) {
+    display: flex;
+  }
+
   ${({ isHamburgerOpen }) =>
     isHamburgerOpen &&
     css`

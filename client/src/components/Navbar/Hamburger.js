@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import variables from "../../variables/variables";
 
-const Hamburger = ({
-  isHamburgerOpen,
-  setIsHamburgerOpen,
-  isHamburgerVisible,
-  setIsHamburgerVisible,
-}) => {
+const Hamburger = ({ isHamburgerOpen, setIsHamburgerOpen }) => {
   const handleHamburgerClick = () => {
     setIsHamburgerOpen(!isHamburgerOpen);
   };
@@ -30,6 +25,10 @@ const StyledHamburger = styled.div`
   overflow: hidden;
   flex-direction: column;
   cursor: pointer;
+
+  @media screen and (min-width: ${variables.smallScreen}) {
+    display: none;
+  }
 `;
 const StyledLine = styled.span`
   width: 100%;
