@@ -14,6 +14,7 @@ import KitchenPage from "./pages/KitchenPage";
 import AboutPage from "./pages/AboutPage";
 import GalleryPage from "./pages/GalleryPage";
 import AdminPage from "./pages/AdminPage";
+import MenuPage from "./pages/MenuPage";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
               <PrivateRoute path="/logout" component={LogoutPage} />
               <PrivateRoute path="/kitchen" component={KitchenPage} />
               <AdminRoute path="/admin" component={AdminPage} />
+              <AdminRoute path="/menu" component={MenuPage} />
             </Switch>
           </div>
         </Router>
