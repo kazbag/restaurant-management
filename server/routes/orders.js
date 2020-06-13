@@ -44,22 +44,22 @@ router.get("/date/:orderDate", async (req, res) => {
     const orders = await Orders.find({ orderDate: dateStart })
     res.json(orders);
   } catch (err) {
-    res.json({ message: err })
+    res.json({ message: err });
   }
-})
+});
 
 router.get("/date/:orderDateStart/:orderDateEnd", async (req, res) => {
   try {
-
     const dateStart = new Date(req.params.orderDateStart);
     const dateEnd = new Date(req.params.orderDateEnd);
-    const finalOrders = await Orders.find({ orderDate: { $gte: dateStart } } && { orderDate: { $lte: dateEnd } });
+    const finalOrders = await Orders.find(
+      { orderDate: { $gte: dateStart } } && { orderDate: { $lte: dateEnd } }
+    );
     res.json(finalOrders);
   } catch (err) {
-    res.json({ message: err })
+    res.json({ message: err });
   }
-}
-);
+});
 
 router.post("/", async (req, res) => {
   const order = new Orders({
