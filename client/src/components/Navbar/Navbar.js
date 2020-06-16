@@ -51,6 +51,7 @@ const Navbar = (props) => {
                 <StyledNavLink to="/menu">Menu</StyledNavLink>
                 <StyledNavLink to="/admin">Admin</StyledNavLink>
                 <StyledNavLink to="/logout">Wyloguj</StyledNavLink>
+
               </StyledNavbar>
             </StyledNavbarContainer>
           )}

@@ -15,6 +15,7 @@ import AboutPage from "./pages/AboutPage";
 import GalleryPage from "./pages/GalleryPage";
 import AdminPage from "./pages/AdminPage";
 import MenuPage from "./pages/MenuPage";
+import CodePage from "pages/CodePage";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
               <Route path="/register" component={Form} />
               <Route path="/about" component={AboutPage} />
               <Route path="/gallery" component={GalleryPage} />
+              <Route path="/codes" component={CodePage} />
               <PrivateRoute path="/products" component={ProductsPage} />
               <PrivateRoute path="/logout" component={LogoutPage} />
               <PrivateRoute path="/kitchen" component={KitchenPage} />
