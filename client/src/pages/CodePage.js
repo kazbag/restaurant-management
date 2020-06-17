@@ -7,54 +7,62 @@ import variables from "../variables/variables";
 
 const CodesPage = () => {
 
-    const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
-    const [discountCodes, setDiscountCodes] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const { isAuthenticated, setAuth } = useContext(AuthContext);
+  const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+  const [discountCodes, setDiscountCodes] = useState([]);
+  const [discountCode, eraseDiscountCode] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { isAuthenticated, setAuth } = useContext(AuthContext);
 
 
 
-    const getDiscountCodes = () => {
-        axios.get(`${serverUrl}/discountCodes`, setLoading(true))
-            .then((response) => {
-                setDiscountCodes(response.data);
-            })
-            .then(() => setLoading(false));
-    };
-    useEffect(() => {
-        getDiscountCodes();
-    }, []);
+  const getDiscountCodes = () => {
+    axios.get(`${serverUrl}/discountCodes`, setLoading(true))
+      .then((response) => {
+        setDiscountCodes(response.data);
+      })
+      .then(() => setLoading(false));
+  };
+  const deleteDiscountCode = (_id) => {
+    axios.delete(`${serverUrl}/discountCodes/${_id}`)
+      .then((response) => {
+        eraseDiscountCode(response.data);
+      })
+  }
+  useEffect(() => {
+    getDiscountCodes();
+  }, []);
 
-    const mappedCodes = discountCodes.map((code, index) => {
-        return (
-            <StyledCodesListItem key={index}>
-                #{index} {code.code} - {code.value} zł - {code.percentage} %
-                <StyledButton save>Edytuj</StyledButton>{" "}
-                <StyledButton remove>Usuń</StyledButton>
-            </StyledCodesListItem>
-        );
-    });
-
-
-
+  const mappedCodes = discountCodes.map((item, index) => {
+    const { _id, code, startDate, expirationDate, value, percentage, reusable, used } = item;
     return (
-        <AuthContext.Consumer>
-            {(context) => (
-                <StyledContainer>
-                    <StyledTitle>Codes Page</StyledTitle>
-                    <StyledCodesList>
-                        {loading ? (
-                            <StyledCodesListItem>Loading...</StyledCodesListItem>
-                        ) : (
-                                mappedCodes
-
-                            )}
-
-                    </StyledCodesList>
-                </StyledContainer>
-            )}
-        </AuthContext.Consumer>
+      <StyledCodesListItem key={index}>
+        #{index} {item.code} - {item.value} zł - {item.percentage} %
+        <StyledButton save>Edytuj</StyledButton>
+        <StyledButton remove onClick={() => deleteDiscountCode(_id)}>Usuń</StyledButton>
+      </StyledCodesListItem>
     );
+  });
+
+
+
+  return (
+    <AuthContext.Consumer>
+      {(context) => (
+        <StyledContainer>
+          <StyledTitle>Codes Page</StyledTitle>
+          <StyledCodesList>
+            {loading ? (
+              <StyledCodesListItem>Loading...</StyledCodesListItem>
+            ) : (
+                mappedCodes
+
+              )}
+
+          </StyledCodesList>
+        </StyledContainer>
+      )}
+    </AuthContext.Consumer>
+  );
 
 };
 
@@ -89,8 +97,8 @@ const StyledButton = styled.button`
     background: none;
   }
   ${({ remove }) =>
-        remove &&
-        css`
+    remove &&
+    css`
       background-color: red;
       color: ${variables.whiteColor};
       border-color: red;
@@ -98,8 +106,8 @@ const StyledButton = styled.button`
       }
     `}
   ${({ save }) =>
-        save &&
-        css`
+    save &&
+    css`
       background-color: ${variables.primaryColor};
       &:hover {
         border-color: ${variables.primaryColor};
