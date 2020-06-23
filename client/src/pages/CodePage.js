@@ -4,6 +4,7 @@ import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 import styled, { css } from "styled-components";
 import variables from "../variables/variables";
+import { lastIndexOf } from "components/mocks/products";
 
 const CodesPage = () => {
 
@@ -28,6 +29,7 @@ const CodesPage = () => {
         eraseDiscountCode(response.data);
       })
   }
+
   useEffect(() => {
     getDiscountCodes();
   }, []);
@@ -36,9 +38,70 @@ const CodesPage = () => {
     const { _id, code, startDate, expirationDate, value, percentage, reusable, used } = item;
     return (
       <StyledCodesListItem key={index}>
-        #{index} {item.code} - {item.value} zł - {item.percentage} %
+        <StyledCodesText>#{index}</StyledCodesText>
+        <StyledCodesText>{item.code}</StyledCodesText>
+        <StyledCodesText>{item.value}</StyledCodesText>
+        <StyledCodesText>{item.percentage ? '%'  : 'zł'}</StyledCodesText>
+        <StyledCodesText>{item.startDate}</StyledCodesText>
+        <StyledCodesText>{item.expirationDate}</StyledCodesText>
+        <StyledCodesText>{item.reusable ? 'Tak'  : 'Nie'}</StyledCodesText>
+        <StyledCodesText>{item.used ? 'Tak'  : 'Nie'}</StyledCodesText>
+        {/* #{index} KOD: {item.code} Wartość: {item.value} zł - {item.percentage} % */}
         <StyledButton save>Edytuj</StyledButton>
         <StyledButton remove onClick={() => deleteDiscountCode(_id)}>Usuń</StyledButton>
+      </StyledCodesListItem>
+    );
+  });
+
+  const create = discountCodes.map((item, index) => {
+    const { _id, code, startDate, expirationDate, value, percentage, reusable, used } = item;
+    return (
+
+
+      
+      <StyledCodesListItem key={index}>
+        <StyledCodesText></StyledCodesText>
+        <StyledCodesText>
+          <StyledInput
+            name = {code}
+            type="text"
+            placeholder="Kod"
+          />
+        </StyledCodesText>
+        <StyledCodesText>
+          <StyledInput
+            name = {value}
+            type="text"
+            placeholder="wartość"
+          />
+        </StyledCodesText>
+        <StyledCodesText>
+          <StyledInput
+              name = {percentage}
+              type="text"
+              placeholder="tu ma być select"
+            />
+        </StyledCodesText>
+        <StyledCodesText>
+          <StyledInputDate
+                type="date"
+                name= {startDate}
+              />
+        </StyledCodesText>
+        <StyledCodesText>
+          <StyledInputDate
+                type="date"
+                name= {expirationDate}
+              />
+        </StyledCodesText>
+        <StyledCodesText>
+        <StyledInputCheckbox
+                type="checkbox"
+                name= {reusable}
+              />
+        </StyledCodesText>
+        <StyledCodesText></StyledCodesText>
+        <StyledButton add>Dodaj</StyledButton>
       </StyledCodesListItem>
     );
   });
@@ -49,14 +112,28 @@ const CodesPage = () => {
     <AuthContext.Consumer>
       {(context) => (
         <StyledContainer>
-          <StyledTitle>Codes Page</StyledTitle>
+          {/* <StyledTitle>Codes Page</StyledTitle> */}
           <StyledCodesList>
             {loading ? (
               <StyledCodesListItem>Loading...</StyledCodesListItem>
-            ) : (
-                mappedCodes
 
-              )}
+            ) : (
+              <StyledCodesListItem>
+                <StyledCodesText title="true">ID</StyledCodesText>
+                <StyledCodesText title="true">Kod</StyledCodesText>
+                <StyledCodesText title="true">Wartość</StyledCodesText>
+                <StyledCodesText title="true">Typ wartości</StyledCodesText>
+                <StyledCodesText title="true">Ważny od</StyledCodesText>
+                <StyledCodesText title="true">Ważny do</StyledCodesText>
+                <StyledCodesText title="true">Wielorazowy</StyledCodesText>
+                <StyledCodesText title="true">Użyty</StyledCodesText>
+                <StyledCodesText title="true"></StyledCodesText>
+                <StyledCodesText title="true"></StyledCodesText>
+              </StyledCodesListItem>)}
+            {create}
+            {mappedCodes}
+
+              
 
           </StyledCodesList>
         </StyledContainer>
@@ -76,6 +153,48 @@ const StyledTitle = styled.h3`
   text-align: center;
 `;
 
+const StyledCodesText = styled.span`
+  ${({ title }) =>
+    title &&
+    css`
+      font-size: 1.3rem;
+      color: ${variables.secondaryColor};
+    `}
+`;
+
+const StyledInput = styled.input`
+  width: 80%;
+  margin-bottom: 12px;
+  padding: 5px 10px;
+  display: block;
+  border-radius: 6px;
+  background-color: #272727;
+  color: #fafafa;
+  border-color: #b0d332;
+`;
+
+const StyledInputDate = styled.input`
+  width: 70%;
+  margin-bottom: 12px;
+  padding: 3px 10px;
+  display: block;
+  border-radius: 6px;
+  background-color: #272727;
+  color: #fafafa;
+  border-color: #b0d332;
+`;
+
+const StyledInputCheckbox = styled.input`
+  width: 50%;
+  margin-bottom: 12px;
+  padding: 5px 10px;
+  display: block;
+  border-radius: 6px;
+  background-color: #272727;
+  color: #fafafa;
+  border-color: #b0d332;
+`;
+
 const StyledCodesList = styled.ul`
   list-style: none;
   line-height: 1.7;
@@ -83,7 +202,7 @@ const StyledCodesList = styled.ul`
 const StyledCodesListItem = styled.li`
   display: grid;
   align-items: center;
-  grid-template-columns: 1fr 2fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 `;
 
 const StyledButton = styled.button`
@@ -103,6 +222,15 @@ const StyledButton = styled.button`
       color: ${variables.whiteColor};
       border-color: red;
       &:hover {
+      }
+    `}
+    ${({ add }) =>
+    add &&
+    css`
+    background-color: ${variables.primaryColor};
+    &:hover {
+      border-color: ${variables.primaryColor};
+      color: ${variables.whiteColor};
       }
     `}
   ${({ save }) =>
