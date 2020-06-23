@@ -6,15 +6,23 @@ import styled, { css } from "styled-components";
 import variables from "../variables/variables";
 import { lastIndexOf } from "components/mocks/products";
 
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+
+
 const CodesPage = () => {
 
   const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
   const [discountCodes, setDiscountCodes] = useState([]);
   const [discountCode, eraseDiscountCode] = useState([]);
+  const [codeText, setCodeText] = useState('');
+  const [codeValue, setCodeValue] = useState(0);
+  const [codeStartDate, setCodeStartDate] = useState(Date.now());
+  const [codeEndDate, setCodeEndDate] = useState(Date.now());
+  const [codePercentage, setCodePercentage] = useState(true);
+  const [codeReusable, setCodeReusable] = useState(false);
+  const [codeUsed, setCodeUsed] = useState(false);
   const [loading, setLoading] = useState(true);
   const { isAuthenticated, setAuth } = useContext(AuthContext);
-
-
 
   const getDiscountCodes = () => {
     axios.get(`${serverUrl}/discountCodes`, setLoading(true))
@@ -34,6 +42,44 @@ const CodesPage = () => {
     getDiscountCodes();
   }, []);
 
+  const buildCode = {
+    code: codeText,
+    startDate: codeStartDate,
+    expirationDate: codeEndDate,
+    value: codeValue,
+    percentage: codePercentage,
+    reusable: codeReusable,
+    used: codeUsed,
+  };
+
+  const addDiscountCode = () => {
+    axios
+      .post(`${serverUrl}/discountCodes`, buildCode)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    addDiscountCode();
+  }, []);
+
+  const setCodeReusableTranslate = (e) =>{
+    if(e == "on"){
+      setCodeReusable(true)
+    }else{
+      setCodeReusable(true)
+    }
+    
+  
+  }
+
+  const setCodePercentageTranslate = (e) =>{
+      if (e == '%'){
+      setCodePercentage(true)
+      }else{
+        setCodePercentage(false)
+      }
+  }
   const mappedCodes = discountCodes.map((item, index) => {
     const { _id, code, startDate, expirationDate, value, percentage, reusable, used } = item;
     return (
@@ -46,62 +92,7 @@ const CodesPage = () => {
         <StyledCodesText>{item.expirationDate}</StyledCodesText>
         <StyledCodesText>{item.reusable ? 'Tak'  : 'Nie'}</StyledCodesText>
         <StyledCodesText>{item.used ? 'Tak'  : 'Nie'}</StyledCodesText>
-        {/* #{index} KOD: {item.code} Wartość: {item.value} zł - {item.percentage} % */}
-        <StyledButton save>Edytuj</StyledButton>
         <StyledButton remove onClick={() => deleteDiscountCode(_id)}>Usuń</StyledButton>
-      </StyledCodesListItem>
-    );
-  });
-
-  const create = discountCodes.map((item, index) => {
-    const { _id, code, startDate, expirationDate, value, percentage, reusable, used } = item;
-    return (
-
-
-      
-      <StyledCodesListItem key={index}>
-        <StyledCodesText></StyledCodesText>
-        <StyledCodesText>
-          <StyledInput
-            name = {code}
-            type="text"
-            placeholder="Kod"
-          />
-        </StyledCodesText>
-        <StyledCodesText>
-          <StyledInput
-            name = {value}
-            type="text"
-            placeholder="wartość"
-          />
-        </StyledCodesText>
-        <StyledCodesText>
-          <StyledInput
-              name = {percentage}
-              type="text"
-              placeholder="tu ma być select"
-            />
-        </StyledCodesText>
-        <StyledCodesText>
-          <StyledInputDate
-                type="date"
-                name= {startDate}
-              />
-        </StyledCodesText>
-        <StyledCodesText>
-          <StyledInputDate
-                type="date"
-                name= {expirationDate}
-              />
-        </StyledCodesText>
-        <StyledCodesText>
-        <StyledInputCheckbox
-                type="checkbox"
-                name= {reusable}
-              />
-        </StyledCodesText>
-        <StyledCodesText></StyledCodesText>
-        <StyledButton add>Dodaj</StyledButton>
       </StyledCodesListItem>
     );
   });
@@ -128,13 +119,53 @@ const CodesPage = () => {
                 <StyledCodesText title="true">Wielorazowy</StyledCodesText>
                 <StyledCodesText title="true">Użyty</StyledCodesText>
                 <StyledCodesText title="true"></StyledCodesText>
-                <StyledCodesText title="true"></StyledCodesText>
               </StyledCodesListItem>)}
-            {create}
+              <StyledCodesListItem>
+        <StyledCodesText></StyledCodesText>
+        <StyledCodesText>
+          <StyledInput
+            type="text"
+            placeholder="Kod"
+            onChange={e => setCodeText(e.target.value)}
+          />
+        </StyledCodesText>
+        <StyledCodesText>
+          <StyledInput
+            type="text"
+            placeholder="wartość"
+            onChange={e => setCodeValue(e.target.value)}
+          />
+        </StyledCodesText>
+        <StyledCodesText>
+            <StyledSelect
+            onChange={(e) => setCodePercentageTranslate(e.target.value)}
+          >
+            <StyledOption>%</StyledOption>
+            <StyledOption>zł</StyledOption>
+          </StyledSelect>
+        </StyledCodesText>
+        <StyledCodesText>
+          <StyledInputDate
+                type="date"
+                onChange={e => setCodeStartDate(e.target.value)}
+              />
+        </StyledCodesText>
+        <StyledCodesText>
+          <StyledInputDate
+                type="date"
+                onChange={e => setCodeEndDate(e.target.value)}
+              />
+        </StyledCodesText>
+        <StyledCodesText>
+        <StyledInputCheckbox
+                type="checkbox"
+                onChange={e => setCodeReusableTranslate(e.target.value)}
+              />
+        </StyledCodesText>
+        <StyledCodesText></StyledCodesText>
+        <StyledButton add onClick={addDiscountCode}>Dodaj</StyledButton>
+      </StyledCodesListItem>
             {mappedCodes}
-
-              
-
           </StyledCodesList>
         </StyledContainer>
       )}
@@ -148,6 +179,9 @@ const StyledContainer = styled.div`
   margin: 0 auto;
   color: ${variables.whiteColor};
 `;
+
+const StyledSelect = styled.select``;
+const StyledOption = styled.option``;
 
 const StyledTitle = styled.h3`
   text-align: center;
