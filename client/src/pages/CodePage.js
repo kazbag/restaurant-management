@@ -14,6 +14,8 @@ const CodesPage = () => {
   const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
   const [discountCodes, setDiscountCodes] = useState([]);
   const [discountCode, eraseDiscountCode] = useState([]);
+  const [massage, setMassage] = useState('');
+  const [goodMassage, setGoodMassage] = useState('');
   const [codeText, setCodeText] = useState('');
   const [codeValue, setCodeValue] = useState(0);
   const [codeStartDate, setCodeStartDate] = useState(Date.now());
@@ -38,6 +40,13 @@ const CodesPage = () => {
       })
   }
 
+  const goToDeleteDiscountCode = (_id)=>{
+    setMassage('')
+    setGoodMassage('')
+    setGoodMassage("Usunięto Kod")
+    deleteDiscountCode(_id)
+  }
+
   useEffect(() => {
     getDiscountCodes();
   }, []);
@@ -51,6 +60,34 @@ const CodesPage = () => {
     reusable: codeReusable,
     used: codeUsed,
   };
+
+  const goToAddDiscountCode = () =>{
+    setMassage('')
+    setGoodMassage('')
+    if(!codeText){
+      setMassage("Musisz wypełnić pole z kodem");
+    }else if(!codeValue){
+      setMassage("Musisz wypełnić pole z wartością");
+    }else if(codePercentage && codeValue >= 1){
+      setMassage("Wartość procentowa musi mieścić się w przedziale między 0 a 1 (np. 0.12 to 12%)");
+    }else if(codePercentage && codeValue <= 0){
+      setMassage("Wartość procentowa musi mieścić się w przedziale między 0 a 1 (np. 0.12 to 12%)");
+    }else if(codeValue<0){
+      setMassage("Zniżka nie może być ujemna")
+    }else if(codeValue == 0){
+      setMassage("Zniżka nie może wynosić 0")
+    }else if((isNaN(codeValue))){
+      setMassage("Wartość musi być liczbą")
+    }else if(codeStartDate > codeEndDate){
+      setMassage("Koniec ważności kodu nie może wypadać przed terminem początku ważności kodu")
+    }else if(codeStartDate === codeEndDate){
+      setMassage("Krańcowe terminy ważności nie mogą być identyczne")
+    }else{
+      setGoodMassage("Dodano kod rabatowy")
+      addDiscountCode();
+      }
+  }
+  
 
   const addDiscountCode = () => {
     axios
@@ -69,8 +106,6 @@ const CodesPage = () => {
     }else{
       setCodeReusable(true)
     }
-    
-  
   }
 
   const setCodePercentageTranslate = (e) =>{
@@ -86,13 +121,13 @@ const CodesPage = () => {
       <StyledCodesListItem key={index}>
         <StyledCodesText>#{index}</StyledCodesText>
         <StyledCodesText>{item.code}</StyledCodesText>
-        <StyledCodesText>{item.value}</StyledCodesText>
+        <StyledCodesText>{item.percentage ? item.value * 100 : item.value}</StyledCodesText>
         <StyledCodesText>{item.percentage ? '%'  : 'zł'}</StyledCodesText>
         <StyledCodesText>{item.startDate}</StyledCodesText>
         <StyledCodesText>{item.expirationDate}</StyledCodesText>
         <StyledCodesText>{item.reusable ? 'Tak'  : 'Nie'}</StyledCodesText>
         <StyledCodesText>{item.used ? 'Tak'  : 'Nie'}</StyledCodesText>
-        <StyledButton remove onClick={() => deleteDiscountCode(_id)}>Usuń</StyledButton>
+        <StyledButton remove onClick={() => goToDeleteDiscountCode(_id)}>Usuń</StyledButton>
       </StyledCodesListItem>
     );
   });
@@ -163,8 +198,18 @@ const CodesPage = () => {
               />
         </StyledCodesText>
         <StyledCodesText></StyledCodesText>
-        <StyledButton add onClick={addDiscountCode}>Dodaj</StyledButton>
+        <StyledButton add onClick={goToAddDiscountCode}>Dodaj</StyledButton>
       </StyledCodesListItem>
+      <StyledCodesListAlert>
+        <StyledCodesAlert>
+              {massage}
+        </StyledCodesAlert>
+      </StyledCodesListAlert>
+      <StyledCodesListAlert>
+        <StyledCodesGoodAlert>
+              {goodMassage}
+        </StyledCodesGoodAlert>
+      </StyledCodesListAlert>
             {mappedCodes}
           </StyledCodesList>
         </StyledContainer>
@@ -237,6 +282,50 @@ const StyledCodesListItem = styled.li`
   display: grid;
   align-items: center;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+`;
+const StyledCodesListAlert = styled.li`
+  display: grid;
+  align-items: center;
+  text-align:center;
+  grid-template-columns: 1fr;
+`;
+
+const StyledCodesAlert = styled.span`
+box-shadow:inset 0px 39px 0px -24px #e67a73;
+width:50%;
+justify-self: center;
+background-color:#e4685d;
+border-radius:4px;
+border:1px solid #ffffff;
+display:inline-block;
+color:#ffffff;
+font-family:Arial;
+font-size:15px;
+padding:6px 15px;
+text-decoration:none;
+text-shadow:0px 1px 0px #b23e35;
+&:empty {
+  display: none;
+}
+`;
+
+const StyledCodesGoodAlert = styled.span`
+box-shadow:inset 0px 39px 0px -24px #3dc21b;
+width:50%;
+justify-self: center;
+background-color:#44c767;
+border-radius:4px;
+border:1px solid #18ab29;
+display:inline-block;
+color:#ffffff;
+font-family:Arial;
+font-size:15px;
+padding:6px 15px;
+text-decoration:none;
+text-shadow:0px 1px 0px #2f6627;
+&:empty {
+  display: none;
+}
 `;
 
 const StyledButton = styled.button`

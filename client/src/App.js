@@ -30,12 +30,12 @@ const App = () => {
               <Route path="/register" component={Form} />
               <Route path="/about" component={AboutPage} />
               <Route path="/gallery" component={GalleryPage} />
-              <Route path="/codes" component={CodePage} />
               <PrivateRoute path="/products" component={ProductsPage} />
               <PrivateRoute path="/logout" component={LogoutPage} />
               <PrivateRoute path="/kitchen" component={KitchenPage} />
               <AdminRoute path="/admin" component={AdminPage} />
               <AdminRoute path="/menu" component={MenuPage} />
+              <AdminRoute path="/codes" component={CodePage} />
             </Switch>
           </div>
         </Router>
