@@ -38,11 +38,13 @@ const CodesPage = () => {
       .then((response) => {
         eraseDiscountCode(response.data);
       })
+      setTimeout(() => {
+        getDiscountCodes();
+      }, 50);
   }
 
   const goToDeleteDiscountCode = (_id)=>{
-    setMassage('')
-    setGoodMassage('')
+    clearMassages();
     setGoodMassage("Usunięto Kod")
     deleteDiscountCode(_id)
   }
@@ -62,8 +64,7 @@ const CodesPage = () => {
   };
 
   const goToAddDiscountCode = () =>{
-    setMassage('')
-    setGoodMassage('')
+    clearMassages();
     if(!codeText){
       setMassage("Musisz wypełnić pole z kodem");
     }else if(!codeValue){
@@ -94,7 +95,11 @@ const CodesPage = () => {
       .post(`${serverUrl}/discountCodes`, buildCode)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
-  };
+      setTimeout(() => {
+        getDiscountCodes();
+      }, 50);  
+    };
+
 
   useEffect(() => {
     addDiscountCode();
@@ -107,6 +112,8 @@ const CodesPage = () => {
       setCodeReusable(true)
     }
   }
+
+  const clearMassages = () =>{setGoodMassage(''); setMassage('')}
 
   const setCodePercentageTranslate = (e) =>{
       if (e == '%'){
@@ -201,14 +208,14 @@ const CodesPage = () => {
         <StyledButton add onClick={goToAddDiscountCode}>Dodaj</StyledButton>
       </StyledCodesListItem>
       <StyledCodesListAlert>
-        <StyledCodesAlert>
+        <StyledButton issueAlert onClick={clearMassages}>
               {massage}
-        </StyledCodesAlert>
+        </StyledButton>
       </StyledCodesListAlert>
       <StyledCodesListAlert>
-        <StyledCodesGoodAlert>
+        <StyledButton goodAlert onClick={clearMassages}>
               {goodMassage}
-        </StyledCodesGoodAlert>
+        </StyledButton>
       </StyledCodesListAlert>
             {mappedCodes}
           </StyledCodesList>
@@ -225,7 +232,18 @@ const StyledContainer = styled.div`
   color: ${variables.whiteColor};
 `;
 
-const StyledSelect = styled.select``;
+const StyledSelect = styled.select`
+width: 80%;
+margin-bottom: 12px;
+justify-self: center;
+padding: 5px 10px;
+display: block;
+border-radius: 6px;
+background-color: #272727;
+color: #fafafa;
+border-color: #b0d332;
+`;
+
 const StyledOption = styled.option``;
 
 const StyledTitle = styled.h3`
@@ -244,6 +262,7 @@ const StyledCodesText = styled.span`
 const StyledInput = styled.input`
   width: 80%;
   margin-bottom: 12px;
+  justify-self: center;
   padding: 5px 10px;
   display: block;
   border-radius: 6px;
@@ -256,6 +275,7 @@ const StyledInputDate = styled.input`
   width: 70%;
   margin-bottom: 12px;
   padding: 3px 10px;
+  justify-self: center;
   display: block;
   border-radius: 6px;
   background-color: #272727;
@@ -265,6 +285,7 @@ const StyledInputDate = styled.input`
 
 const StyledInputCheckbox = styled.input`
   width: 50%;
+  justify-self: center;
   margin-bottom: 12px;
   padding: 5px 10px;
   display: block;
@@ -288,44 +309,6 @@ const StyledCodesListAlert = styled.li`
   align-items: center;
   text-align:center;
   grid-template-columns: 1fr;
-`;
-
-const StyledCodesAlert = styled.span`
-box-shadow:inset 0px 39px 0px -24px #e67a73;
-width:50%;
-justify-self: center;
-background-color:#e4685d;
-border-radius:4px;
-border:1px solid #ffffff;
-display:inline-block;
-color:#ffffff;
-font-family:Arial;
-font-size:15px;
-padding:6px 15px;
-text-decoration:none;
-text-shadow:0px 1px 0px #b23e35;
-&:empty {
-  display: none;
-}
-`;
-
-const StyledCodesGoodAlert = styled.span`
-box-shadow:inset 0px 39px 0px -24px #3dc21b;
-width:50%;
-justify-self: center;
-background-color:#44c767;
-border-radius:4px;
-border:1px solid #18ab29;
-display:inline-block;
-color:#ffffff;
-font-family:Arial;
-font-size:15px;
-padding:6px 15px;
-text-decoration:none;
-text-shadow:0px 1px 0px #2f6627;
-&:empty {
-  display: none;
-}
 `;
 
 const StyledButton = styled.button`
@@ -363,6 +346,52 @@ const StyledButton = styled.button`
       &:hover {
         border-color: ${variables.primaryColor};
         color: ${variables.whiteColor};
+      }
+    `}
+    ${({ goodAlert }) =>
+    goodAlert &&
+    css`
+      box-shadow:inset 0px 39px 0px -24px #3dc21b;
+      width:50%;
+      justify-self: center;
+      background-color:#44c767;
+      border-radius:4px;
+      border:1px solid #18ab29;
+      display:inline-block;
+      color:#ffffff;
+      font-family:Arial;
+      font-size:15px;
+      padding:6px 15px;
+      text-decoration:none;
+      text-shadow:0px 1px 0px #2f6627;
+        &:empty {
+        display: none;
+      }
+      &:hover {
+        background-color:#44c767;
+      }
+    `}
+    ${({ issueAlert }) =>
+    issueAlert &&
+    css`
+      box-shadow:inset 0px 39px 0px -24px #e67a73;
+      width:50%;
+      justify-self: center;
+      background-color:#e4685d;
+      border-radius:4px;
+      border:1px solid #ffffff;
+      display:inline-block;
+      color:#ffffff;
+      font-family:Arial;
+      font-size:15px;
+      padding:6px 15px;
+      text-decoration:none;
+      text-shadow:0px 1px 0px #b23e35;
+        &:empty {
+        display: none;
+      }
+      &:hover {
+        background-color:#e4685d;
       }
     `}
 `;
