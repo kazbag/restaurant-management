@@ -14,8 +14,8 @@ const CodesPage = () => {
   const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
   const [discountCodes, setDiscountCodes] = useState([]);
   const [discountCode, eraseDiscountCode] = useState([]);
-  const [massage, setMassage] = useState('');
-  const [goodMassage, setGoodMassage] = useState('');
+  const [message, setMessage] = useState('');
+  const [goodMessage, setGoodMessage] = useState('');
   const [codeText, setCodeText] = useState('');
   const [codeValue, setCodeValue] = useState(0);
   const [codeStartDate, setCodeStartDate] = useState(Date.now());
@@ -44,8 +44,8 @@ const CodesPage = () => {
   }
 
   const goToDeleteDiscountCode = (_id)=>{
-    clearMassages();
-    setGoodMassage("Usunięto Kod")
+    clearMessages();
+    setGoodMessage("Usunięto Kod")
     deleteDiscountCode(_id)
   }
 
@@ -64,27 +64,27 @@ const CodesPage = () => {
   };
 
   const goToAddDiscountCode = () =>{
-    clearMassages();
+    clearMessages();
     if(!codeText){
-      setMassage("Musisz wypełnić pole z kodem");
+      setMessage("Musisz wypełnić pole z kodem");
     }else if(!codeValue){
-      setMassage("Musisz wypełnić pole z wartością");
-    }else if(codePercentage && codeValue >= 1){
-      setMassage("Wartość procentowa musi mieścić się w przedziale między 0 a 1 (np. 0.12 to 12%)");
-    }else if(codePercentage && codeValue <= 0){
-      setMassage("Wartość procentowa musi mieścić się w przedziale między 0 a 1 (np. 0.12 to 12%)");
+      setMessage("Musisz wypełnić pole z wartością");
+    }else if(codePercentage && codeValue < 0.01){
+      setMessage("Kod rabatowy musi być większy niż 1%");
+    }else if(codePercentage && codeValue > 1){
+      setMessage("zniżka nie może być większa niż 100%!");
     }else if(codeValue<0){
-      setMassage("Zniżka nie może być ujemna")
+      setMessage("Zniżka nie może być ujemna")
     }else if(codeValue == 0){
-      setMassage("Zniżka nie może wynosić 0")
+      setMessage("Zniżka nie może wynosić 0")
     }else if((isNaN(codeValue))){
-      setMassage("Wartość musi być liczbą")
+      setMessage("Wartość musi być liczbą")
     }else if(codeStartDate > codeEndDate){
-      setMassage("Koniec ważności kodu nie może wypadać przed terminem początku ważności kodu")
+      setMessage("Koniec ważności kodu nie może wypadać przed terminem początku ważności kodu")
     }else if(codeStartDate === codeEndDate){
-      setMassage("Krańcowe terminy ważności nie mogą być identyczne")
+      setMessage("Krańcowe terminy ważności nie mogą być identyczne")
     }else{
-      setGoodMassage("Dodano kod rabatowy")
+      setGoodMessage("Dodano kod rabatowy")
       addDiscountCode();
       }
   }
@@ -101,19 +101,20 @@ const CodesPage = () => {
     };
 
 
-  useEffect(() => {
-    addDiscountCode();
-  }, []);
+  // useEffect(() => {
+  //   addDiscountCode();
+  // }, []);
 
-  const setCodeReusableTranslate = (e) =>{
-    if(e == "on"){
-      setCodeReusable(true)
+  const setCodeValueTranslate = (x) =>{
+    if(codePercentage){
+      x = x / 100
+      setCodeValue(x)
     }else{
-      setCodeReusable(true)
+      setCodeValue(x)
     }
   }
 
-  const clearMassages = () =>{setGoodMassage(''); setMassage('')}
+  const clearMessages = () =>{setGoodMessage(''); setMessage('')}
 
   const setCodePercentageTranslate = (e) =>{
       if (e == '%'){
@@ -175,7 +176,7 @@ const CodesPage = () => {
           <StyledInput
             type="text"
             placeholder="wartość"
-            onChange={e => setCodeValue(e.target.value)}
+            onChange={e => setCodeValueTranslate(e.target.value)}
           />
         </StyledCodesText>
         <StyledCodesText>
@@ -201,20 +202,20 @@ const CodesPage = () => {
         <StyledCodesText>
         <StyledInputCheckbox
                 type="checkbox"
-                onChange={e => setCodeReusableTranslate(e.target.value)}
+                onChange={e => setCodeReusable(e.target.checked)}
               />
         </StyledCodesText>
         <StyledCodesText></StyledCodesText>
         <StyledButton add onClick={goToAddDiscountCode}>Dodaj</StyledButton>
       </StyledCodesListItem>
       <StyledCodesListAlert>
-        <StyledButton issueAlert onClick={clearMassages}>
-              {massage}
+        <StyledButton issueAlert onClick={clearMessages}>
+              {message}
         </StyledButton>
       </StyledCodesListAlert>
       <StyledCodesListAlert>
-        <StyledButton goodAlert onClick={clearMassages}>
-              {goodMassage}
+        <StyledButton goodAlert onClick={clearMessages}>
+              {goodMessage}
         </StyledButton>
       </StyledCodesListAlert>
             {mappedCodes}
