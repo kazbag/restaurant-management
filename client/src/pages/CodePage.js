@@ -69,10 +69,10 @@ const CodesPage = () => {
       setMessage("Musisz wypełnić pole z kodem");
     }else if(!codeValue){
       setMessage("Musisz wypełnić pole z wartością");
-    }else if(codePercentage && codeValue < 0.01){
-      setMessage("Kod rabatowy musi być większy niż 1%");
-    }else if(codePercentage && codeValue > 1){
-      setMessage("zniżka nie może być większa niż 100%!");
+    }else if(codePercentage && codeValue >= 1){
+      setMessage("Wartość procentowa musi mieścić się w przedziale między 0 a 1 (np. 0.12 to 12%)");
+    }else if(codePercentage && codeValue <= 0){
+      setMessage("Wartość procentowa musi mieścić się w przedziale między 0 a 1 (np. 0.12 to 12%)");
     }else if(codeValue<0){
       setMessage("Zniżka nie może być ujemna")
     }else if(codeValue == 0){
@@ -99,20 +99,6 @@ const CodesPage = () => {
         getDiscountCodes();
       }, 50);  
     };
-
-
-  // useEffect(() => {
-  //   addDiscountCode();
-  // }, []);
-
-  const setCodeValueTranslate = (x) =>{
-    if(codePercentage){
-      x = x / 100
-      setCodeValue(x)
-    }else{
-      setCodeValue(x)
-    }
-  }
 
   const clearMessages = () =>{setGoodMessage(''); setMessage('')}
 
@@ -176,7 +162,7 @@ const CodesPage = () => {
           <StyledInput
             type="text"
             placeholder="wartość"
-            onChange={e => setCodeValueTranslate(e.target.value)}
+            onChange={e => setCodeValue(e.target.value)}
           />
         </StyledCodesText>
         <StyledCodesText>
