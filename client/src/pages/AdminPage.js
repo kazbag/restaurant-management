@@ -3,8 +3,9 @@ import { withRouter } from "react-router";
 import styled, { css } from "styled-components";
 import variables from "../variables/variables";
 import axios from "axios";
+import { filter } from "components/mocks/discountCodes";
 
-Date.prototype.toDateInputValue = function() {
+Date.prototype.toDateInputValue = function () {
   var local = new Date(this);
   local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
   return local.toJSON().slice(0, 10);
@@ -146,6 +147,7 @@ const users = mockedUsers.map((user, index) => {
 
 const AdminPage = () => {
   const [orders, setOrders] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState(orders);
   const [loading, setLoading] = useState(true);
 
   const getOrders = () => {
@@ -157,17 +159,31 @@ const AdminPage = () => {
       .then(() => setLoading(false));
   };
 
-  const mappedOrders = orders.map((order, index) => {
+  const filterOrders = () => {
+    const date_from = document.getElementById("date_from").value;
+    const date_to = document.getElementById("date_to").value;
+    const ordersAfterFiltering = orders.filter(a => a.orderDate >= date_from && a.orderDate <= date_to);
+    setFilteredOrders(ordersAfterFiltering)
+  };
+
+
+  const mappedOrders = filteredOrders.map((order, index) => {
+
     return (
       <StyledOrdersListItem key={index}>
         #{index} {order.address} - {order.price} zł
       </StyledOrdersListItem>
     );
+
   });
 
   useEffect(() => {
     getOrders();
-  }, []);
+  }, [])
+  useEffect(() => {
+    setFilteredOrders(orders)
+  }, [orders]);
+
 
   return (
     <StyledContainer>
@@ -187,6 +203,7 @@ const AdminPage = () => {
           <StyledOrdersPanelDate>
             <StyledLabel htmlFor="date_from">Od</StyledLabel>
             <StyledInput
+              id="date_from"
               type="date"
               name="date_from"
               defaultValue={new Date().toDateInputValue()}
@@ -194,19 +211,20 @@ const AdminPage = () => {
             />
             <StyledLabel htmlFor="date_to">Do</StyledLabel>
             <StyledInput
+              id="date_to"
               type="date"
               name="date_to"
               defaultValue={new Date().toDateInputValue()}
               onChange={(e) => console.log(e)}
             />
-            <StyledButton save>Wyszukaj</StyledButton>
+            <StyledButton onClick={() => filterOrders()} save >Wyszukaj</StyledButton>
           </StyledOrdersPanelDate>
         </StyledOrdersPanel>
         {orders.length > 0 ? (
           <StyledOrdersList>{mappedOrders}</StyledOrdersList>
         ) : (
-          <div style={{ color: "red" }}>loading...</div>
-        )}
+            <div style={{ color: "red" }}>loading...</div>
+          )}
       </StyledBox>
     </StyledContainer>
   );
