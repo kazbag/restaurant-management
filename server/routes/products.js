@@ -2,6 +2,15 @@ const express = require('express');
 const router = express.Router();
 const Products = require('../models/Products');
 
+/**
+ * @swagger
+ * /products:
+ *  get:
+ *    description: use to get all the products
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.get('/', async (req, res) => {
     try {
         const products = await Products.find();
@@ -13,6 +22,20 @@ router.get('/', async (req, res) => {
 
 })
 
+/**
+ * @swagger
+ * /prodcuts/{productId}:
+ *  get:
+ *    description: get the discount code based on particular ID
+ *    parameters:
+ *      - name: productId
+ *        in: path
+ *        description: date start parameter
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.get('/:productId', async (req, res) => {
     try {
         const product = await Products.findById(req.params.productId);
@@ -25,8 +48,31 @@ router.get('/:productId', async (req, res) => {
 })
 
 
-
-
+/**
+ * @swagger
+ * /products:
+ *  post:
+ *    description: post the products
+ *    parameters:
+ *      - name: name
+ *        in: formData
+ *        type: string
+ *      - name: price
+ *        in: formData
+ *        type: integer
+ *      - name: description
+ *        in: formData
+ *        type: string
+ *      - name: photo
+ *        in: formData
+ *        type: string
+ *      - name: category
+ *        in: formData
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.post('/', async (req, res) => {
     const product = new Products({
         name: req.body.name,
@@ -45,6 +91,20 @@ router.post('/', async (req, res) => {
 
 })
 
+/**
+ * @swagger
+ * /products/{productId}:
+ *  delete:
+ *    description: get the discount code based on particular ID
+ *    parameters:
+ *      - name: productId
+ *        in: path
+ *        description: date start parameter
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.delete('/:productId', async (req, res) => {
     try {
         const removedProducts = await Products.remove({ _id: req.params.prdocutId })
@@ -56,6 +116,20 @@ router.delete('/:productId', async (req, res) => {
 
 })
 
+/**
+ * @swagger
+ * /prodcuts/{productId}:
+ *  patch:
+ *    description: patch the discount code based on particular ID
+ *    parameters:
+ *      - name: productId
+ *        in: path
+ *        description: date start parameter
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.patch('/:productId', async (req, res) => {
     try {
         const updatedProducts = await Products.updateOne(

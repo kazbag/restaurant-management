@@ -2,6 +2,15 @@ const express = require('express');
 const router = express.Router();
 const Users = require('../models/Users');
 
+/**
+ * @swagger
+ * /users:
+ *  get:
+ *    description: use to get all the users
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.get('/', async (req, res) => {
     try {
         const users = await Users.find();
@@ -13,6 +22,20 @@ router.get('/', async (req, res) => {
 
 })
 
+/**
+ * @swagger
+ * /users/{userId}:
+ *  get:
+ *    description: get the user based on particular ID
+ *    parameters:
+ *      - name: userId
+ *        in: path
+ *        description: date start parameter
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.get('/:userId', async (req, res) => {
     try {
         const user = await Users.findById(req.params.userId);
@@ -26,7 +49,37 @@ router.get('/:userId', async (req, res) => {
 
 
 
-
+/**
+ * @swagger
+ * /users:
+ *  post:
+ *    description: post the users
+ *    parameters:
+ *      - name: name
+ *        in: formData
+ *        type: string
+ *      - name: surname
+ *        in: formData
+ *        type: string
+ *      - name: login
+ *        in: formData
+ *        type: string
+ *      - name: password
+ *        in: formData
+ *        type: string
+ *      - name: email
+ *        in: formData
+ *        type: string
+ *      - name: city
+ *        in: formData
+ *        type: string
+ *      - name: role
+ *        in: formData
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.post('/', async (req, res) => {
     const user = new Users({
         name: req.body.name,
@@ -47,6 +100,20 @@ router.post('/', async (req, res) => {
 
 })
 
+/**
+ * @swagger
+ * /users/{userId}:
+ *  delete:
+ *    description: delete the user based on particular ID
+ *    parameters:
+ *      - name: userId
+ *        in: path
+ *        description: date start parameter
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.delete('/:userId', async (req, res) => {
     try {
         const removedUser = await Users.remove({ _id: req.params.userId })
@@ -58,6 +125,20 @@ router.delete('/:userId', async (req, res) => {
 
 })
 
+/**
+ * @swagger
+ * /users/{userId}:
+ *  patch:
+ *    description: patch the user based on particular ID
+ *    parameters:
+ *      - name: userId
+ *        in: path
+ *        description: date start parameter
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.patch('/:userId', async (req, res) => {
     try {
         const updatedUser = await Users.updateOne(
