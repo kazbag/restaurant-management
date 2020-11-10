@@ -8,7 +8,7 @@ const Orders = require("../models/Orders");
  * @swagger
  * /orders:
  *  get:
- *    description: use to get all orders 
+ *    description: get all orders 
  *    responses: 
  *      '200':
  *        description: succesful repsonse
@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
  * @swagger
  * /orders/completed:
  *  get:
- *    description: use to get all orders with status of completed
+ *    description: get all orders with completed status
  *    responses: 
  *      '200':
  *        description: succesful repsonse
@@ -45,7 +45,7 @@ router.get("/completed", async (req, res) => {
  * @swagger
  * /orders/pending:
  *  get:
- *    description: use to get all orders with status of pending
+ *    description: use to get all orders with pending status
  *    responses: 
  *      '200':
  *        description: succesful repsonse
@@ -63,11 +63,11 @@ router.get("/pending", async (req, res) => {
  * @swagger
  * /orders/{orderId}:
  *  get:
- *    description: get the order based on particular ID
+ *    description: get the order with particular Id
  *    parameters:
  *      - name: orderId
  *        in: path
- *        description: id parameter
+ *        description: id parameter of the order
  *        type: string
  *    responses: 
  *      '200':
@@ -86,12 +86,12 @@ router.get("/:orderId", async (req, res) => {
  * @swagger
  * /orders/date/{orderDate}:
  *  get:
- *    description: get the orders based on particular date
+ *    description: get the orders with a particular date
  *    parameters:
  *      - name: orderDate
  *        in: path
- *        description: id parameter
- *        type: string
+ *        description: the date of the order
+ *        type: date
  *    responses: 
  *      '200':
  *        description: succesful repsonse
@@ -110,16 +110,16 @@ router.get("/date/:orderDate", async (req, res) => {
  * @swagger
  * /orders/date/{orderDateStart}/{orderDateEnd}:
  *  get:
- *    description: get the discount code based on particular ID
+ *    description: get the orders between two dates
  *    parameters:
  *      - name: orderDateStart
  *        in: path
  *        description: date start parameter
- *        type: string
+ *        type: date
  *      - name: orderDateEnd
  *        in: path
  *        description: date end parameter
- *        type: string
+ *        type: date
  *    responses: 
  *      '200':
  *        description: succesful repsonse
@@ -147,18 +147,23 @@ router.get("/date/:orderDateStart/:orderDateEnd", async (req, res) => {
  *        in: formData
  *        type: integer
  *      - name: orderDate
- *        type: string
- *      - name: paymentStatus
- *        type: string
+ *        in: formData
+ *        type: date
  *      - name: orderStatus
- *        type: integer
+ *        in: formData
+ *        type: string
  *      - name: products
+ *        in: formData
  *        type: array
  *      - name: address
+ *        in: formData
  *        type: string
  *      - name: phone
+ *        in: formData
+ *        type: string    
+ *      - name: userId
+ *        in: formData
  *        type: string
- *      - name: price      
  *    responses: 
  *      '200':
  *        description: succesful repsonse
@@ -167,12 +172,11 @@ router.post("/", async (req, res) => {
   const order = new Orders({
     price: req.body.price,
     orderDate: req.body.orderDate,
-    paymentStatus: req.body.paymentStatus,
     orderStatus: req.body.orderStatus,
     products: req.body.products,
     address: req.body.address,
     phone: req.body.phone,
-    price: req.body.price,
+    userId: req.body.userId
   });
   try {
     const savedOrder = await order.save();
@@ -186,11 +190,11 @@ router.post("/", async (req, res) => {
  * @swagger
  * /orders/{orderId}:
  *  delete:
- *    description: get the discount code based on particular ID
+ *    description: delete the order with particular Id
  *    parameters:
  *      - name: orderId
  *        in: path
- *        description: date start parameter
+ *        description: id parameter of the order
  *        type: string
  *    responses: 
  *      '200':
@@ -209,16 +213,19 @@ router.delete("/:orderId", async (req, res) => {
 });
 
 // toggle status
-
 /**
  * @swagger
  * /orders/status/{id}:
  *  patch:
- *    description: get the discount code based on particular ID
+ *    description: update the order status with particular Id
  *    parameters:
  *      - name: id
  *        in: path
- *        description: date start parameter
+ *        description: id of the order
+ *        type: string
+ *      - name: status
+ *        in: formData
+ *        description: updated status
  *        type: string
  *    responses: 
  *      '200':
@@ -237,15 +244,34 @@ router.patch("/status/:id", async (req, res) => {
     res.json({ message: err });
   }
 });
+
 /**
  * @swagger
  * /orders/{orderId}:
  *  patch:
- *    description: get the discount code based on particular ID
+ *    description: update the order with particular Id
  *    parameters:
  *      - name: orderId
  *        in: path
- *        description: date start parameter
+ *        description: id of the order
+ *        type: string
+ *      - name: price
+ *        in: formData
+ *        type: integer
+ *      - name: orderDate
+ *        in: formData
+ *        type: date
+ *      - name: orderStatus
+ *        in: formData
+ *        type: date
+ *      - name: products
+ *        in: formData
+ *        type: array
+ *      - name: phone
+ *        in: formData
+ *        type: string
+ *      - name: address
+ *        in: formData
  *        type: string
  *    responses: 
  *      '200':
@@ -259,7 +285,6 @@ router.patch("/:orderId", async (req, res) => {
         $set: {
           price: req.body.price,
           orderDate: req.body.orderDate,
-          paymentStatus: req.body.paymentStatus,
           orderStatus: req.body.orderStatus,
           products: req.body.products,
           phone: req.body.phone,

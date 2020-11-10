@@ -6,7 +6,7 @@ const Users = require('../models/Users');
  * @swagger
  * /users:
  *  get:
- *    description: use to get all the users
+ *    description: get all the users
  *    responses: 
  *      '200':
  *        description: succesful repsonse
@@ -26,11 +26,11 @@ router.get('/', async (req, res) => {
  * @swagger
  * /users/{userId}:
  *  get:
- *    description: get the user based on particular ID
+ *    description: get the user with particular Id
  *    parameters:
  *      - name: userId
  *        in: path
- *        description: date start parameter
+ *        description: id parameter of the user
  *        type: string
  *    responses: 
  *      '200':
@@ -104,11 +104,11 @@ router.post('/', async (req, res) => {
  * @swagger
  * /users/{userId}:
  *  delete:
- *    description: delete the user based on particular ID
+ *    description: delete the user with particular Id
  *    parameters:
  *      - name: userId
  *        in: path
- *        description: date start parameter
+ *        description: id parameter of the user
  *        type: string
  *    responses: 
  *      '200':
@@ -129,11 +129,32 @@ router.delete('/:userId', async (req, res) => {
  * @swagger
  * /users/{userId}:
  *  patch:
- *    description: patch the user based on particular ID
+ *    description: patch the user with particular Id
  *    parameters:
  *      - name: userId
  *        in: path
- *        description: date start parameter
+ *        description: id parameter of the user
+ *        type: string
+ *      - name: name
+ *        in: formData
+ *        type: string
+ *      - name: surname
+ *        in: formData
+ *        type: string
+ *      - name: login
+ *        in: formData
+ *        type: string
+ *      - name: password
+ *        in: formData
+ *        type: string
+ *      - name: email
+ *        in: formData
+ *        type: string
+ *      - name: city
+ *        in: formData
+ *        type: string
+ *      - name: role
+ *        in: formData
  *        type: string
  *    responses: 
  *      '200':

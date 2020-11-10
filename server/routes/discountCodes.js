@@ -7,7 +7,7 @@ const DiscountCodes = require("../models/DiscountCodes");
  * @swagger
  * /discountCodes:
  *  get:
- *    description: use to get all the discount codes
+ *    description: get all the discount codes
  *    responses: 
  *      '200':
  *        description: succesful repsonse
@@ -26,11 +26,11 @@ router.get("/", async (req, res) => {
  * @swagger
  * /discountCodes/{discountCodeId}:
  *  get:
- *    description: get the discount code based on particular ID
+ *    description: get the discount code with particular Id
  *    parameters:
  *      - name: discountCodeId
  *        in: path
- *        description: id parameter
+ *        description: id parameter of discount code
  *        type: string
  *    responses: 
  *      '200':
@@ -52,22 +52,28 @@ router.get("/:discountCodeId", async (req, res) => {
  * @swagger
  * /discountCodes:
  *  post:
- *    description: get the discount code based on particular ID
+ *    description: post the discount code
  *    parameters:
  *      - name: code
  *        in: formData
  *        type: string
  *      - name: startDate
+ *        in: formData
  *        type: string
  *      - name: expirationDate
+ *        in: formData
  *        type: string
  *      - name: value
+ *        in: formData
  *        type: integer
  *      - name: percentage
+ *        in: formData
  *        type: integer
  *      - name: reusable
+ *        in: formData
  *        type: boolean
  *      - name: used
+ *        in: formData
  *        type: boolean
  *    responses: 
  *      '200':
@@ -96,11 +102,11 @@ router.post("/", async (req, res) => {
  * @swagger
  * /discountCodes/{discountCodeId}:
  *  delete:
- *    description: delete the discount code based on particular ID
+ *    description: delete the discount code with particular Id
  *    parameters:
  *      - name: discountCodeId
  *        in: path
- *        description: id parameter
+ *        description: id parameter of discount code
  *        type: string
  *    responses: 
  *      '200':
@@ -121,12 +127,34 @@ router.delete("/:discountCodeId", async (req, res) => {
  * @swagger
  * /discountCodes/{discountCodeId}:
  *  patch:
- *    description: update the discount code based on particular ID
+ *    description: update the discount code with particular ID
  *    parameters:
  *      - name: discountCodeId
  *        in: path
  *        description: id parameter
  *        type: string
+ *      - name: code
+ *        in: formData
+ *        type: string
+ *      - name: startDate
+ *        in: formData
+ *        type: date
+ *      - name: expirationDate
+ *        in: formData
+ *        type: date
+ *      - name: value
+ *        in: formData
+ *        type: integer
+ *      - name: percentage
+ *        in: formData
+ *        type: boolean
+ *        description: Is it percentage value
+ *      - name: reusable
+ *        in: formData
+ *        type: boolean
+ *      - name: used
+ *        in: formData
+ *        type: boolean
  *    responses: 
  *      '200':
  *        description: succesful repsonse

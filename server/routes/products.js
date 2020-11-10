@@ -6,7 +6,7 @@ const Products = require('../models/Products');
  * @swagger
  * /products:
  *  get:
- *    description: use to get all the products
+ *    description: get all the products
  *    responses: 
  *      '200':
  *        description: succesful repsonse
@@ -26,11 +26,11 @@ router.get('/', async (req, res) => {
  * @swagger
  * /prodcuts/{productId}:
  *  get:
- *    description: get the discount code based on particular ID
+ *    description: get the product with particular Id
  *    parameters:
  *      - name: productId
  *        in: path
- *        description: date start parameter
+ *        description: id parameter of the product
  *        type: string
  *    responses: 
  *      '200':
@@ -95,11 +95,11 @@ router.post('/', async (req, res) => {
  * @swagger
  * /products/{productId}:
  *  delete:
- *    description: get the discount code based on particular ID
+ *    description: delete the product with particular Id
  *    parameters:
  *      - name: productId
  *        in: path
- *        description: date start parameter
+ *        description: id parameter of the product
  *        type: string
  *    responses: 
  *      '200':
@@ -125,6 +125,22 @@ router.delete('/:productId', async (req, res) => {
  *      - name: productId
  *        in: path
  *        description: date start parameter
+ *        type: string
+ *      - name: name
+ *        in: formData
+ *        type: string
+ *      - name: price
+ *        in: formData
+ *        type: integer
+ *      - name: description
+ *        in: formData
+ *        type: string
+ *      - name: photo
+ *        in: formData
+ *        type: string
+ *        description: the URL of the photo
+ *      - name: category
+ *        in: formData
  *        type: string
  *    responses: 
  *      '200':
