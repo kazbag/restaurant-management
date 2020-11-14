@@ -2,6 +2,17 @@ const express = require("express");
 const router = express.Router();
 const Orders = require("../models/Orders");
 
+
+
+/**
+ * @swagger
+ * /orders:
+ *  get:
+ *    description: get all orders 
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.get("/", async (req, res) => {
   try {
     const orders = await Orders.find();
@@ -11,6 +22,16 @@ router.get("/", async (req, res) => {
   }
 });
 // completed orders
+
+/**
+ * @swagger
+ * /orders/completed:
+ *  get:
+ *    description: get all orders with completed status
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.get("/completed", async (req, res) => {
   try {
     const orders = await Orders.find({ orderStatus: true });
@@ -20,6 +41,15 @@ router.get("/completed", async (req, res) => {
   }
 });
 // not completed yet orders
+/**
+ * @swagger
+ * /orders/pending:
+ *  get:
+ *    description: use to get all orders with pending status
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.get("/pending", async (req, res) => {
   try {
     const orders = await Orders.find({ orderStatus: false });
@@ -29,6 +59,20 @@ router.get("/pending", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /orders/{orderId}:
+ *  get:
+ *    description: get the order with particular Id
+ *    parameters:
+ *      - name: orderId
+ *        in: path
+ *        description: id parameter of the order
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.get("/:orderId", async (req, res) => {
   try {
     const order = await Orders.findById(req.params.orderId);
@@ -38,6 +82,20 @@ router.get("/:orderId", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /orders/date/{orderDate}:
+ *  get:
+ *    description: get the orders with a particular date
+ *    parameters:
+ *      - name: orderDate
+ *        in: path
+ *        description: the date of the order
+ *        type: date
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.get("/date/:orderDate", async (req, res) => {
   try {
     const dateStart = new Date(req.params.orderDate);
@@ -48,6 +106,24 @@ router.get("/date/:orderDate", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /orders/date/{orderDateStart}/{orderDateEnd}:
+ *  get:
+ *    description: get the orders between two dates
+ *    parameters:
+ *      - name: orderDateStart
+ *        in: path
+ *        description: date start parameter
+ *        type: date
+ *      - name: orderDateEnd
+ *        in: path
+ *        description: date end parameter
+ *        type: date
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.get("/date/:orderDateStart/:orderDateEnd", async (req, res) => {
   try {
     const dateStart = new Date(req.params.orderDateStart);
@@ -61,16 +137,46 @@ router.get("/date/:orderDateStart/:orderDateEnd", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /orders:
+ *  post:
+ *    description: post the order 
+ *    parameters:
+ *      - name: price
+ *        in: formData
+ *        type: integer
+ *      - name: orderDate
+ *        in: formData
+ *        type: date
+ *      - name: orderStatus
+ *        in: formData
+ *        type: string
+ *      - name: products
+ *        in: formData
+ *        type: array
+ *      - name: address
+ *        in: formData
+ *        type: string
+ *      - name: phone
+ *        in: formData
+ *        type: string    
+ *      - name: userId
+ *        in: formData
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.post("/", async (req, res) => {
   const order = new Orders({
     price: req.body.price,
     orderDate: req.body.orderDate,
-    paymentStatus: req.body.paymentStatus,
     orderStatus: req.body.orderStatus,
     products: req.body.products,
     address: req.body.address,
     phone: req.body.phone,
-    price: req.body.price,
+    userId: req.body.userId
   });
   try {
     const savedOrder = await order.save();
@@ -80,6 +186,20 @@ router.post("/", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /orders/{orderId}:
+ *  delete:
+ *    description: delete the order with particular Id
+ *    parameters:
+ *      - name: orderId
+ *        in: path
+ *        description: id parameter of the order
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.delete("/:orderId", async (req, res) => {
   try {
     const removedOrder = await Orders.remove({
@@ -93,7 +213,24 @@ router.delete("/:orderId", async (req, res) => {
 });
 
 // toggle status
-
+/**
+ * @swagger
+ * /orders/status/{id}:
+ *  patch:
+ *    description: update the order status with particular Id
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        description: id of the order
+ *        type: string
+ *      - name: status
+ *        in: formData
+ *        description: updated status
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.patch("/status/:id", async (req, res) => {
   try {
     const order = await Orders.findOne({ _id: req.params.id });
@@ -108,6 +245,38 @@ router.patch("/status/:id", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /orders/{orderId}:
+ *  patch:
+ *    description: update the order with particular Id
+ *    parameters:
+ *      - name: orderId
+ *        in: path
+ *        description: id of the order
+ *        type: string
+ *      - name: price
+ *        in: formData
+ *        type: integer
+ *      - name: orderDate
+ *        in: formData
+ *        type: date
+ *      - name: orderStatus
+ *        in: formData
+ *        type: date
+ *      - name: products
+ *        in: formData
+ *        type: array
+ *      - name: phone
+ *        in: formData
+ *        type: string
+ *      - name: address
+ *        in: formData
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.patch("/:orderId", async (req, res) => {
   try {
     const updatedOrder = await Orders.updateOne(
@@ -116,7 +285,6 @@ router.patch("/:orderId", async (req, res) => {
         $set: {
           price: req.body.price,
           orderDate: req.body.orderDate,
-          paymentStatus: req.body.paymentStatus,
           orderStatus: req.body.orderStatus,
           products: req.body.products,
           phone: req.body.phone,

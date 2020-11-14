@@ -6,7 +6,6 @@ const DiscountCodesSchema = mongoose.Schema({
         type: String,
         required: true,
         unique: true
-
     },
     startDate: {
         type: Date,
@@ -18,7 +17,7 @@ const DiscountCodesSchema = mongoose.Schema({
         type: Number,
     },
     percentage: {
-        type: Number
+        type: Boolean
     },
     reusable: {
         type: Boolean,

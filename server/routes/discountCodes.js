@@ -2,6 +2,17 @@ const express = require("express");
 const router = express.Router();
 const DiscountCodes = require("../models/DiscountCodes");
 
+
+/**
+ * @swagger
+ * /discountCodes:
+ *  get:
+ *    description: get all the discount codes
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
+
 router.get("/", async (req, res) => {
   try {
     const discountCodes = await DiscountCodes.find();
@@ -11,6 +22,20 @@ router.get("/", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /discountCodes/{discountCodeId}:
+ *  get:
+ *    description: get the discount code with particular Id
+ *    parameters:
+ *      - name: discountCodeId
+ *        in: path
+ *        description: id parameter of discount code
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.get("/:discountCodeId", async (req, res) => {
   try {
     const discountCodes = await DiscountCodes.findById(
@@ -21,6 +46,39 @@ router.get("/:discountCodeId", async (req, res) => {
     res.json({ message: err });
   }
 });
+
+
+/**
+ * @swagger
+ * /discountCodes:
+ *  post:
+ *    description: post the discount code
+ *    parameters:
+ *      - name: code
+ *        in: formData
+ *        type: string
+ *      - name: startDate
+ *        in: formData
+ *        type: string
+ *      - name: expirationDate
+ *        in: formData
+ *        type: string
+ *      - name: value
+ *        in: formData
+ *        type: integer
+ *      - name: percentage
+ *        in: formData
+ *        type: integer
+ *      - name: reusable
+ *        in: formData
+ *        type: boolean
+ *      - name: used
+ *        in: formData
+ *        type: boolean
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 
 router.post("/", async (req, res) => {
   const discountCodes = new DiscountCodes({
@@ -40,6 +98,20 @@ router.post("/", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /discountCodes/{discountCodeId}:
+ *  delete:
+ *    description: delete the discount code with particular Id
+ *    parameters:
+ *      - name: discountCodeId
+ *        in: path
+ *        description: id parameter of discount code
+ *        type: string
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 router.delete("/:discountCodeId", async (req, res) => {
   try {
     const removedDiscountCodes = await DiscountCodes.remove({
@@ -50,6 +122,43 @@ router.delete("/:discountCodeId", async (req, res) => {
     res.json({ message: err });
   }
 });
+
+/**
+ * @swagger
+ * /discountCodes/{discountCodeId}:
+ *  patch:
+ *    description: update the discount code with particular ID
+ *    parameters:
+ *      - name: discountCodeId
+ *        in: path
+ *        description: id parameter
+ *        type: string
+ *      - name: code
+ *        in: formData
+ *        type: string
+ *      - name: startDate
+ *        in: formData
+ *        type: date
+ *      - name: expirationDate
+ *        in: formData
+ *        type: date
+ *      - name: value
+ *        in: formData
+ *        type: integer
+ *      - name: percentage
+ *        in: formData
+ *        type: boolean
+ *        description: Is it percentage value
+ *      - name: reusable
+ *        in: formData
+ *        type: boolean
+ *      - name: used
+ *        in: formData
+ *        type: boolean
+ *    responses: 
+ *      '200':
+ *        description: succesful repsonse
+ */
 
 router.patch("/:discountCodeId", async (req, res) => {
   try {

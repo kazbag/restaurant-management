@@ -9,10 +9,12 @@ const OrdersSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
+  /*
   paymentStatus: {
     type: Boolean,
     required: true,
-  },
+  }
+  */
   orderStatus: {
     type: Boolean,
     required: true,
@@ -29,6 +31,9 @@ const OrdersSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  userId: {
+    type: String
+  }
 });
 module.exports = mongoose.model("Orders", OrdersSchema);
 
