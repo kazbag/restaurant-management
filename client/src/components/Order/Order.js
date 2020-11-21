@@ -12,7 +12,7 @@ const Order = ({ order, handleChange, handleCode, handleSubmit }) => {
             </li>
           );
         })} */}
-        {order.price && <span>Koszt całkowity: {order.price} zł</span>}
+        {order.price > 0 && <span>Koszt całkowity: {order.price} zł</span>}
       </ul>
       <input
         className="form-control mr-4"

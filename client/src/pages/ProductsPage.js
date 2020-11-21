@@ -21,6 +21,7 @@ const ProductsPage = () => {
     products: [],
     // price * ratio = final price, just for user information, api doesn't give a f
     ratio: 1,
+    price: 0,
   });
 
   useEffect(() => {
@@ -62,7 +63,7 @@ const ProductsPage = () => {
                 order={fields}
                 handleChange={setField}
                 handleCode={() => handleCode(fields.code, updateFields)}
-                handleSubmit={handleSubmit}
+                handleSubmit={() => handleSubmit(fields)}
               />
             </div>
           </div>
