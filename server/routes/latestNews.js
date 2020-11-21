@@ -22,7 +22,7 @@ latestNews.get("/", async (req, res) => {
       id: 3,
       title: "Nowy pracownik",
       message:
-        "W związku z rozrostem naszej restauracji, zatrudniliśmy nowego kucharza. Przedstawiamy Państwu Andrzeja Nowaka...",
+        "W związku z rozrostem naszej restauracji, zatrudniliśmy nowego kucharza.",
       date: "17.11.2020",
       link: `http://localhost:3000/news/3`,
     },

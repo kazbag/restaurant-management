@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { withRouter } from "react-router";
-import "./styles.css";
 import Countup from "react-countup";
 import {
   StyledContainerBox,

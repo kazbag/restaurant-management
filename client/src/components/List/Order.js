@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import "./styles.css";
 import axios from "axios";
 import styled, { css } from "styled-components";
 import variables from "../../variables/variables";

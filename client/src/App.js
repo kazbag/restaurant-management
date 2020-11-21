@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import LogoutPage from "./pages/LogoutPage";
-import Greetings from "./pages/GreetingsPage";
+import LatestNews from "./pages/LatestNewsPage";
 import PrivateRoute from "./routes/PrivateRoute";
 import AdminRoute from "./routes/AdminRoute";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -23,7 +23,7 @@ const App = () => {
           <Navbar />
           <div className="App">
             <Switch>
-              <Route exact path="/" component={Greetings} />
+              <Route exact path="/" component={LatestNews} />
               <Route path="/login" component={LoginPage} />
               <Route path="/register" component={LoginPage} />
               <Route path="/about" component={AboutPage} />
