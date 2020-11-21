@@ -21,12 +21,14 @@ const NewsList = ({ data }) => {
   return data.map((msg, index) => {
     return (
       <div className="col" key={index}>
-        <div className="card mb-4 col m-4 p-4 card-stretch">
-          <h3 className="card-title text-dark">{msg.title}</h3>
-          <p className="card-text">{msg.message}</p>
-          <a className="btn btn-primary mt-auto" href={msg.link}>
-            Czytaj więcej
-          </a>
+        <div className="card-deck">
+          <div className="card mb-4 col m-4 p-4 card-stretch">
+            <h3 className="card-title text-dark">{msg.title}</h3>
+            <p className="card-text">{msg.message}</p>
+            <a className="btn btn-primary mt-auto" href={msg.link}>
+              Czytaj więcej
+            </a>
+          </div>
         </div>
       </div>
     );

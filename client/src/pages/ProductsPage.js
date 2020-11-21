@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { withRouter } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
-import List from "../components/List/List";
 import Products from "../components/List/Products";
 import Order from "../components/List/Order";
 import axios from "axios";
@@ -77,15 +76,21 @@ const ProductsPage = () => {
   return (
     <AuthContext.Consumer>
       {(context) => (
-        <List>
-          <Products addToOrder={addToOrder} />
-          <Order
-            clientPrice={clientPrice}
-            order={order}
-            addDiscountCode={addDiscountCode}
-            setDiscountCode={setDiscountCode}
-          />
-        </List>
+        <>
+          <div className="row d-flex">
+            <div className="col col-md-7">
+              <Products addToOrder={addToOrder} />
+            </div>
+            <div className="col col-md-5 mt-4 mt-md-0">
+              <Order
+                clientPrice={clientPrice}
+                order={order}
+                addDiscountCode={addDiscountCode}
+                setDiscountCode={setDiscountCode}
+              />
+            </div>
+          </div>
+        </>
       )}
     </AuthContext.Consumer>
   );

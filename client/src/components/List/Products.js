@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import styled, { css } from "styled-components";
-import variables from "../../variables/variables";
+
 const Products = ({ totalPrice, addToOrder }) => {
   const [products, setProducts] = useState([]);
   const [isError, setError] = useState(false);
@@ -21,82 +20,53 @@ const Products = ({ totalPrice, addToOrder }) => {
 
   if (products.length > 0) {
     return (
-      <StyledProductList>
-        {products.map((product, id) => {
-          return (
-            <StyledProductListItem key={product.name}>
-              <StyledProductContainer>
-                <StyledProductImage
-                  width="50px"
-                  height="50px"
-                  src={product.photo}
-                />
-                <StyledProductDescription>
-                  {product.name} - {product.price} zł
-                </StyledProductDescription>
-                <StyledOrderButton
-                  value={product.price}
-                  onClick={addToOrder}
-                  id={product.name}
-                >
-                  Dodaj
-                </StyledOrderButton>
-              </StyledProductContainer>
-            </StyledProductListItem>
-          );
-        })}
-      </StyledProductList>
+      <div className="card p-4">
+        <ul className="list list-unstyled">
+          {products.map((product, id) => {
+            return (
+              <li className="list-item mb-2" key={product.name}>
+                <div className="d-flex align-items-center">
+                  <div className="col d-flex align-items-center">
+                    <div>
+                      <img
+                        className="rounded"
+                        width="50px"
+                        height="50px"
+                        src={product.photo}
+                      />
+                    </div>
+                    <p className="my-auto ml-5">
+                      {product.name} - {product.price} zł
+                    </p>
+                  </div>
+                  <a
+                    className="btn btn-warning"
+                    value={product.price}
+                    onClick={addToOrder}
+                    id={product.name}
+                  >
+                    Dodaj
+                  </a>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     );
   } else if (isError) {
     return (
-      <StyledError>
+      <div className="alert alert-danger">
         Niestety nie udało się załadować produktów z bazy
-      </StyledError>
+      </div>
     );
   } else {
     return (
-      <StyledProductList>
-        <StyledProductListItem>
-          wczytuję listę produktów...
-        </StyledProductListItem>
-      </StyledProductList>
+      <ul>
+        <li>wczytuję listę produktów...</li>
+      </ul>
     );
   }
 };
-
-const StyledProductList = styled.ul`
-  list-style: none;
-  display: grid;
-  grid-row-gap: 1rem;
-`;
-const StyledProductListItem = styled.li``;
-const StyledProductContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 0.5fr;
-`;
-const StyledProductImage = styled.img`
-  border-radius: 50%;
-  width: 5rem;
-  height: 5rem;
-`;
-const StyledOrderButton = styled.button`
-  align-self: center;
-  padding: 0.5rem 1.5rem;
-  transition: 0.25s ease-in-out;
-  &:hover {
-    background-color: ${variables.primaryColor};
-    cursor: pointer;
-    border: 1px solid ${variables.blackColor};
-  }
-  @media screen and (max-width: ${variables.smallScreen}) {
-    font-size: 1rem;
-  }
-`;
-const StyledError = styled.div;
-const StyledProductDescription = styled.h6`
-  font-size: 1rem;
-  font-weight: normal;
-  align-self: center;
-`;
 
 export default Products;
