@@ -13,10 +13,10 @@ export const handleRegister = (uri, data, callback) => {
     .post(`${uri}/register`, data)
     .then((response) => {
       console.log(response);
-      callback && callback(true);
+      callback && callback();
     })
     .catch((error) => {
-      callback && callback(false);
+      console.log(error.message);
     });
 };
 

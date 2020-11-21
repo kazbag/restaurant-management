@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { useFields } from "../utils/hooks";
@@ -72,7 +71,7 @@ const LoginPage = ({ history, location }) => {
         handleChange={setField}
         handleLogin={() => handleLogin(serverUrl, fields, () => setAuth())}
         handleRegister={() =>
-          handleRegister(serverUrl, fields, () => setIsRegistered())
+          handleRegister(serverUrl, fields, () => setIsRegistered(true))
         }
         fields={fields}
       />
