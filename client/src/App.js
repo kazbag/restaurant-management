@@ -17,11 +17,11 @@ import CodePage from "pages/CodePage";
 
 const App = () => {
   return (
-    <div className="container">
+    <div className="App">
       <AuthContextProvider>
         <Router>
           <Navbar />
-          <div className="App">
+          <div className="container">
             <Switch>
               <Route exact path="/" component={LatestNews} />
               <Route path="/login" component={LoginPage} />
