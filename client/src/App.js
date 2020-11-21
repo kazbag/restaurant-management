@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar/Navbar";
-import Form from "./components/Form/Form";
 import LogoutPage from "./pages/LogoutPage";
-import Greetings from "./pages/GreetingsPage";
+import LatestNews from "./pages/LatestNewsPage";
 import PrivateRoute from "./routes/PrivateRoute";
 import AdminRoute from "./routes/AdminRoute";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AuthContextProvider from "./contexts/AuthContext";
-import "./App.css";
+import LoginPage from "./pages/LoginPage";
 import ProductsPage from "./pages/ProductsPage";
-import axios from "axios";
 import KitchenPage from "./pages/KitchenPage";
 import AboutPage from "./pages/AboutPage";
 import GalleryPage from "./pages/GalleryPage";
@@ -19,15 +17,15 @@ import CodePage from "pages/CodePage";
 
 const App = () => {
   return (
-    <div className="container">
+    <div className="App">
       <AuthContextProvider>
         <Router>
           <Navbar />
-          <div className="App">
+          <div className="container">
             <Switch>
-              <Route exact path="/" component={Greetings} />
-              <Route path="/login" component={Form} />
-              <Route path="/register" component={Form} />
+              <Route exact path="/" component={LatestNews} />
+              <Route path="/login" component={LoginPage} />
+              <Route path="/register" component={LoginPage} />
               <Route path="/about" component={AboutPage} />
               <Route path="/gallery" component={GalleryPage} />
               <PrivateRoute path="/products" component={ProductsPage} />

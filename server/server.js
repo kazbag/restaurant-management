@@ -6,13 +6,14 @@ const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 
-//const ordersRoutes = require("./routes/orders-routes");
+const latestNewsRoutes = require("./routes/latestNews");
 const ordersRoutes = require("./routes/orders");
 const productsRoutes = require("./routes/products");
 const discountCodesRoutes = require("./routes/discountCodes");
 const usersRoutes = require("./routes/users");
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 const originUrl = process.env.ORIGIN_URL || "http://localhost:3000";
 const port = process.env.PORT || 3001;
@@ -29,19 +30,20 @@ const { loginUser, registerUser } = require("./UserRepository");
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
-      title: 'RestaurantAPI',
+      title: "RestaurantAPI",
       description: "Restaurant Menagement API documentation",
       contact: {
-        name: "Dev Filip"
+        name: "Dev Filip",
       },
-      servers: ["http://localhost:3001"]
-    }
+      servers: ["http://localhost:3001"],
+    },
   },
-  apis: ['routes/discountCodes.js',
-    'routes/orders.js',
-    'routes/products.js',
-    'routes/users.js'
-  ]
+  apis: [
+    "routes/discountCodes.js",
+    "routes/orders.js",
+    "routes/products.js",
+    "routes/users.js",
+  ],
 };
 swaggerDocs = swaggerJsDoc(swaggerOptions);
 // end swagger
@@ -55,7 +57,7 @@ db.on("error", console.error.bind(console, "Connection Error:"));
 db.once("open", () => {
   const app = express();
 
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
@@ -63,8 +65,9 @@ db.once("open", () => {
   //app.use(ordersRoutes);
   app.use("/orders", ordersRoutes);
   app.use("/discountCodes", discountCodesRoutes);
-  app.use("/products", productsRoutes), app.use("/users", usersRoutes);
-
+  app.use("/products", productsRoutes);
+  app.use("/users", usersRoutes);
+  app.use("/news", latestNewsRoutes);
   const cookieTokenExtractor = (cookieName) => (req, res, next) => {
     req.token = req.cookies[cookieName];
     next();
