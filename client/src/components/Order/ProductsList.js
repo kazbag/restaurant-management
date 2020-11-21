@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const Products = ({ totalPrice, addToOrder }) => {
+const ProductsList = ({ totalPrice, handleClick }) => {
   const [products, setProducts] = useState([]);
   const [isError, setError] = useState(false);
   const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
@@ -42,7 +42,7 @@ const Products = ({ totalPrice, addToOrder }) => {
                   <a
                     className="btn btn-warning"
                     value={product.price}
-                    onClick={addToOrder}
+                    onClick={handleClick}
                     id={product.name}
                   >
                     Dodaj
@@ -69,4 +69,4 @@ const Products = ({ totalPrice, addToOrder }) => {
   }
 };
 
-export default Products;
+export default ProductsList;
