@@ -44,12 +44,14 @@ router.get("/:code", async (req, res) => {
       const response = {
         code_submitted: false,
         ratio: 1,
+        error: true,
       };
       res.json(response);
     } else {
       const response = {
         code_submitted: true,
         ratio: 1 - code.value,
+        error: false,
       };
       res.json(response);
     }

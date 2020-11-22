@@ -22,10 +22,11 @@ const ProductsPage = () => {
     // price * ratio = final price, just for user information, api doesn't give a f
     ratio: 1,
     price: 0,
+    error: false,
   });
 
   useEffect(() => {
-    console.log(fields);
+    console.log(fields.error);
   }, [fields, updateFields]);
 
   // const [pusherLoading, setPusherLoading] = useState(false);
