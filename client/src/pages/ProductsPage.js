@@ -8,6 +8,7 @@ import {
   handleAdd,
   handleCode,
   handleSubmit,
+  getProducts,
 } from "../components/Order/order_utils";
 import { useFields } from "../utils/hooks";
 
@@ -21,13 +22,21 @@ const ProductsPage = () => {
     products: [],
     // price * ratio = final price, just for user information, api doesn't give a f
     ratio: 1,
+    // start price
     price: 0,
+    // is any error
     error: false,
+    // products list from API
+    products_list: [],
   });
 
   useEffect(() => {
-    console.log(fields.error);
+    console.log(fields);
   }, [fields, updateFields]);
+
+  useEffect(() => {
+    getProducts(updateFields);
+  }, []);
 
   // const [pusherLoading, setPusherLoading] = useState(false);
   const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
@@ -57,7 +66,12 @@ const ProductsPage = () => {
         <>
           <div className="row d-flex">
             <div className="col col-md-7">
-              <ProductsList handleClick={handleAdd} />
+              <ProductsList
+                products={fields.products_list}
+                handleAdd={(e) => {
+                  handleAdd(e.target.dataset.value, updateFields);
+                }}
+              />
             </div>
             <div className="col col-md-5 mt-4 mt-md-0">
               <Order

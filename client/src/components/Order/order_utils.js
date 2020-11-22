@@ -3,8 +3,8 @@ import axios from "axios";
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
-export const handleAdd = (product, updateList) => {
-  updateList(product);
+export const handleAdd = (product, callback) => {
+  callback(product);
 };
 
 export const addDiscountCode = (codesList, code, discountAmount) => {
@@ -51,3 +51,14 @@ export const handleCode = (code, callback) => {
 //     phone: "222643341",
 //     address: "ul. Pawia 22/3",
 //   };
+
+export const getProducts = (callback) => {
+  axios
+    .get(`${SERVER_URL}/products`)
+    .then((response) => {
+      callback({ products_list: response.data });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
