@@ -69,7 +69,11 @@ const ProductsPage = () => {
               <ProductsList
                 products={fields.products_list}
                 handleAdd={(e) => {
-                  handleAdd(e.target.dataset.value, updateFields);
+                  handleAdd(
+                    e.target.dataset.value,
+                    fields.products,
+                    updateFields
+                  );
                 }}
               />
             </div>

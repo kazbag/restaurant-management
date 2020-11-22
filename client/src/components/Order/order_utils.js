@@ -3,8 +3,8 @@ import axios from "axios";
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
-export const handleAdd = (product, callback) => {
-  callback(product);
+export const handleAdd = (product, products, callback) => {
+  callback({ products: [...products, product] });
 };
 
 export const addDiscountCode = (codesList, code, discountAmount) => {
