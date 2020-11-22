@@ -10,9 +10,6 @@ const Navbar = (props) => {
       {(context) => (
         <>
           <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
-            <NavLink className="nav-brand mr-4 text-warning" toexact to="/">
-              Shama
-            </NavLink>
             <button
               className="navbar-toggler"
               type="button"

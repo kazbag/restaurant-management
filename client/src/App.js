@@ -14,6 +14,7 @@ import GalleryPage from "./pages/GalleryPage";
 import AdminPage from "./pages/AdminPage";
 import MenuPage from "./pages/MenuPage";
 import CodePage from "pages/CodePage";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -23,7 +24,8 @@ const App = () => {
           <Navbar />
           <div className="container">
             <Switch>
-              <Route exact path="/" component={LatestNews} />
+              {/* <Route exact path="/" component={LatestNews} /> */}
+              <Route exact path="/" component={ProductsPage} />
               <Route path="/login" component={LoginPage} />
               <Route path="/register" component={LoginPage} />
               <Route path="/about" component={AboutPage} />
@@ -37,6 +39,7 @@ const App = () => {
             </Switch>
           </div>
         </Router>
+        {/* <Footer /> */}
       </AuthContextProvider>
     </div>
   );

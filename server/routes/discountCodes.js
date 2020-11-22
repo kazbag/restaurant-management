@@ -2,13 +2,12 @@ const express = require("express");
 const router = express.Router();
 const DiscountCodes = require("../models/DiscountCodes");
 
-
 /**
  * @swagger
  * /discountCodes:
  *  get:
  *    description: get all the discount codes
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */
@@ -26,27 +25,40 @@ router.get("/", async (req, res) => {
  * @swagger
  * /discountCodes/{discountCodeId}:
  *  get:
- *    description: get the discount code with particular Id
+ *    description: get the discount code with particular code
  *    parameters:
- *      - name: discountCodeId
+ *      - name: code
  *        in: path
- *        description: id parameter of discount code
+ *        description: code parameter of discount code
  *        type: string
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/:discountCodeId", async (req, res) => {
+router.get("/:code", async (req, res) => {
   try {
-    const discountCodes = await DiscountCodes.findById(
-      req.params.discountCodeId
-    );
-    res.json(discountCodes);
+    const code = await DiscountCodes.findOne({
+      code: req.params.code,
+    });
+    if (!code) {
+      const response = {
+        code_submitted: false,
+        ratio: 1,
+        error: true,
+      };
+      res.json(response);
+    } else {
+      const response = {
+        code_submitted: true,
+        ratio: 1 - code.value,
+        error: false,
+      };
+      res.json(response);
+    }
   } catch (err) {
     res.json({ message: err });
   }
 });
-
 
 /**
  * @swagger
@@ -75,7 +87,7 @@ router.get("/:discountCodeId", async (req, res) => {
  *      - name: used
  *        in: formData
  *        type: boolean
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */
@@ -108,7 +120,7 @@ router.post("/", async (req, res) => {
  *        in: path
  *        description: id parameter of discount code
  *        type: string
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */
@@ -155,7 +167,7 @@ router.delete("/:discountCodeId", async (req, res) => {
  *      - name: used
  *        in: formData
  *        type: boolean
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */

@@ -1,91 +1,92 @@
 import React, { useContext, useState, useEffect } from "react";
 import { withRouter } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
-import List from "../components/List/List";
-import Products from "../components/List/Products";
-import Order from "../components/List/Order";
-import axios from "axios";
+import ProductsList from "../components/Order/ProductsList";
+import Order from "../components/Order/Order";
 import Pusher from "pusher-js";
+import {
+  handleAdd,
+  handleCode,
+  handleSubmit,
+  getProducts,
+} from "../components/Order/order_utils";
+import { useFields } from "../utils/hooks";
 
 const ProductsPage = () => {
-  const [discountCodes, setDiscountCodes] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [order, setOrder] = useState([]);
-  const [discountCode, setDiscountCode] = useState(0);
-  const [discountAmount, setDiscountAmount] = useState(1);
-  const [pusherLoading, setPusherLoading] = useState(false);
-  const [isCodeIncluded, setIsCodeIncluded] = useState(false);
-  const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
-
-  const clientPrice = (totalPrice * discountAmount).toFixed(2);
-
-  // pusher
-  const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_KEY}`, {
-    cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
+  const [fields, setField, setValues, updateFields] = useFields({
+    // discount code
+    code: "",
+    // if submitted and passed through, set to true and update ratio
+    code_submitted: false,
+    // array of products in user basket
+    products: [],
+    // price * ratio = final price, just for user information, api doesn't give a f
+    ratio: 1,
+    // start price
+    price: 0,
+    // is any error
+    error: false,
+    // products list from API
+    products_list: [],
   });
 
-  const channel = pusher.subscribe("my-channel");
   useEffect(() => {
-    channel.bind("inserted", function(data) {
-      setPusherLoading(data);
-    });
+    console.log(fields);
+  }, [fields, updateFields]);
+
+  useEffect(() => {
+    getProducts(updateFields);
   }, []);
+
+  // const [pusherLoading, setPusherLoading] = useState(false);
+  const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+
+  // pusher
+  // const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_KEY}`, {
+  //   cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
+  // });
+
+  // const channel = pusher.subscribe("my-channel");
+  // useEffect(() => {
+  //   channel.bind("inserted", function(data) {
+  //     setPusherLoading(data);
+  //   });
+  // }, []);
   // end pusher
 
-  useEffect(() => {
-    axios.get(`${serverUrl}/discountCodes`).then((response) => {
-      setDiscountCodes(response.data);
-    });
-  }, []);
-
-  const addDiscountCode = (e) => {
-    const code = discountCodes.find((_) => _.code === discountCode);
-
-    if (!code) {
-      alert("niepoprawny kod");
-      return;
-    }
-
-    if (!isCodeIncluded) {
-      const discount = discountAmount - code.value;
-      setDiscountAmount(discount);
-      setIsCodeIncluded(true);
-      return;
-    }
-    console.log(discountAmount);
-    alert("Wpisałeś już kod!");
-  };
-
-  const addToOrder = (e) => {
-    const checkThatProductExists = () => {
-      const productIndex = order.findIndex((item) =>
-        item.includes(e.target.id)
-      );
-      if (productIndex > -1) {
-        const str = order[productIndex];
-        let count = str.split(" x ")[1];
-        count++;
-        order[productIndex] = e.target.id + ` x ${count}`;
-      } else {
-        setOrder([...order, `${e.target.id} x 1`]);
-      }
-    };
-    checkThatProductExists();
-    setTotalPrice(parseInt(totalPrice) + parseInt(e.target.value));
-  };
+  // useEffect(() => {
+  //   axios.get(`${serverUrl}/discountCodes`).then((response) => {
+  //     setDiscountCodes(response.data);
+  //   });
+  // }, []);
 
   return (
     <AuthContext.Consumer>
       {(context) => (
-        <List>
-          <Products addToOrder={addToOrder} />
-          <Order
-            clientPrice={clientPrice}
-            order={order}
-            addDiscountCode={addDiscountCode}
-            setDiscountCode={setDiscountCode}
-          />
-        </List>
+        <>
+          <div className="row d-flex">
+            <div className="col col-md-7">
+              <ProductsList
+                products={fields.products_list}
+                handleAdd={(e) => {
+                  handleAdd(
+                    e.target.dataset.value,
+                    fields.products,
+                    updateFields
+                  );
+                }}
+              />
+            </div>
+            <div className="col col-md-5 mt-4 mt-md-0">
+              <Order
+                order={fields}
+                handleChange={setField}
+                handleCode={() => handleCode(fields.code, updateFields)}
+                handleSubmit={() => handleSubmit(fields)}
+              />
+            </div>
+          </div>
+        </>
       )}
     </AuthContext.Consumer>
   );

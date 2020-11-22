@@ -8,38 +8,40 @@ import { handleRegister, handleLogin } from "../utils/form_methods";
 const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
   return (
     <form className="d-flex align-items-center flex-column form">
-      <div className="form-group">
-        <label>Login</label>
-        <input
-          className="form-control"
-          type="text"
-          placeholder="login"
-          name="name"
-          onChange={handleChange}
-        />
-        <span className="form-text text-muted">Wprowadź swój login</span>
+      <div className="p-5 bg-white rounded">
+        <div className="form-group">
+          <label>Login</label>
+          <input
+            className="form-control"
+            type="text"
+            placeholder="login"
+            name="name"
+            onChange={handleChange}
+          />
+          <small className="form-text text-muted">Wprowadź swój login</small>
+        </div>
+        <div className="form-group">
+          <label>Hasło</label>
+          <input
+            className="form-control"
+            type="password"
+            placeholder="hasło"
+            name="password"
+            onChange={handleChange}
+          />
+          <small className="form-text text-muted">Wprowadź hasło</small>
+        </div>
+        {window.location.pathname === "/login" && (
+          <a className="btn btn-primary px-5 w-100" onClick={handleLogin}>
+            Zaloguj się
+          </a>
+        )}
+        {window.location.pathname === "/register" && (
+          <a className="btn btn-primary px-5 w-100" onClick={handleRegister}>
+            Zarejestruj się
+          </a>
+        )}
       </div>
-      <div className="form-group">
-        <label>Hasło</label>
-        <input
-          className="form-control"
-          type="password"
-          placeholder="hasło"
-          name="password"
-          onChange={handleChange}
-        />
-        <span className="form-text text-muted">Wprowadź hasło</span>
-      </div>
-      {window.location.pathname === "/login" && (
-        <a className="btn btn-primary px-8" onClick={handleLogin}>
-          Zaloguj się
-        </a>
-      )}
-      {window.location.pathname === "/register" && (
-        <a className="btn btn-primary px-8" onClick={handleRegister}>
-          Zarejestruj się
-        </a>
-      )}
     </form>
   );
 };
@@ -64,7 +66,7 @@ const LoginPage = ({ history, location }) => {
 
   return (
     <div className="container">
-      <h3 className="text-center mb-4">
+      <h3 className="text-center mb-4 text-white">
         {window.location.href === "/login" ? "Logowanie" : "Rejestracja"}
       </h3>
       <AccountForm

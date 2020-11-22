@@ -1,9 +1,24 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.App {
+  min-height: 100vh;
 }
 body {
-  background: #181818;
   font-family: "Open-Sans", sans-serif;
+  background: #000;
+}
+.nav-link {
+  transition: color 0.3s ease-out;
+  position: relative;
+}
+.nav-link.active {
+  color: black !important;
+}
+#footer {
+  bottom: 0;
+  width: 100%;
+  margin-top: auto;
+  position: absolute;
+}
+
+#footer .footer-block {
+  margin: 20px 0;
 }
