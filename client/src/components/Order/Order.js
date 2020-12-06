@@ -1,17 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Order = ({ order, handleChange, handleCode, handleSubmit }) => {
+  const productsList = order.products.map((product, index) => {
+    return <li key={index}>{product}</li>;
+  });
+
   return (
     <div className="card p-4">
       <h3 className="">Twoje zamówienie</h3>
       <ul className="list list-unstyled px-0 mx-0">
-        {/* {order.map((item, id) => {
-          return (
-            <li className="list-item" key={id}>
-              {item}
-            </li>
-          );
-        })} */}
+        {productsList}
         {order.price > 0 && <span>Koszt całkowity: {order.price} zł</span>}
       </ul>
       <div className="form-group">
