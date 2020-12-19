@@ -1,8 +1,27 @@
 import React, { useEffect } from "react";
+import _ from "lodash";
 
 const Order = ({ order, handleChange, handleCode, handleSubmit }) => {
-  const productsList = order.products.map((product, index) => {
-    return <li key={index}>{product}</li>;
+  const productPrice = order.products.reduce((a, b) => +a + +b.price, 0);
+
+  const getProductAmount = (productName) => {
+    return order.products.filter((i) => i.name === productName).length;
+  };
+
+  let uniqueProducts = _(order.products)
+    .groupBy("name")
+    .map((g, name) => ({ name, price: _.sumBy(g, "price") }))
+    .value();
+
+  const productsList = uniqueProducts.map((product, index) => {
+    return (
+      <li key={index} data-id={`product_${index}`}>
+        {product.name} {product.price} zł{" "}
+        {getProductAmount(product.name) > 1
+          ? getProductAmount(product.name) + "szt"
+          : ""}
+      </li>
+    );
   });
 
   return (
@@ -10,7 +29,7 @@ const Order = ({ order, handleChange, handleCode, handleSubmit }) => {
       <h3 className="">Twoje zamówienie</h3>
       <ul className="list list-unstyled px-0 mx-0">
         {productsList}
-        {order.price > 0 && <span>Koszt całkowity: {order.price} zł</span>}
+        {productPrice > 0 && <span>Koszt całkowity: {productPrice} zł</span>}
       </ul>
       <div className="form-group">
         <label>Kod rabatowy</label>

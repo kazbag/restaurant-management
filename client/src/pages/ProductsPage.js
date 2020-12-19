@@ -22,43 +22,27 @@ const ProductsPage = () => {
     products: [],
     // price * ratio = final price, just for user information, api doesn't give a f
     ratio: 1,
-    // start price
-    price: 0,
     // is any error
     error: false,
     // products list from API
     products_list: [],
   });
 
-  useEffect(() => {
-    console.log(fields);
-  }, [fields, updateFields]);
+  // useEffect(() => {
+  //   console.log(fields);
+  // }, [fields]);
+
+  // useEffect(() => {
+  //   updateFields({
+  //     price: fields.products.reduce((a, b) => +a + +b.price, 0),
+  //   });
+  // }, [setField]);
 
   useEffect(() => {
     getProducts(updateFields);
   }, []);
 
-  // const [pusherLoading, setPusherLoading] = useState(false);
   const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
-
-  // pusher
-  // const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_KEY}`, {
-  //   cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
-  // });
-
-  // const channel = pusher.subscribe("my-channel");
-  // useEffect(() => {
-  //   channel.bind("inserted", function(data) {
-  //     setPusherLoading(data);
-  //   });
-  // }, []);
-  // end pusher
-
-  // useEffect(() => {
-  //   axios.get(`${serverUrl}/discountCodes`).then((response) => {
-  //     setDiscountCodes(response.data);
-  //   });
-  // }, []);
 
   return (
     <AuthContext.Consumer>
@@ -72,6 +56,7 @@ const ProductsPage = () => {
                   handleAdd(
                     e.target.dataset.value,
                     fields.products,
+                    fields.products_list,
                     updateFields
                   );
                 }}
