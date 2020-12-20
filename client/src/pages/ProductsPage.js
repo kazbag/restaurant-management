@@ -3,7 +3,6 @@ import { withRouter } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import ProductsList from "../components/Order/ProductsList";
 import Order from "../components/Order/Order";
-import Pusher from "pusher-js";
 import {
   handleAdd,
   handleCode,
@@ -27,16 +26,6 @@ const ProductsPage = () => {
     // products list from API
     products_list: [],
   });
-
-  // useEffect(() => {
-  //   console.log(fields);
-  // }, [fields]);
-
-  // useEffect(() => {
-  //   updateFields({
-  //     price: fields.products.reduce((a, b) => +a + +b.price, 0),
-  //   });
-  // }, [setField]);
 
   useEffect(() => {
     getProducts(updateFields);

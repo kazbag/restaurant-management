@@ -14,6 +14,7 @@ const Order = ({ order, handleChange, handleCode, handleSubmit }) => {
     .value();
 
   const productsList = uniqueProducts.map((product, index) => {
+    console.log(product);
     return (
       <li key={index} data-id={`product_${index}`}>
         {product.name} {product.price} zł{" "}
@@ -29,7 +30,15 @@ const Order = ({ order, handleChange, handleCode, handleSubmit }) => {
       <h3 className="">Twoje zamówienie</h3>
       <ul className="list list-unstyled px-0 mx-0">
         {productsList}
-        {productPrice > 0 && <span>Koszt całkowity: {productPrice} zł</span>}
+        {productPrice > 0 && !order.code_submitted && (
+          <span>Koszt całkowity: {productPrice} zł</span>
+        )}
+        {productPrice > 0 && order.code_submitted && (
+          <span>
+            koszt całkowity <s>{productPrice.toFixed(2)} zł </s>{" "}
+            {(productPrice * order.ratio).toFixed(2)} zł{" "}
+          </span>
+        )}
       </ul>
       <div className="form-group">
         <label>Kod rabatowy</label>
@@ -67,6 +76,7 @@ const Order = ({ order, handleChange, handleCode, handleSubmit }) => {
           </a>
         </div>
       </div>
+
       {order.error && (
         <div
           className="alert alert-warning alert-dismissible fade mt-4 show"
