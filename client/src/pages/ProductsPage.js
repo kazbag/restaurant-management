@@ -1,66 +1,60 @@
 import React, { useContext, useState, useEffect } from "react";
 import { withRouter } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
-import ProductsList from "../components/Order/ProductsList";
-import Order from "../components/Order/Order";
 import {
   handleAdd,
   handleCode,
   handleSubmit,
   getProducts,
 } from "../components/Order/order_utils";
-import { useFields } from "../utils/hooks";
+import { useFields, useLoad } from "../utils/hooks";
+import { Menu, Order } from "../components/Order/order_components";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 const ProductsPage = () => {
-  const [fields, setField, setValues, updateFields] = useFields({
-    // discount code
-    code: "",
-    // if submitted and passed through, set to true and update ratio
-    code_submitted: false,
-    // array of products in user basket
+  const [products, setProducts] = useLoad([], `${SERVER_URL}/products`);
+  const [order, setOrder] = useState({
     products: [],
-    // price * ratio = final price, just for user information, api doesn't give a f
-    ratio: 1,
-    // is any error
+    code: "",
+    code_submitted: false,
     error: false,
-    // products list from API
-    products_list: [],
+    ratio: 1,
   });
 
   useEffect(() => {
-    getProducts(updateFields);
-  }, []);
+    console.log(order);
+  }, [order, setOrder]);
 
-  const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+  const addToOrder = (productId) => {
+    const product = products.find((item) => item._id === productId);
+    setOrder({ ...order, products: [...order.products, product] });
+  };
+  const submitCode = () => {
+    handleCode(order.code, (codeDetails) =>
+      setOrder({ ...order, ...codeDetails })
+    );
+  };
+
+  window.order = order;
 
   return (
     <AuthContext.Consumer>
       {(context) => (
-        <>
-          <div className="row d-flex">
-            <div className="col col-md-7">
-              <ProductsList
-                products={fields.products_list}
-                handleAdd={(e) => {
-                  handleAdd(
-                    e.target.dataset.value,
-                    fields.products,
-                    fields.products_list,
-                    updateFields
-                  );
-                }}
-              />
-            </div>
-            <div className="col col-md-5 mt-4 mt-md-0">
-              <Order
-                order={fields}
-                handleChange={setField}
-                handleCode={() => handleCode(fields.code, updateFields)}
-                handleSubmit={() => handleSubmit(fields)}
-              />
-            </div>
-          </div>
-        </>
+        <div className="row d-flex flex-row ">
+          <Menu products={products} onClick={addToOrder} />
+          <Order
+            codeDisabled={order.ratio !== 1}
+            order={order}
+            onCodeChange={(e) => setOrder({ ...order, code: e.target.value })}
+            onCodeSubmit={() => submitCode()}
+            onRemove={(id) =>
+              setOrder({
+                ...order,
+                products: order.products.filter((item, index) => index !== id),
+              })
+            }
+          />
+        </div>
       )}
     </AuthContext.Consumer>
   );

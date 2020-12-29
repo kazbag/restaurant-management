@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const ProductsList = ({ totalPrice, handleAdd, products }) => {
+const ProductsList = ({ totalPrice, onAdd, products }) => {
   return (
     <div className="card p-4">
       <ul className="list list-unstyled">
@@ -25,7 +25,7 @@ const ProductsList = ({ totalPrice, handleAdd, products }) => {
                 <a
                   className="btn btn-warning"
                   data-value={product.name}
-                  onClick={handleAdd}
+                  onClick={onAdd}
                   id={product.name}
                 >
                   Dodaj

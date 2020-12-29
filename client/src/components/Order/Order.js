@@ -14,7 +14,6 @@ const Order = ({ order, handleChange, handleCode, handleSubmit }) => {
     .value();
 
   const productsList = uniqueProducts.map((product, index) => {
-    console.log(product);
     return (
       <li key={index} data-id={`product_${index}`}>
         {product.name} {product.price} zł{" "}
