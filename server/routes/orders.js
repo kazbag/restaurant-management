@@ -1,15 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const Orders = require("../models/Orders");
-
-
+const DiscountCodes = require("../models/DiscountCodes");
 
 /**
  * @swagger
  * /orders:
  *  get:
- *    description: get all orders 
- *    responses: 
+ *    description: get all orders
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */
@@ -28,7 +27,7 @@ router.get("/", async (req, res) => {
  * /orders/completed:
  *  get:
  *    description: get all orders with completed status
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */
@@ -46,7 +45,7 @@ router.get("/completed", async (req, res) => {
  * /orders/pending:
  *  get:
  *    description: use to get all orders with pending status
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */
@@ -69,7 +68,7 @@ router.get("/pending", async (req, res) => {
  *        in: path
  *        description: id parameter of the order
  *        type: string
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */
@@ -92,14 +91,14 @@ router.get("/:orderId", async (req, res) => {
  *        in: path
  *        description: the date of the order
  *        type: date
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */
 router.get("/date/:orderDate", async (req, res) => {
   try {
     const dateStart = new Date(req.params.orderDate);
-    const orders = await Orders.find({ orderDate: dateStart })
+    const orders = await Orders.find({ orderDate: dateStart });
     res.json(orders);
   } catch (err) {
     res.json({ message: err });
@@ -120,7 +119,7 @@ router.get("/date/:orderDate", async (req, res) => {
  *        in: path
  *        description: date end parameter
  *        type: date
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */
@@ -141,7 +140,7 @@ router.get("/date/:orderDateStart/:orderDateEnd", async (req, res) => {
  * @swagger
  * /orders:
  *  post:
- *    description: post the order 
+ *    description: post the order
  *    parameters:
  *      - name: price
  *        in: formData
@@ -160,23 +159,32 @@ router.get("/date/:orderDateStart/:orderDateEnd", async (req, res) => {
  *        type: string
  *      - name: phone
  *        in: formData
- *        type: string    
+ *        type: string
  *      - name: userId
  *        in: formData
  *        type: string
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */
 router.post("/", async (req, res) => {
+  console.log(req);
+  const products = req.body.products;
+  const code = req.body.code;
+  // check that is code valid
+  const retreivedCode = await DiscountCodes.findOne({ code: code });
+  const orderRatio = retreivedCode ? 1 - retreivedCode.value : 1;
+  const finalPrice =
+    req.body.products.reduce((a, b) => +a + +b.price, 0) * orderRatio;
+
   const order = new Orders({
-    price: req.body.price,
-    orderDate: req.body.orderDate,
-    orderStatus: req.body.orderStatus,
+    price: finalPrice,
+    orderDate: new Date(),
+    orderStatus: true,
     products: req.body.products,
     address: req.body.address,
     phone: req.body.phone,
-    userId: req.body.userId
+    userId: req.body.userId,
   });
   try {
     const savedOrder = await order.save();
@@ -196,7 +204,7 @@ router.post("/", async (req, res) => {
  *        in: path
  *        description: id parameter of the order
  *        type: string
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */
@@ -227,7 +235,7 @@ router.delete("/:orderId", async (req, res) => {
  *        in: formData
  *        description: updated status
  *        type: string
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */
@@ -273,7 +281,7 @@ router.patch("/status/:id", async (req, res) => {
  *      - name: address
  *        in: formData
  *        type: string
- *    responses: 
+ *    responses:
  *      '200':
  *        description: succesful repsonse
  */

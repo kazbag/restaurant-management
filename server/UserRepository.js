@@ -6,6 +6,9 @@ const users = [
     name: "123",
     password: "$2b$10$KSAfjDM1aEkoAU/vW7HH9O2eATiClAJrKDSE1cVlSPNMdZSo5KOvW",
     role: "user",
+    address: "szklarska 37 Kraków",
+    phone: "665-229-923",
+    userId: "1",
   },
   // admin/123
   {

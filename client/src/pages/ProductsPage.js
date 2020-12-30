@@ -47,6 +47,7 @@ const ProductsPage = () => {
             order={order}
             onCodeChange={(e) => setOrder({ ...order, code: e.target.value })}
             onCodeSubmit={() => submitCode()}
+            onAdd={() => handleSubmit(order)}
             onRemove={(id) =>
               setOrder({
                 ...order,
