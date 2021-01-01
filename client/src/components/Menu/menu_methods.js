@@ -15,10 +15,25 @@ export const handleCreate = (product, callback) => {
 export const handleEdit = (id, callback) => {};
 
 export const handleRemove = (id, callback) => {
-  axios
-    .delete(`${SERVER_URL}/products/${id}`)
-    .then(() => axios.get(`${SERVER_URL}/products`))
-    .then((response) => callback(response.data))
-    .then(() => window.swal.fire("Usunięto produkt!"))
-    .catch((err) => console.log(err));
+  window.swal
+    .fire({
+      title: "Czy na pewno chcesz usunąć ten produkt?",
+      text: "Ta zmiana jest nieodwracalna!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Tak, usuń!",
+      cancelButtonText: "Nie, zostaw.",
+    })
+    .then((result) => {
+      if (result.value) {
+        axios
+          .delete(`${SERVER_URL}/products/${id}`)
+          .then(() => axios.get(`${SERVER_URL}/products`))
+          .then((response) => callback(response.data))
+          .catch((err) => console.log(err));
+        window.swal.fire("Usunięto!");
+      } else if (result.dismiss === window.swal.DismissReason.cancel) {
+        window.swal.fire("Anulowano.");
+      }
+    });
 };

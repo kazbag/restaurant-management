@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 export const ProductNewCard = ({ onClick }) => {
   return (
     <div className="card h-100">
-      <div className="card-header">Dodaj nowy produkt</div>
+      <div className="card-header">
+        <h3 className="card-title">Dodaj nowy produkt</h3>
+      </div>
       <div className="card-body">
         <p className="text-muted">
           Aby dodać nowy produkt do bazy danych, wybierz poniższy przycisk i
@@ -16,7 +18,7 @@ export const ProductNewCard = ({ onClick }) => {
       </div>
       <div className="card-footer">
         <button onClick={onClick} className="btn btn-success">
-          Dodaj nowy produkt
+          Dodaj
         </button>
       </div>
     </div>

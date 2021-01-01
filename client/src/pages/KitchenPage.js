@@ -21,13 +21,11 @@ const KitchenPage = ({ history }) => {
     [],
     `${SERVER_URL}/orders/completed`
   );
-  useEffect(() => {
-    console.log(pendingOrders);
-  }, [pendingOrders]);
 
   const handleSubmit = (id) =>
     handleStatusToggle(id, setPendingOrders, setCompletedOrders, () => {
       setIsModalVisible(false);
+      window.swal.fire("Zmieniono status zamówienia!");
     });
 
   return (
