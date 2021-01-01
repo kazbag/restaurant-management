@@ -8,6 +8,7 @@ export const handleCreate = (product, callback) => {
     .post(`${SERVER_URL}/products`, product)
     .then(() => axios.get(`${SERVER_URL}/products`))
     .then((response) => callback(response.data))
+    .then(() => window.swal.fire("Dodano produkt!"))
     .catch((err) => console.log(err));
 };
 
@@ -18,5 +19,6 @@ export const handleRemove = (id, callback) => {
     .delete(`${SERVER_URL}/products/${id}`)
     .then(() => axios.get(`${SERVER_URL}/products`))
     .then((response) => callback(response.data))
+    .then(() => window.swal.fire("Usunięto produkt!"))
     .catch((err) => console.log(err));
 };
