@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-export const UserList = ({ users, performEdit, onEdit, onNew, onRemove }) => {
+export const UserList = ({
+  users,
+  performEdit,
+  onEdit,
+  performNew,
+  onRemove,
+}) => {
   return (
     <div className="col-12 col-md-6">
       <div className="card">
@@ -18,7 +24,7 @@ export const UserList = ({ users, performEdit, onEdit, onNew, onRemove }) => {
               </span>
               <button
                 className="btn btn-sm btn-success ml-auto"
-                onClick={onNew}
+                onClick={performNew}
               >
                 Dodaj
               </button>
@@ -61,7 +67,15 @@ export const UserList = ({ users, performEdit, onEdit, onNew, onRemove }) => {
   );
 };
 
-export const UserEdit = ({ onSubmit, onCancel, onChange, user, roles }) => {
+export const UserEdit = ({
+  header,
+  onSubmit,
+  onCancel,
+  onChange,
+  user,
+  roles,
+  buttonText,
+}) => {
   return (
     <div
       className="card"
@@ -76,7 +90,7 @@ export const UserEdit = ({ onSubmit, onCancel, onChange, user, roles }) => {
       }}
     >
       <div className="card-header">
-        <h3 className="card-title">Edycja użytkownika</h3>
+        <h3 className="card-title">{header}</h3>
       </div>
       <div className="card-body">
         <form className="form">
@@ -147,8 +161,13 @@ export const UserEdit = ({ onSubmit, onCancel, onChange, user, roles }) => {
             />
           </div>
           <div className="form-group">
-            <label>Miasto</label>
-            <select className="form-control" value={user.role}>
+            <label>Rola</label>
+            <select
+              className="form-control"
+              defaultValue={user.role}
+              onChange={onChange}
+              name="role"
+            >
               <option value="" disabled></option>
               {roles.map((role, index) => {
                 return (
@@ -163,7 +182,7 @@ export const UserEdit = ({ onSubmit, onCancel, onChange, user, roles }) => {
       </div>
       <div className="card-footer d-flex">
         <button className="btn btn-primary mr-2" onClick={onSubmit}>
-          Dodaj użytkownika
+          {buttonText}
         </button>
         <button className="btn btn-secondary" onClick={onCancel}>
           Anuluj

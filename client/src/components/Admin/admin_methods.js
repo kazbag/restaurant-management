@@ -4,7 +4,7 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 export const handleEdit = (id, data, callback) => {
   axios
-    .patch(`${SERVER_URL}/${id}`, data)
+    .patch(`${SERVER_URL}/users/${id}`, data)
     .then(() => axios.get(`${SERVER_URL}/users`))
     .then((response) => callback(response.data))
     .then(() => window.swal.fire("Zaktualizowano dane użytkownika."))
@@ -33,4 +33,13 @@ export const handleRemove = (id, callback) => {
         window.swal.fire("Anulowano.");
       }
     });
+};
+
+export const handleNew = (data, callback) => {
+  axios
+    .post(`${SERVER_URL}/users`, data)
+    .then(() => axios.get(`${SERVER_URL}/users`))
+    .then((response) => callback(response.data))
+    .then(() => window.swal.fire("Dodano użytkownika!"))
+    .catch((err) => console.log(err));
 };
