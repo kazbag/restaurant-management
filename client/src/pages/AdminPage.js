@@ -40,8 +40,6 @@ const AdminPage = () => {
         onEdit={(e) => console.log(e.target.dataset.id)}
         onRemove={(e) => handleRemove(e.target.dataset.id, setUsers)}
         users={users}
-        isModalVisible={isUserModalVisible}
-        setIsModalVisible={setIsUserModalVisible}
       />
       {isUserModalVisible && selectedUser && (
         <UserEdit

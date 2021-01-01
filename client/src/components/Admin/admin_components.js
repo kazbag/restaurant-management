@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export const UserList = ({
-  users,
-  performEdit,
-  onEdit,
-  onRemove,
-  isModalVisible,
-}) => {
+export const UserList = ({ users, performEdit, onEdit, onNew, onRemove }) => {
   return (
     <div className="col-12 col-md-6">
       <div className="card">
@@ -14,34 +8,53 @@ export const UserList = ({
           <h3 className="card-title">Użytkownicy</h3>
         </div>
         <div className="card-body">
-          {users.map((user, index) => {
-            return (
-              <li className="list-item d-flex mb-2 mb-lg-4" key={index}>
-                <span>
-                  <span className="text-bold">
-                    {user.name} -{" "}
-                    <span className="text-primary">{user.role}</span>
+          <ul className="list list-unstyled">
+            <li
+              className="list-item d-flex pb-2 pb-lg-4 mb-2 mb-lg-4 justify-content-center align-items-center"
+              style={{ borderBottom: "1px solid #28a745" }}
+            >
+              <span className="text-success font-weight-bold mr-auto">
+                Nowy użytkownik
+              </span>
+              <button
+                className="btn btn-sm btn-success ml-auto"
+                onClick={onNew}
+              >
+                Dodaj
+              </button>
+            </li>
+            {users.map((user, index) => {
+              return (
+                <li
+                  className="list-item d-flex mb-2 mb-lg-4 justify-content-center align-items-center"
+                  key={index}
+                >
+                  <span>
+                    <span className="text-bold">
+                      #{index + 1} {user.name} -{" "}
+                      <span className="text-primary">{user.role}</span>
+                    </span>
                   </span>
-                </span>
-                <div className="d-flex ml-auto">
-                  <button
-                    data-id={user._id}
-                    onClick={performEdit}
-                    className="btn btn-sm btn-primary mr-2"
-                  >
-                    Edytuj
-                  </button>
-                  <button
-                    data-id={user._id}
-                    onClick={onRemove}
-                    className="btn btn-sm btn-danger"
-                  >
-                    Usuń
-                  </button>
-                </div>
-              </li>
-            );
-          })}
+                  <div className="d-flex ml-auto">
+                    <button
+                      data-id={user._id}
+                      onClick={performEdit}
+                      className="btn btn-sm btn-primary mr-2"
+                    >
+                      Edytuj
+                    </button>
+                    <button
+                      data-id={user._id}
+                      onClick={onRemove}
+                      className="btn btn-sm btn-danger"
+                    >
+                      Usuń
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </div>
