@@ -7,7 +7,11 @@ import {
   ProductNew,
   ProductNewCard,
 } from "../components/Menu/menu_components";
-import { handleEdit, handleRemove } from "../components/Menu/menu_methods";
+import {
+  handleCreate,
+  handleEdit,
+  handleRemove,
+} from "../components/Menu/menu_methods";
 import { useLoad } from "../utils/hooks";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 const EMPTY_PRODUCT_TEMPLATE = {
@@ -81,7 +85,13 @@ const MenuPage = ({ history }) => {
                 setIsModalVisible(false);
                 setProduct(EMPTY_PRODUCT_TEMPLATE);
               }}
-              onSave={() => console.log(product)}
+              onSave={() =>
+                handleCreate(product, (data) => {
+                  setProducts(data);
+                  setIsNew(false);
+                  setIsModalVisible(false);
+                })
+              }
               onChange={(e) =>
                 setProduct({ ...product, [e.target.name]: e.target.value })
               }
