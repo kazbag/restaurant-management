@@ -12,7 +12,14 @@ export const handleCreate = (product, callback) => {
     .catch((err) => console.log(err));
 };
 
-export const handleEdit = (id, callback) => {};
+export const handleEdit = (id, data, callback) => {
+  axios
+    .patch(`${SERVER_URL}/products/${id}`, data)
+    .then(() => axios.get(`${SERVER_URL}/products`))
+    .then((response) => callback(response.data))
+    .then(() => window.swal.fire("Edytowano produkt."))
+    .catch((err) => console.log(err));
+};
 
 export const handleRemove = (id, callback) => {
   window.swal

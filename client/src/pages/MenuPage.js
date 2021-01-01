@@ -64,7 +64,11 @@ const MenuPage = ({ history }) => {
           {isModalVisible && isEdit && (
             <ProductEdit
               product={selectedProduct}
-              onSave={() => setIsModalVisible(false)}
+              onSave={() => {
+                setIsEdit(false);
+                setIsModalVisible(false);
+                handleEdit(selectedProduct._id, selectedProduct, setProducts);
+              }}
               onCancel={() => {
                 setIsModalVisible(false);
                 setSelectedProduct(null);
