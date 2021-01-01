@@ -1,28 +1,16 @@
 import React from "react";
 import axios from "axios";
+import _ from "lodash";
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
-export const handleAdd = (product, products, callback) => {
-  callback({ products: [...products, product] });
+export const handleAdd = (product, products, productsList, callback) => {
+  const _product = productsList.find((prod) => prod.name === product);
+  callback({ products: [...products, _product] });
 };
 
 export const addDiscountCode = (codesList, code, discountAmount) => {
   const discount = codesList.find((item) => item.code === code);
-
-  //   if (!code) {
-  //     alert("niepoprawny kod");
-  //     return;
-  //   }
-
-  //   if (!isCodeIncluded) {
-  //     const discount = discountAmount - code.value;
-  //     setDiscountAmount(discount);
-  //     setIsCodeIncluded(true);
-  //     return;
-  //   }
-  //   console.log(discountAmount);
-  //   alert("Wpisałeś już kod!");
 };
 
 export const handleSubmit = (order) => {
@@ -40,17 +28,6 @@ export const handleCode = (code, callback) => {
     })
     .catch((err) => console.log(err.message));
 };
-
-// const mockOrder = {
-//     products: order,
-//     price: 123,
-//     orderDate: new Date(),
-//     paymentStatus: true,
-//     orderStatus: false,
-//     // todo get user phone and address
-//     phone: "222643341",
-//     address: "ul. Pawia 22/3",
-//   };
 
 export const getProducts = (callback) => {
   axios

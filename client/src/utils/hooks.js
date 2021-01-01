@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 export const useFields = function(initialValue) {
   const [fields, setValues] = useState(initialValue);
@@ -19,4 +20,18 @@ export const useFields = function(initialValue) {
     setValues({ ...fields, ...newValue });
   };
   return [fields, setField, setValues, updateFields];
+};
+
+export const useLoad = function(initialState, uri) {
+  const [fields, setFields] = useState(initialState);
+  useEffect(() => {
+    axios
+      .get(uri)
+      .then((res) => {
+        console.log(res);
+        setFields(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [uri]);
+  return [fields, setFields];
 };

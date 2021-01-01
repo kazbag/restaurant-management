@@ -95,12 +95,7 @@ router.get("/:code", async (req, res) => {
 router.post("/", async (req, res) => {
   const discountCodes = new DiscountCodes({
     code: req.body.code,
-    startDate: req.body.startDate,
-    expirationDate: req.body.expirationDate,
-    value: req.body.value,
-    percentage: req.body.percentage,
-    reusable: req.body.reusable,
-    used: req.body.used,
+    value: parseInt(req.body.value) / 100,
   });
   try {
     const savedDiscountCodes = await discountCodes.save();

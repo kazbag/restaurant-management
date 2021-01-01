@@ -16,6 +16,9 @@ import MenuPage from "./pages/MenuPage";
 import CodePage from "pages/CodePage";
 import Footer from "./components/Footer";
 
+import Swal from "sweetalert2";
+window.swal = Swal;
+
 const App = () => {
   return (
     <div className="App">

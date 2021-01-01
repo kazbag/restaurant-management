@@ -1,112 +1,110 @@
 import React, { useEffect, useContext, useState } from "react";
-import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 import { withRouter } from "react-router-dom";
-import styled, { css } from "styled-components";
-import variables from "../variables/variables";
-
-const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+import {
+  ProductList,
+  ProductEdit,
+  ProductNew,
+  ProductNewCard,
+} from "../components/Menu/menu_components";
+import {
+  handleCreate,
+  handleEdit,
+  handleRemove,
+} from "../components/Menu/menu_methods";
+import { useLoad } from "../utils/hooks";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+const EMPTY_PRODUCT_TEMPLATE = {
+  name: "",
+  description: "",
+  price: 10,
+  photo: "",
+};
 
 const MenuPage = ({ history }) => {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isNew, setIsNew] = useState(false);
+  const [products, setProducts] = useLoad([], `${SERVER_URL}/products`);
+  const [isModalVisible, setIsModalVisible] = useState(true);
+  const [product, setProduct] = useState(EMPTY_PRODUCT_TEMPLATE);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const getProducts = () => {
-    axios
-      .get(`${serverUrl}/products`, setLoading(true))
-      .then((res) => {
-        setProducts(res.data);
-        setLoading(false);
-      })
-
-      .catch((err) => console.log(err));
+  const handleProductEditSelect = (e) => {
+    const product = products.filter((i) => i._id === e.target.id);
+    setIsModalVisible(true);
+    setIsEdit(true);
+    setIsNew(false);
+    if (product && product.length) {
+      setSelectedProduct(product[0]);
+    } else {
+      setSelectedProduct(null);
+    }
   };
 
-  useEffect(() => {
-    getProducts();
-  }, []);
-  const mappedProducts = products.map((product, index) => {
-    return (
-      <StyledProductListItem key={index}>
-        <StyledProductImage src={product.photo} />#{index} {product.id},{" "}
-        {product.name} - {product.price} zł{" "}
-        <StyledButton save>Edytuj</StyledButton>{" "}
-        <StyledButton remove>Usuń</StyledButton>
-      </StyledProductListItem>
-    );
-  });
+  const handleProductNewSelect = (e) => {
+    setIsModalVisible(true);
+    setIsEdit(false);
+    setIsNew(true);
+    setSelectedProduct(EMPTY_PRODUCT_TEMPLATE);
+  };
 
   return (
     <AuthContext.Consumer>
       {(context) => (
-        <StyledContainer>
-          <StyledTitle>Strona menu</StyledTitle>
-          <StyledProductList>
-            {loading ? (
-              <StyledProductListItem>Loading...</StyledProductListItem>
-            ) : (
-              mappedProducts
-            )}
-          </StyledProductList>
-        </StyledContainer>
+        <div className="row">
+          <ProductList
+            list={products}
+            // onEdit={(e) => handleEdit(e.target.id)}
+            performEdit={handleProductEditSelect}
+            onRemove={(e) => handleRemove(e.target.id, setProducts)}
+          >
+            <ProductNewCard onClick={handleProductNewSelect} />
+          </ProductList>
+          {isModalVisible && isEdit && (
+            <ProductEdit
+              product={selectedProduct}
+              onSave={() => {
+                setIsEdit(false);
+                setIsModalVisible(false);
+                handleEdit(selectedProduct._id, selectedProduct, setProducts);
+              }}
+              onCancel={() => {
+                setIsModalVisible(false);
+                setSelectedProduct(null);
+              }}
+              onChange={(e) =>
+                setSelectedProduct({
+                  ...selectedProduct,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
+          )}
+          {isModalVisible && isNew && (
+            <ProductNew
+              product={product}
+              onCancel={() => {
+                setIsNew(false);
+                setIsModalVisible(false);
+                setProduct(EMPTY_PRODUCT_TEMPLATE);
+              }}
+              onSave={() =>
+                handleCreate(product, (data) => {
+                  setProducts(data);
+                  setIsNew(false);
+                  setIsModalVisible(false);
+                })
+              }
+              onChange={(e) =>
+                setProduct({ ...product, [e.target.name]: e.target.value })
+              }
+            />
+          )}
+        </div>
       )}
     </AuthContext.Consumer>
   );
 };
 
-const StyledContainer = styled.div`
-  max-width: 75%;
-  margin: 0 auto;
-  color: ${variables.whiteColor};
-`;
-
-const StyledTitle = styled.h3`
-  text-align: center;
-`;
-
-const StyledProductList = styled.ul`
-  list-style: none;
-  line-height: 1.7;
-`;
-const StyledProductListItem = styled.li`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 1fr 2fr 1fr 1fr;
-`;
-const StyledProductImage = styled.img`
-  margin-right: 1rem;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-`;
-const StyledButton = styled.button`
-  padding: 0.5rem 1.5rem;
-  border: none;
-  text-align: center;
-  border: 1px solid ${variables.blackColor};
-  transition: 0.25s;
-  &:hover {
-    cursor: pointer;
-    background: none;
-  }
-  ${({ remove }) =>
-    remove &&
-    css`
-      background-color: red;
-      color: ${variables.whiteColor};
-      border-color: red;
-      &:hover {
-      }
-    `}
-  ${({ save }) =>
-    save &&
-    css`
-      background-color: ${variables.primaryColor};
-      &:hover {
-        border-color: ${variables.primaryColor};
-        color: ${variables.whiteColor};
-      }
-    `}
-`;
 export default withRouter(MenuPage);

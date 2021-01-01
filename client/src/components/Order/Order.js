@@ -1,18 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
+import _ from "lodash";
 
 const Order = ({ order, handleChange, handleCode, handleSubmit }) => {
+  const productPrice = order.products.reduce((a, b) => +a + +b.price, 0);
+
+  const getProductAmount = (productName) => {
+    return order.products.filter((i) => i.name === productName).length;
+  };
+
+  let uniqueProducts = _(order.products)
+    .groupBy("name")
+    .map((g, name) => ({ name, price: _.sumBy(g, "price") }))
+    .value();
+
+  const productsList = uniqueProducts.map((product, index) => {
+    return (
+      <li key={index} data-id={`product_${index}`}>
+        {product.name} {product.price} zł{" "}
+        {getProductAmount(product.name) > 1
+          ? getProductAmount(product.name) + "szt"
+          : ""}
+      </li>
+    );
+  });
+
   return (
     <div className="card p-4">
       <h3 className="">Twoje zamówienie</h3>
       <ul className="list list-unstyled px-0 mx-0">
-        {/* {order.map((item, id) => {
-          return (
-            <li className="list-item" key={id}>
-              {item}
-            </li>
-          );
-        })} */}
-        {order.price > 0 && <span>Koszt całkowity: {order.price} zł</span>}
+        {productsList}
+        {productPrice > 0 && !order.code_submitted && (
+          <span>Koszt całkowity: {productPrice} zł</span>
+        )}
+        {productPrice > 0 && order.code_submitted && (
+          <span>
+            koszt całkowity <s>{productPrice.toFixed(2)} zł </s>{" "}
+            {(productPrice * order.ratio).toFixed(2)} zł{" "}
+          </span>
+        )}
       </ul>
       <div className="form-group">
         <label>Kod rabatowy</label>
@@ -50,6 +75,7 @@ const Order = ({ order, handleChange, handleCode, handleSubmit }) => {
           </a>
         </div>
       </div>
+
       {order.error && (
         <div
           className="alert alert-warning alert-dismissible fade mt-4 show"
