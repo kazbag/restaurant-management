@@ -6,19 +6,23 @@ export const Container = ({ children }) => {
 
 export const Modal = ({ data }) => {};
 
-export const List = ({ data, header }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export const List = ({
+  data,
+  header,
+  onSubmit,
+  isModalVisible,
+  setIsModalVisible,
+}) => {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState({});
 
   useEffect(() => {
     const newOrder = data.filter((i) => i._id === selectedOrderId);
     setSelectedOrder(newOrder[0]);
-    console.log(newOrder[0]);
   }, [selectedOrderId, setSelectedOrderId]);
 
   const handleModal = (e) => {
-    setIsModalOpen(!isModalOpen);
+    setIsModalVisible(!isModalVisible);
     setSelectedOrderId(e.target.id);
   };
 
@@ -44,7 +48,7 @@ export const List = ({ data, header }) => {
             );
           })}
       </ul>
-      {isModalOpen && (
+      {isModalVisible && selectedOrder && (
         <div
           className="position-fixed card"
           style={{
@@ -77,7 +81,12 @@ export const List = ({ data, header }) => {
             </ul>
           </div>
           <div className="card-footer mt-auto d-flex">
-            <button className="btn btn-success mr-4">Zrealizowano</button>
+            <button
+              className="btn btn-success mr-4"
+              onClick={() => onSubmit(selectedOrder._id)}
+            >
+              Zmień status
+            </button>
             <button className="btn btn-secondary" onClick={handleModal}>
               Zamknij
             </button>
