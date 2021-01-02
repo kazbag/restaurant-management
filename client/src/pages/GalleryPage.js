@@ -1,10 +1,5 @@
 import React from "react";
 import { withRouter } from "react-router";
-import {
-  StyledContainerBox,
-  StyledGalleryImagesContainerBox,
-  StyledGalleryImage,
-} from "../stylesComponents/StyledComponents";
 
 const GalleryPage = () => {
   const images = new Array(32)
@@ -14,14 +9,17 @@ const GalleryPage = () => {
     );
 
   const mappedImages = images.map((item) => (
-    <StyledGalleryImage src={item} key={(Math.random() * 10000).toString(36)} />
+    <img
+      className="col-12 col-md-6 col-lg-4 mb-4"
+      src={item}
+      key={(Math.random() * 10000).toString(36)}
+      alt="obrazek"
+    />
   ));
   return (
-    <StyledContainerBox>
-      <StyledGalleryImagesContainerBox>
-        {mappedImages}
-      </StyledGalleryImagesContainerBox>
-    </StyledContainerBox>
+    <div className="row">
+      <ul className="list list-unstyled">{mappedImages}</ul>
+    </div>
   );
 };
 export default withRouter(GalleryPage);

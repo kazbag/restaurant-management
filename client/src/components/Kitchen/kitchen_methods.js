@@ -9,7 +9,6 @@ export const handleStatusToggle = (
   setCompletedOrders,
   message
 ) => {
-  console.log(orderId);
   axios
     .patch(`${SERVER_URL}/orders/status/${orderId}`)
     .then(() => axios.get(`${SERVER_URL}/orders/pending`))

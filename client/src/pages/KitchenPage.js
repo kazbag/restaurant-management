@@ -7,7 +7,7 @@ import {
   List,
 } from "../components/Kitchen/kitchen_components";
 import { useLoad } from "../utils/hooks";
-import { handleStatusToggle } from "../components/Kitchen/kitchen_utils";
+import { handleStatusToggle } from "../components/Kitchen/kitchen_methods";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 const KitchenPage = ({ history }) => {
