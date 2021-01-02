@@ -264,3 +264,38 @@ export const OrderList = ({ orders }) => {
     </div>
   );
 };
+
+export const NewMessage = ({ onChange, onSubmit }) => {
+  return (
+    <div className="col-12">
+      <div className="card">
+        <div className="card-header">Dodaj news</div>
+        <div className="card-body">
+          <form className="form">
+            <div className="form-group">
+              <label>Tytuł</label>
+              <input
+                onChange={onChange}
+                type="text"
+                className="form-control"
+                name="title"
+              />
+            </div>
+            <div className="form-group">
+              <textarea
+                onChange={onChange}
+                className="form-control"
+                name="message"
+              ></textarea>
+            </div>
+          </form>
+        </div>
+        <div className="card-footer">
+          <button className="btn btn-success" onClick={onSubmit}>
+            Dodaj
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};

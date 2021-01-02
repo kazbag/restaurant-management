@@ -1,32 +1,41 @@
 const latestNews = require("express").Router();
+const express = require("express");
+const router = express.Router();
+const LatestNews = require("../models/LatestNews");
 
 latestNews.get("/", async (req, res) => {
-  res.json([
-    {
-      id: 1,
-      title: "Promocja",
-      message:
-        "Dzisiaj w promocji zupa pomidorowa! Z kodem ZUP_POM dostaniesz 20% rabatu!",
-      date: "19.11.2020",
-      link: `http://localhost:3000/news/1`,
-    },
-    {
-      id: 2,
-      title: "Informacje",
-      message:
-        "Pandemia pandemią, ale wciąż oferujemy dostawę pysznych, świeżych posiłków!",
-      date: "18.11.2020",
-      link: `http://localhost:3000/news/2`,
-    },
-    {
-      id: 3,
-      title: "Nowy pracownik",
-      message:
-        "W związku z rozrostem naszej restauracji, zatrudniliśmy nowego kucharza.",
-      date: "17.11.2020",
-      link: `http://localhost:3000/news/3`,
-    },
-  ]);
+  try {
+    const news = await LatestNews.find();
+    res.json(news);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+latestNews.post("/", async (req, res) => {
+  const newNews = new LatestNews({
+    title: req.body.title,
+    message: req.body.message,
+    date: Date.now(),
+    // TODO: auto link generate
+  });
+  try {
+    const savedNewNews = await newNews.save();
+    res.json(savedNewNews);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+latestNews.delete("/:newsId", async (req, res) => {
+  try {
+    const removedNews = await LatestNews.remove({
+      _id: req.params.newsId,
+    });
+    res.json(removedNews);
+  } catch (err) {
+    res.json({ message: err });
+  }
 });
 
 module.exports = latestNews;
