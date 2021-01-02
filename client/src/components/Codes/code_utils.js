@@ -44,7 +44,7 @@ export const CodeModal = ({ onChange, onCreate, onReset }) => {
                   </button>
                   <button
                     className="btn btn-secondary"
-                    type="button"
+                    type="reset"
                     onClick={onReset}
                   >
                     Anuluj

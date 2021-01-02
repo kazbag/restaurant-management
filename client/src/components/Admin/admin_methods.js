@@ -43,3 +43,36 @@ export const handleNew = (data, callback) => {
     .then(() => window.swal.fire("Dodano użytkownika!"))
     .catch((err) => console.log(err));
 };
+
+export const handleCreateMessage = (data, callback) => {
+  axios
+    .post(`${SERVER_URL}/news`, data)
+    .then(() => axios.get(`${SERVER_URL}/news`))
+    .then((response) => callback(response.data))
+    .then(() => window.swal.fire("Dodano nową wiadomość!"))
+    .catch((err) => console.log(err));
+};
+
+export const handleRemoveMessage = (id, callback) => {
+  window.swal
+    .fire({
+      title: "Czy na pewno chcesz usunąć ten news?",
+      text: "Ta zmiana jest nieodwracalna!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Tak, usuń!",
+      cancelButtonText: "Nie, zostaw.",
+    })
+    .then((result) => {
+      if (result.value) {
+        axios
+          .delete(`${SERVER_URL}/news/${id}`)
+          .then(() => axios.get(`${SERVER_URL}/news`))
+          .then((response) => callback(response.data))
+          .catch((err) => console.log(err));
+        window.swal.fire("Usunięto!");
+      } else if (result.dismiss === window.swal.DismissReason.cancel) {
+        window.swal.fire("Anulowano.");
+      }
+    });
+};

@@ -4,11 +4,15 @@ import {
   UserList,
   UserEdit,
   OrderList,
+  NewsModal,
+  NewsList,
 } from "../components/Admin/admin_components";
 import {
   handleEdit,
   handleRemove,
   handleNew,
+  handleCreateMessage,
+  handleRemoveMessage,
 } from "../components/Admin/admin_methods";
 import { useLoad } from "../utils/hooks";
 
@@ -24,6 +28,10 @@ const EMPTY_USER_TEMPLATE = {
   city: "",
   role: "user",
 };
+const EMPTY_NEWS_TEMPLATE = {
+  title: "",
+  message: "",
+};
 
 const AdminPage = () => {
   const [user, setUser] = useState(EMPTY_USER_TEMPLATE);
@@ -35,7 +43,9 @@ const AdminPage = () => {
   // TODO: unificate that orderStatus: true is completed or pending order
   const [ordersPending] = useLoad([], `${SERVER_URL}/orders/completed`);
   const [ordersCompleted] = useLoad([], `${SERVER_URL}/orders/pending`);
-
+  const [news, setNews] = useState(EMPTY_NEWS_TEMPLATE);
+  const [newsList, setNewsList] = useLoad([], `${SERVER_URL}/news`);
+  const [isNewsModalVisible, setIsNewsModalVisible] = useState(false);
   const handleUserSelection = (id) => {
     const user = users.filter((u) => u._id === id);
     if (user.length) {
@@ -49,6 +59,29 @@ const AdminPage = () => {
 
   return (
     <div className="row">
+      <NewsList
+        data={newsList}
+        performNew={() => setIsNewsModalVisible(true)}
+        onRemove={(e) => handleRemoveMessage(e.target.dataset.id, setNewsList)}
+      />
+      {isNewsModalVisible && (
+        <NewsModal
+          onChange={(e) =>
+            setNews({ ...news, [e.target.name]: e.target.value })
+          }
+          onSubmit={() =>
+            handleCreateMessage(news, (newList) => {
+              setNews(EMPTY_USER_TEMPLATE);
+              setIsNewsModalVisible(false);
+              setNewsList(newList);
+            })
+          }
+          onCancel={() => {
+            setIsNewsModalVisible(false);
+            setNews(EMPTY_USER_TEMPLATE);
+          }}
+        />
+      )}
       <UserList
         performEdit={(e) => {
           handleUserSelection(e.target.dataset.id);

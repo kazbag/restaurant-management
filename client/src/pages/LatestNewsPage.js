@@ -20,7 +20,7 @@ const getLatestNews = (url, callback) => {
 const NewsList = ({ data }) => {
   return data.map((msg, index) => {
     return (
-      <div className="col" key={index}>
+      <div className="col-12 col-md-6 col-lg-4 h-100" key={index}>
         <div className="card-deck">
           <div className="card mb-4 col m-4 p-4 card-stretch">
             <h3 className="card-title text-dark">{msg.title}</h3>
