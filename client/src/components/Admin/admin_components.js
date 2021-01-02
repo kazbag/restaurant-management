@@ -196,6 +196,7 @@ export const OrderList = ({ orders }) => {
   const [orderType, setOrderType] = useState("pending");
   const [orderDate, setOrderDate] = useState("all");
   // TODO: complete data sort
+  // TODO: handle showDetails
   return (
     <div className="col-12 col-md-6">
       <div className="card">
@@ -265,7 +266,7 @@ export const OrderList = ({ orders }) => {
   );
 };
 
-export const NewsModal = ({ onChange, onSubmit }) => {
+export const NewsModal = ({ onChange, onSubmit, onCancel }) => {
   return (
     <div className="col-12 mb-4">
       <div className="card">
@@ -295,11 +296,76 @@ export const NewsModal = ({ onChange, onSubmit }) => {
           </form>
         </div>
         <div className="card-footer">
-          <button className="btn btn-success" onClick={onSubmit}>
+          <button className="btn btn-success mr-2" onClick={onSubmit}>
             Dodaj
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={onCancel}
+          >
+            Anuluj
           </button>
         </div>
       </div>
     </div>
   );
+};
+
+export const NewsList = ({ data, performNew, onRemove }) => {
+  return (
+    <div className="col-12 mb-4">
+      <div className="card">
+        <div className="card-header">
+          <h3 className="card-title">Lista newsów</h3>
+        </div>
+        <div className="card-body">
+          <ul className="list list-unstyled">
+            <li
+              className="list-item d-flex align-items-center mb-4 pb-4"
+              style={{ borderBottom: "1px solid black" }}
+            >
+              <span className="text-success font-weight-bold">Dodaj news</span>
+              <button
+                type="button"
+                className="btn btn-sm btn-success ml-auto"
+                onClick={performNew}
+              >
+                Dodaj
+              </button>
+            </li>
+            {data.map((item, index) => {
+              return (
+                <li
+                  key={index}
+                  className="list-item d-flex mb-2 align-items-center"
+                >
+                  <span>{item.title}</span>
+                  <button
+                    data-id={item._id}
+                    type="button"
+                    className="btn btn-sm btn-danger ml-auto"
+                    onClick={onRemove}
+                  >
+                    Usuń
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+  return data.map((msg, index) => {
+    return (
+      <div className="col-12 col-md-6 col-lg-4 h-100" key={index}>
+        <div className="card-deck">
+          <div className="card mb-4 col m-4 p-4 card-stretch">
+            <h3 className="card-title text-dark">{msg.title}</h3>
+          </div>
+        </div>
+      </div>
+    );
+  });
 };
