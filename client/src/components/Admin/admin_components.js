@@ -265,16 +265,19 @@ export const OrderList = ({ orders }) => {
   );
 };
 
-export const NewMessage = ({ onChange, onSubmit }) => {
+export const NewsModal = ({ onChange, onSubmit }) => {
   return (
-    <div className="col-12">
+    <div className="col-12 mb-4">
       <div className="card">
-        <div className="card-header">Dodaj news</div>
+        <div className="card-header">
+          <h3 className="card-title">Dodaj news</h3>
+        </div>
         <div className="card-body">
           <form className="form">
             <div className="form-group">
               <label>Tytuł</label>
               <input
+                placeholder="wpisz tytuł wiadomości"
                 onChange={onChange}
                 type="text"
                 className="form-control"
@@ -283,6 +286,7 @@ export const NewMessage = ({ onChange, onSubmit }) => {
             </div>
             <div className="form-group">
               <textarea
+                placeholder="wpisz wiadomość"
                 onChange={onChange}
                 className="form-control"
                 name="message"

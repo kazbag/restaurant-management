@@ -43,3 +43,11 @@ export const handleNew = (data, callback) => {
     .then(() => window.swal.fire("Dodano użytkownika!"))
     .catch((err) => console.log(err));
 };
+
+export const handleCreateMessage = (data, callback) => {
+  axios
+    .post(`${SERVER_URL}/news`, data)
+    .then(() => window.swal.fire("Dodano nową wiadomość!"))
+    .then(() => callback())
+    .catch((err) => console.log(err));
+};
