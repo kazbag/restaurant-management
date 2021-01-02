@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router";
-import { UserList, UserEdit } from "../components/Admin/admin_components";
+import {
+  UserList,
+  UserEdit,
+  OrderList,
+} from "../components/Admin/admin_components";
 import {
   handleEdit,
   handleRemove,
@@ -28,6 +32,9 @@ const AdminPage = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isUserModalVisible, setIsUserModalVisible] = useState(false);
+  // TODO: unificate that orderStatus: true is completed or pending order
+  const [ordersPending] = useLoad([], `${SERVER_URL}/orders/completed`);
+  const [ordersCompleted] = useLoad([], `${SERVER_URL}/orders/pending`);
 
   const handleUserSelection = (id) => {
     const user = users.filter((u) => u._id === id);
@@ -106,6 +113,9 @@ const AdminPage = () => {
           buttonText="Dodaj"
         />
       )}
+      <OrderList
+        orders={{ pending: ordersPending, completed: ordersCompleted }}
+      />
     </div>
   );
 };

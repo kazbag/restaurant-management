@@ -191,3 +191,71 @@ export const UserEdit = ({
     </div>
   );
 };
+
+export const OrderList = ({ orders }) => {
+  const [orderType, setOrderType] = useState("pending");
+  const [orderDate, setOrderDate] = useState("all");
+
+  return (
+    <div className="col-12 col-md-6">
+      <div className="card">
+        <div className="card-header">
+          <h3 className="card-title">Zamówienia</h3>
+        </div>
+        <div className="card-body">
+          <div className="form-group">
+            <label>Wybierz typ zamówień</label>
+            <select
+              value={orderType}
+              onChange={(e) => setOrderType(e.target.value)}
+              name="type"
+              className="form-control"
+            >
+              <option value="pending">Aktualne</option>
+              <option value="completed">Zakończone</option>
+            </select>
+          </div>
+          {orderType === "completed" && (
+            <div className="form-group">
+              <label>Okres</label>
+              <select
+                name="date"
+                class="form-control"
+                onChange={(e) => setOrderDate(e.target.value)}
+                value={orderDate}
+              >
+                <option value="day">Dzisiejsze</option>
+                <option value="week">Tygodniowe</option>
+                <option value="month">Miesięczne</option>
+                <option value="year">Roczne</option>
+                <option value="all">Wszystkie</option>
+              </select>
+            </div>
+          )}
+          <ul className="list list-unstyled">
+            {orders &&
+              orders[orderType].map((item, index) => {
+                return (
+                  <li
+                    className="list-item d-flex mb-2 align-items-center"
+                    key={index}
+                  >
+                    <span className="mr-auto">
+                      #{index + 1} {item.address}
+                    </span>
+                    <button
+                      data-id={item._id}
+                      type="button"
+                      className="btn btn-sm btn-primary ml-auto"
+                    >
+                      Szczegóły
+                    </button>
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
