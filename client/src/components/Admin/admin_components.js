@@ -195,7 +195,7 @@ export const UserEdit = ({
 export const OrderList = ({ orders }) => {
   const [orderType, setOrderType] = useState("pending");
   const [orderDate, setOrderDate] = useState("all");
-
+  // TODO: complete data sort
   return (
     <div className="col-12 col-md-6">
       <div className="card">
@@ -220,7 +220,7 @@ export const OrderList = ({ orders }) => {
               <label>Okres</label>
               <select
                 name="date"
-                class="form-control"
+                className="form-control"
                 onChange={(e) => setOrderDate(e.target.value)}
                 value={orderDate}
               >
@@ -234,6 +234,7 @@ export const OrderList = ({ orders }) => {
           )}
           <ul className="list list-unstyled">
             {orders &&
+              orderType === "pending" &&
               orders[orderType].map((item, index) => {
                 return (
                   <li
@@ -253,6 +254,10 @@ export const OrderList = ({ orders }) => {
                   </li>
                 );
               })}
+
+            {orders &&
+              orderType === "completed" &&
+              orders[orderType].map((item, index) => {})}
           </ul>
         </div>
       </div>
