@@ -67,7 +67,7 @@ const LoginPage = ({ history, location }) => {
   return (
     <div className="container">
       <h3 className="text-center mb-4 text-white">
-        {window.location.href === "/login" ? "Logowanie" : "Rejestracja"}
+        {window.location.pathname === "/login" ? "Logowanie" : "Rejestracja"}
       </h3>
       <AccountForm
         handleChange={setField}
