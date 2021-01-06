@@ -38,14 +38,7 @@ export const handleCreate = (code, callback) => {
     .then(() => window.swal.fire("Dodano nowy kod!"))
     .catch((err) => {
       if (err.response) {
-        window.swal.fire("You cannot add the same code")
-
-      }
-      else if (err.request) {
-        window.swal.fire("You cannot add the same code")
-      }
-      else {
-        window.swal.fire("good")
+        window.swal.fire("podałeś złe dane lub nie wprowadziłeś ich we wszystkich wymaganych polach")
       }
 
     })

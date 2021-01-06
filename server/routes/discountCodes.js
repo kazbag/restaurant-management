@@ -98,13 +98,13 @@ router.post("/", async (req, res) => {
     value: parseInt(req.body.value) / 100,
   });
   try {
-
+    if (!discountCodes.code) return res.status.code(500).send();
     const savedDiscountCodes = await discountCodes.save((error) => {
       if (error) {
-        res.status(400)
+        res.status(400).send()
       }
       else
-        res.status(200)
+        res.status(200).send();
       res.json(savedDiscountCodes);
     })
 
