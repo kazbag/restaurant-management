@@ -98,8 +98,16 @@ router.post("/", async (req, res) => {
     value: parseInt(req.body.value) / 100,
   });
   try {
-    const savedDiscountCodes = await discountCodes.save();
-    res.json(savedDiscountCodes);
+
+    const savedDiscountCodes = await discountCodes.save((error) => {
+      if (error) {
+        res.status(400)
+      }
+      else
+        res.status(200)
+      res.json(savedDiscountCodes);
+    })
+
   } catch (err) {
     res.json({ message: err });
   }

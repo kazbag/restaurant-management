@@ -22,7 +22,8 @@ const CodesPage = () => {
             onChange={(e) =>
               setCode({ ...code, [e.target.name]: e.target.value })
             }
-            onCreate={() => handleCreate(code, setCodes)}
+            onCreate={
+              () => handleCreate(code, setCodes)}
             onReset={() => setCode(EMPTY_CODE_TEMPLATE)}
           />
           <CodeList

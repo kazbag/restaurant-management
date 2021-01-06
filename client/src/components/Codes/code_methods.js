@@ -1,4 +1,7 @@
 import axios from "axios";
+import { useState, useEffect } from "react";
+import { Redirect } from "react-router";
+import { redirectToHomepage } from "utils/form_methods";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 export const handleRemove = (id, callback) => {
@@ -25,11 +28,31 @@ export const handleRemove = (id, callback) => {
     });
 };
 
+
 export const handleCreate = (code, callback) => {
+
   axios
     .post(`${SERVER_URL}/discountCodes`, code)
     .then(() => axios.get(`${SERVER_URL}/discountCodes`))
     .then((response) => callback(response.data))
     .then(() => window.swal.fire("Dodano nowy kod!"))
-    .catch((err) => console.log(err));
-};
+    .catch((err) => {
+      if (err.response) {
+        window.swal.fire("You cannot add the same code")
+
+      }
+      else if (err.request) {
+        window.swal.fire("You cannot add the same code")
+      }
+      else {
+        window.swal.fire("good")
+      }
+
+    })
+
+
+
+
+
+}
+
