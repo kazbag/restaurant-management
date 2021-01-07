@@ -98,13 +98,13 @@ router.post("/", async (req, res) => {
     value: parseInt(req.body.value) / 100,
   });
   try {
-    if (!discountCodes.code) return res.status.code(500).send();
+    if (!discountCodes.code) return res.status(500).json({ error: { message: "brak danych wejsciowych" } });
     const savedDiscountCodes = await discountCodes.save((error) => {
       if (error) {
-        res.status(400).send()
+        res.status(400).json({ error: { message: error.errmsg } });
       }
       else
-        res.status(200).send();
+        res.status(200).send("ok");
       res.json(savedDiscountCodes);
     })
 
