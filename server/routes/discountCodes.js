@@ -104,8 +104,8 @@ router.post("/", async (req, res) => {
         res.status(400).json({ error: { message: error.errmsg } });
       }
       else
-        res.status(200).send("ok");
-      res.json(savedDiscountCodes);
+
+        res.json(savedDiscountCodes);
     })
 
   } catch (err) {
