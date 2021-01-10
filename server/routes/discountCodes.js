@@ -101,7 +101,7 @@ router.post("/", async (req, res) => {
     if (!discountCodes.code) return res.status(500).json({ error: { message: "brak danych wejsciowych" } });
     const savedDiscountCodes = await discountCodes.save((error) => {
       if (error) {
-        res.status(400).json({ error: { message: error.errmsg } });
+        res.status(400).json({ error: { message: "podany kod juz istnieje" } });
       }
       else
 
