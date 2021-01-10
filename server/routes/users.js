@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Users = require("../models/Users");
+const bcrypt = require("bcrypt");
 
 /**
  * @swagger
@@ -75,20 +76,31 @@ router.get("/:userId", async (req, res) => {
  *        description: succesful repsonse
  */
 router.post("/", async (req, res) => {
+
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
   const user = new Users({
     name: req.body.name,
     surname: req.body.surname,
     login: req.body.login,
-    password: req.body.password,
+    password: hashedPassword,
     email: req.body.email,
     city: req.body.city,
     role: req.body.role,
   });
-  try {
-    const savedUser = await user.save();
-    res.json(savedUser);
-  } catch (err) {
-    res.json({ message: err });
+  const userInDatabase = await Users.findOne({ login: user.login })
+  if (userInDatabase) {
+    return res.status(400).send("user already registered")
+  }
+  else {
+    try {
+      const savedUser = await user.save();
+      res.json(savedUser);
+
+    } catch (err) {
+      res.json({ message: err });
+    }
   }
 });
 
