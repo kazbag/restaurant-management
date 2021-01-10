@@ -15,6 +15,7 @@ const usersRoutes = require("./routes/users");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
+
 const originUrl = process.env.ORIGIN_URL || "http://localhost:3000";
 const port = process.env.PORT || 3001;
 
@@ -125,12 +126,10 @@ db.once("open", () => {
 
   app.post("/register", async (req, res) => {
     const { name, password } = req.body;
-    const [user, error] = await registerUser(name, password);
-    if (error) {
-      res.status(409).send(error);
-    } else {
-      res.json({ user: { name: user.name } });
-    }
+    const user = await registerUser(name, password);
+
+    res.json(user);
+
   });
 
   app.post("/login", async (req, res) => {
