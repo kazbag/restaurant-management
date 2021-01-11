@@ -133,8 +133,8 @@ db.once("open", () => {
   });
 
   app.post("/login", async (req, res) => {
-    const { name, password, role } = req.body;
-    const [user, error] = await loginUser(name, password);
+    const { login, password, role } = req.body;
+    const [user, error] = await loginUser(login, password);
     if (error) {
       res.status(400).send(error);
     } else {
