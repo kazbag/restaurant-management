@@ -42,7 +42,7 @@ const loginUser = async (login, password) => {
   return [user, null];
 };
 
-/* const registerUser = async (name, password) => {
+/*  const registerUser = async (name, password) => {
   const userInDatabase = users.find((user) => user.name === name);
   if (userInDatabase) {
     return [null, "user already exists"];
@@ -58,7 +58,7 @@ const loginUser = async (login, password) => {
   users.push(user);
 
   return [user, null];
-}; */
+};  */
 
 module.exports = {
   loginUser,

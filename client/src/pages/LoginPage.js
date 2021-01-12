@@ -31,6 +31,59 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
           />
           <small className="form-text text-muted">Wprowadź hasło</small>
         </div>
+
+        {window.location.pathname === "/register" && (
+          <>
+            <div className="form-group">
+              <label>Imię</label>
+              <input
+                className="form-control"
+                type="text"
+                placeholder="name"
+                name="name"
+                onChange={handleChange}
+              />
+              <small className="form-text text-muted">Wprowadź swoje imię</small>
+            </div>
+
+            <div className="form-group">
+              <label>Nazwisko</label>
+              <input
+                className="form-control"
+                type="text"
+                placeholder="surname"
+                name="surname"
+                onChange={handleChange}
+              />
+              <small className="form-text text-muted">Wprowadź swoje nazwisko</small>
+            </div>
+
+            <div className="form-group">
+              <label>E-mail</label>
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Jan.Kowalski@gmail.com"
+                name="email"
+                onChange={handleChange}
+              />
+              <small className="form-text text-muted">Wprowadź swój e-mail</small>
+            </div>
+
+            <div className="form-group">
+              <label>Miasto</label>
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Kraków"
+                name="city"
+                onChange={handleChange}
+              />
+              <small className="form-text text-muted">Wprowadź swoje miasto</small>
+            </div>
+          </>
+        )}
+
         {window.location.pathname === "/login" && (
           <a className="btn btn-primary px-5 w-100" onClick={handleLogin}>
             Zaloguj się

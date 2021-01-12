@@ -33,7 +33,7 @@ const UsersSchema = mongoose.Schema({
     },
     role: {
         type: String,
-        required: true
+        default: "user"
     },
 });
 module.exports = mongoose.model("Users", UsersSchema);
