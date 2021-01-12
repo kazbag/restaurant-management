@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const Users = require("./models/Users");
 
-const users = [
+/* const users = [
   {
     // 123/123
     name: "123",
@@ -24,7 +24,7 @@ const users = [
     password: "$2b$10$KSAfjDM1aEkoAU/vW7HH9O2eATiClAJrKDSE1cVlSPNMdZSo5KOvW",
     role: "employee",
   },
-];
+]; */
 
 const loginUser = async (login, password) => {
   //const user = users.find((user) => user.name === name);
@@ -39,7 +39,7 @@ const loginUser = async (login, password) => {
   return [user, null];
 };
 
-const registerUser = async (name, password) => {
+/* const registerUser = async (name, password) => {
   const userInDatabase = users.find((user) => user.name === name);
   if (userInDatabase) {
     return [null, "user already exists"];
@@ -55,9 +55,9 @@ const registerUser = async (name, password) => {
   users.push(user);
 
   return [user, null];
-};
+}; */
 
 module.exports = {
   loginUser,
-  registerUser,
+  //registerUser,
 };
