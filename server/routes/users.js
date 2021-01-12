@@ -88,6 +88,7 @@ router.post("/", async (req, res) => {
     email: req.body.email,
     city: req.body.city,
     role: req.body.role,
+    address: req.body.address
   });
   const userInDatabase = await Users.findOne({ login: user.login })
   if (userInDatabase) {

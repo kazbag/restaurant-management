@@ -24,6 +24,10 @@ const UsersSchema = mongoose.Schema({
         maxlength: 65,
         required: true
     },
+    address: {
+        type: String,
+        maxlength: 35,
+    },
     email: {
         type: String,
         unique: true
