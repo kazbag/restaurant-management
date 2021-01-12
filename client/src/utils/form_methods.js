@@ -10,7 +10,7 @@ export const submitOrder = (url, data) => {
 
 export const handleRegister = (uri, data, callback) => {
   axios
-    .post(`${uri}/register`, data)
+    .post(`${uri}/users`, data)
     .then((response) => {
       console.log(response);
       callback && callback();

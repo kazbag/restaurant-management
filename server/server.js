@@ -25,7 +25,8 @@ const {
   removeSession,
   checkSession,
 } = require("./SessionService");
-const { loginUser, registerUser } = require("./UserRepository");
+const { loginUser } = require("./UserRepository");
+const { collection } = require("./models/Users");
 
 //swagger
 const swaggerOptions = {
@@ -123,18 +124,20 @@ db.once("open", () => {
   app.get("/private", authorizationChain, (req, res) => {
     res.json({ session: req.session });
   });
-
-  app.post("/register", async (req, res) => {
-    const { name, password } = req.body;
-    const user = await registerUser(name, password);
-
-    res.json(user);
-
-  });
+  /* 
+    app.post("/register", async (req, res) => {
+      const { name, password } = req.body;
+      const user = await registerUser(name, password);
+  
+      res.json(user);
+  
+    }); */
 
   app.post("/login", async (req, res) => {
-    const { name, password, role } = req.body;
-    const [user, error] = await loginUser(name, password);
+    const { login, password, role } = req.body;
+    const [user, error] = await loginUser(login, password);
+    console.log(req.data)
+    console.log(req.body)
     if (error) {
       res.status(400).send(error);
     } else {

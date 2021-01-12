@@ -1,9 +1,7 @@
 const bcrypt = require("bcrypt");
-const pusher = require("pusher-js");
-const User = require("./models/Users");
+const Users = require("./models/Users");
 
-
-const users = [
+/* const users = [
   {
     // 123/123
     name: "123",
@@ -26,10 +24,14 @@ const users = [
     password: "$2b$10$KSAfjDM1aEkoAU/vW7HH9O2eATiClAJrKDSE1cVlSPNMdZSo5KOvW",
     role: "employee",
   },
-];
+]; */
 
-const loginUser = async (name, password) => {
-  const user = users.find((user) => user.name === name);
+const loginUser = async (login, password) => {
+  //const user = users.find((user) => user.name === name);
+  const user = await Users.findOne({ login: login })
+  const users = await Users.find();
+  //console.log(users)
+  //console.log(user)
   if (!user) {
     return [null, "cannot find user"];
   }
@@ -40,11 +42,11 @@ const loginUser = async (name, password) => {
   return [user, null];
 };
 
-const registerUser = async (name, password) => {
-  //const userInDatabase = users.find((user) => user.name === name);
-  //if (userInDatabase) {
-  //return [null, "user already exists"];
-  // }
+/*  const registerUser = async (name, password) => {
+  const userInDatabase = users.find((user) => user.name === name);
+  if (userInDatabase) {
+    return [null, "user already exists"];
+  }
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
   const user = {
@@ -53,11 +55,12 @@ const registerUser = async (name, password) => {
     role: "user",
   };
 
+  users.push(user);
 
   return [user, null];
-};
+};  */
 
 module.exports = {
   loginUser,
-  registerUser,
+  //registerUser,
 };
