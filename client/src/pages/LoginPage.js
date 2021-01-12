@@ -15,7 +15,7 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
             className="form-control"
             type="text"
             placeholder="login"
-            name="name"
+            name="login"
             onChange={handleChange}
           />
           <small className="form-text text-muted">Wprowadź swój login</small>
