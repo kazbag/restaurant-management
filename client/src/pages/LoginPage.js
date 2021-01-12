@@ -71,6 +71,18 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
             </div>
 
             <div className="form-group">
+              <label>Adres</label>
+              <input
+                className="form-control"
+                type="text"
+                placeholder="ul. Wielicka 23/2"
+                name="address"
+                onChange={handleChange}
+              />
+              <small className="form-text text-muted">Wprowadź swój adres</small>
+            </div>
+
+            <div className="form-group">
               <label>Miasto</label>
               <input
                 className="form-control"
