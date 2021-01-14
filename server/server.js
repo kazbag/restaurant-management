@@ -16,6 +16,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
 
+
 const originUrl = process.env.ORIGIN_URL || "http://localhost:3000";
 const port = process.env.PORT || 3001;
 
@@ -24,6 +25,7 @@ const {
   fetchSession,
   removeSession,
   checkSession,
+  getAuth
 } = require("./SessionService");
 const { loginUser } = require("./UserRepository");
 const { collection } = require("./models/Users");
@@ -136,8 +138,7 @@ db.once("open", () => {
   app.post("/login", async (req, res) => {
     const { login, password, role } = req.body;
     const [user, error] = await loginUser(login, password);
-    console.log(req.data)
-    console.log(req.body)
+
     if (error) {
       res.status(400).send(error);
     } else {
@@ -159,6 +160,20 @@ db.once("open", () => {
     removeSession(req.token, req.session.user.name);
     res.clearCookie("session");
     res.redirect("/");
+  });
+
+  app.get("/user-page", getAuth("user"), async (req, res) => {
+    res.send("Witaj na zabezpieczonym roucie dla użytkowników!");
+  });
+
+  app.get("/chef-page", getAuth("chef"), async (req, res) => {
+    res.send("Witaj na zabezpieczonym roucie dla użytkowników!");
+  });
+
+  app.get("/admin-page", getAuth("admin"), async (req, res) => {
+    res.send(
+      "Witaj na najbardziej zabezpieczonym roucie świata, administratorze!"
+    );
   });
 
   // pusher

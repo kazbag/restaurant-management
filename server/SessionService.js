@@ -1,8 +1,33 @@
+const Users = require("./models/Users")
 /**
  * Sessions
  */
-let sessions = [{ token: "abc", user: { name: "Andrzej" } }];
+const sessions = [{ token: "abc", user: { name: "Andrzej" } }];
+/**
+ * Checking permisions
+ * 
+ * @param {*} userRole role which user has
+ */
+const getAuth = (userRole) => async (req, res, next) => {
+  try {
+    const { login, token } = req.body;
+    const session = sessions.find((session) => session.token === token);
+    const { role } = await Users.findOne({ login: login });
 
+    if (
+      (token === session.token && role === "user") ||
+      (token === session.token && role === "chef") ||
+      (token === session.token && role === "admin")
+    ) {
+      next();
+    } else {
+
+      res.status(403).send("Nie masz dostępu do tej strony!");
+    }
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+}
 /**
  * Fetch user session by token
  *
@@ -21,6 +46,7 @@ const createSession = (user) => {
   const token = Math.floor(Math.random() * 1000000000000).toString(36);
   const session = { token, user: { name: user.name, role: user.role } };
   sessions.push(session);
+
   return token;
 };
 
@@ -35,6 +61,7 @@ const removeSession = (token, name) => {
 };
 
 const checkSession = (token) => {
+
   return [sessions.find((session) => session.token === token), null];
 };
 
@@ -43,4 +70,5 @@ module.exports = {
   fetchSession,
   removeSession,
   checkSession,
+  getAuth
 };
