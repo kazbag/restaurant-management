@@ -167,12 +167,12 @@ db.once("open", () => {
   });
 
   app.get("/chef-page", getAuth("chef"), async (req, res) => {
-    res.send("Witaj na zabezpieczonym roucie dla użytkowników!");
+    res.send("Witaj na zabezpieczonym roucie dla kucharzy!");
   });
 
   app.get("/admin-page", getAuth("admin"), async (req, res) => {
     res.send(
-      "Witaj na najbardziej zabezpieczonym roucie świata, administratorze!"
+      "Witaj na zabezpieczonym roucie administratorze!"
     );
   });
 
