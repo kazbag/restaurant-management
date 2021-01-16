@@ -8,7 +8,9 @@ let sessions = [];
  *
  * @param {*} userRole role which user has
  */
-const getAuth = (requiredRole) => async (req, res, next) => {
+
+// requiredRoles can be either just one role as string e.g. getAuth('admin') or an array of strings: getAuth(['admin', 'employee', 'anyOtherRole'])
+const getAuth = (requiredRoles) => async (req, res, next) => {
   try {
     // try to retreive cookie header
     const cookie = req.headers.cookie;
@@ -45,8 +47,7 @@ const getAuth = (requiredRole) => async (req, res, next) => {
 
     // check one more time that is token valid and is user role allowed to access resources from specific endpoint
     if (
-      token === session.token &&
-      user.role === requiredRole &&
+      (token === session.token && requiredRoles.indexOf(user.role) > -1) ||
       // admin can access anything
       user.role === "admin"
     ) {
@@ -94,7 +95,8 @@ const removeSession = (token, login) => {
   sessions = sessions.filter(
     (session) => session.token !== token && session.user.login !== login
   );
-  console.log("current sessions after remove ", sessions);
+  // TODO: remove
+  // console.log("current sessions after remove ", sessions);
 };
 
 const checkSession = (token) => {

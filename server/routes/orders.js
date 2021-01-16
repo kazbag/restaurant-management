@@ -31,7 +31,7 @@ router.get("/", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/completed", getAuth("chef"), async (req, res) => {
+router.get("/completed", getAuth("employee"), async (req, res) => {
   try {
     const orders = await Orders.find({ orderStatus: true });
     res.json(orders);
@@ -49,7 +49,7 @@ router.get("/completed", getAuth("chef"), async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/pending", getAuth("chef"), async (req, res) => {
+router.get("/pending", getAuth("employee"), async (req, res) => {
   try {
     const orders = await Orders.find({ orderStatus: false });
     res.json(orders);
@@ -72,7 +72,7 @@ router.get("/pending", getAuth("chef"), async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/:orderId", getAuth("chef"), async (req, res) => {
+router.get("/:orderId", getAuth("employee"), async (req, res) => {
   try {
     const order = await Orders.findById(req.params.orderId);
     res.json(order);
@@ -168,7 +168,6 @@ router.get("/date/:orderDateStart/:orderDateEnd", async (req, res) => {
  *        description: succesful repsonse
  */
 router.post("/", async (req, res) => {
-  console.log(req);
   const products = req.body.products;
   const code = req.body.code;
   // check that is code valid
@@ -213,7 +212,6 @@ router.delete("/:orderId", async (req, res) => {
     const removedOrder = await Orders.remove({
       _id: req.params.orderId,
     }).exec();
-    console.log("usunięto");
     res.json(removedOrder);
   } catch (err) {
     res.json({ message: err });
