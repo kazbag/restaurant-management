@@ -86,7 +86,7 @@ db.once("open", () => {
   const secured = (req, res, next) => {
     let token = req.token;
     if (!token) {
-      res.status(401).send("access denied, no token provided");
+      res.status(401).json({ message: "Brak dostępu." });
     } else {
       const session = fetchSession(token);
       if (session) {
@@ -94,7 +94,7 @@ db.once("open", () => {
         req.session = session;
         next();
       } else {
-        res.status(401).send("Invalid token");
+        res.status(401).json({ message: "Nieprawidłowy token." });
       }
     }
   };
@@ -105,40 +105,32 @@ db.once("open", () => {
     secured,
   ];
 
-  app.get("/", (req, res) => res.send("witaj na stronie"));
+  app.get("/", (req, res) => res.json({ message: "witaj na stronie" }));
 
   app.post("/check", async (req, res, next) => {
     const token = req.cookies.session;
     if (!token) return;
-    console.log("Token in check endpoint ", token);
+    // console.log("Token in check endpoint ", token);
     const [user, error] = await checkSession(token);
     if (!user) {
-      res.status(400).send(error);
+      res.status(400).json({ message: "Brak użytkownika." });
       next();
       return;
     } else {
-      res.send(user);
+      res.json(user);
     }
   });
 
   app.get("/private", authorizationChain, (req, res) => {
     res.json({ session: req.session });
   });
-  /* 
-    app.post("/register", async (req, res) => {
-      const { name, password } = req.body;
-      const user = await registerUser(name, password);
-  
-      res.json(user);
-  
-    }); */
 
   app.post("/login", async (req, res) => {
     const { login, password, role } = req.body;
     const [user, error] = await loginUser(login, password);
 
     if (error) {
-      res.status(400).send(error);
+      res.status(400).json({ message: "Nieprawidłowe dane logowania." });
     } else {
       const token = createSession(user);
       res.cookie("session", token, { maxAge: 900000, httpOnly: true });
@@ -154,7 +146,7 @@ db.once("open", () => {
   });
 
   app.post("/logout", authorizationChain, async (req, res) => {
-    console.log(req.token + " req token");
+    // console.log(req.token + " req token");
     removeSession(req.token, req.session.user.login);
     res.clearCookie("session");
     res.redirect("/");

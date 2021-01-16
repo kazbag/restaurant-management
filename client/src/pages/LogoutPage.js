@@ -2,6 +2,8 @@ import React, { useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 import { withRouter } from "react-router-dom";
+import toast from "toast-me";
+
 axios.defaults.withCredentials = true;
 
 const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
@@ -18,7 +20,7 @@ const LogoutPage = ({ history }) => {
         history.push("/");
       })
       .catch((err) => {
-        console.log(err);
+        toast(err.response.data.message, "error");
       });
   }, [isAuthenticated]);
   return (

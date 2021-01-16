@@ -1,6 +1,7 @@
-import React from "react";
 import axios from "axios";
 import _ from "lodash";
+import toast from "toast-me";
+
 axios.defaults.withCredentials = true;
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
@@ -14,11 +15,12 @@ export const addDiscountCode = (codesList, code, discountAmount) => {
   const discount = codesList.find((item) => item.code === code);
 };
 
+// TODO: handle callback for submit order
 export const handleSubmit = (data) => {
   axios
     .post(`${SERVER_URL}/orders`, data)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+    // .then((res) => console.log(res))
+    .catch((err) => toast(err.response.data.message, "error"));
 };
 
 export const handleCode = (data, callback) => {
@@ -27,7 +29,7 @@ export const handleCode = (data, callback) => {
     .then((response) => {
       callback(response.data);
     })
-    .catch((err) => console.log(err.message));
+    .catch((err) => toast(err.response.data.message, "error"));
 };
 
 export const getProducts = (callback) => {
@@ -37,6 +39,6 @@ export const getProducts = (callback) => {
       callback({ products_list: response.data });
     })
     .catch((err) => {
-      console.log(err);
+      toast(err.response.data.message, "error");
     });
 };

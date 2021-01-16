@@ -79,7 +79,7 @@ router.get("/:userId", getAuth("employee"), async (req, res) => {
 // TODO: think about it - new user should be able to create an account, shouldn't be? but also only admin should be able to create user with other role than user.
 // to discuss - should we make 2 separated routes for register or validate here is user admin
 router.post("/", async (req, res) => {
-  console.log(req.headers);
+  // console.log(req.headers);
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
@@ -95,13 +95,13 @@ router.post("/", async (req, res) => {
   });
   const userInDatabase = await Users.findOne({ login: user.login });
   if (userInDatabase) {
-    return res.status(400).send("user already registered");
+    return res.status(400).json({ message: "Taki użytkownik już istnieje." });
   } else {
     try {
       const savedUser = await user.save();
       res.json(savedUser);
     } catch (err) {
-      res.json({ message: err });
+      res.json({ message: "Coś poszło nie tak." });
     }
   }
 });

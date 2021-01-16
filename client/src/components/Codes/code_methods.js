@@ -2,7 +2,10 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Redirect } from "react-router";
 import { redirectToHomepage } from "utils/form_methods";
+import toast from "toast-me";
+
 axios.defaults.withCredentials = true;
+
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 export const handleRemove = (id, callback) => {
@@ -21,7 +24,7 @@ export const handleRemove = (id, callback) => {
           .delete(`${SERVER_URL}/discountCodes/${id}`)
           .then(() => axios.get(`${SERVER_URL}/discountCodes`))
           .then((response) => callback(response.data))
-          .catch((err) => console.log(err));
+          .catch((err) => toast(err.response.data.message, "error"));
         window.swal.fire("Usunięto!");
       } else if (result.dismiss === window.swal.DismissReason.cancel) {
         window.swal.fire("Anulowano.");
@@ -37,9 +40,7 @@ export const handleCreate = (data, callback) => {
     .then(() => window.swal.fire("Dodano nowy kod!"))
     .catch((err) => {
       if (err.response) {
-        window.swal.fire(
-          "podałeś złe dane lub nie wprowadziłeś ich we wszystkich wymaganych polach"
-        );
+        toast(err.response.data.message, "error");
       }
     });
 };

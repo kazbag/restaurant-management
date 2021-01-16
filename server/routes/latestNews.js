@@ -48,14 +48,14 @@ latestNews.get("/:id", async (req, res) => {
   try {
     const newsId = req.params.id;
     const news = await LatestNews.find({ newsId: newsId });
-    console.log(news);
+    // console.log(news);
     if (news.length > 0) {
       return res.status(200).json(news);
     } else {
-      return res.status(200).json([{ error: true }]);
+      return res.status(404).json({ message: "Nie znaleziono newsa." });
     }
   } catch (err) {
-    return res.status(200).json([{ error: true }]);
+    return res.status(500).json({ message: "Coś poszło nie tak." });
   }
 });
 

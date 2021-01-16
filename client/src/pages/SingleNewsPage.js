@@ -9,10 +9,10 @@ axios.defaults.withCredentials = true;
 const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 const News = ({ data }) => {
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-  console.log(data);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
+  // console.log(data);
   return (
     <div className="col-12 h-100 mx-auto">
       <div className="card-deck">
@@ -29,9 +29,9 @@ const SingleNewsPage = () => {
   const { isAuthenticated } = useContext(AuthContext);
   const newsId = window.location.pathname.replace("/news/", "");
   const [data, setData] = useLoad([], `${serverUrl}/news/${newsId}`);
-  useEffect(() => {
-    console.log(data);
-  }, [data, setData]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data, setData]);
   return (
     <AuthContext.Consumer>
       {(context) => (

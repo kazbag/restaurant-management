@@ -1,5 +1,8 @@
 import axios from "axios";
+import toast from "toast-me";
+
 axios.defaults.withCredentials = true;
+
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 export const handleCreate = (data, callback) => {
@@ -8,7 +11,7 @@ export const handleCreate = (data, callback) => {
     .then(() => axios.get(`${SERVER_URL}/products`))
     .then((response) => callback(response.data))
     .then(() => window.swal.fire("Dodano produkt!"))
-    .catch((err) => console.log(err));
+    .catch((err) => toast(err.response.data.message, "error"));
 };
 
 export const handleEdit = (id, data, callback) => {
@@ -17,7 +20,7 @@ export const handleEdit = (id, data, callback) => {
     .then(() => axios.get(`${SERVER_URL}/products`))
     .then((response) => callback(response.data))
     .then(() => window.swal.fire("Edytowano produkt."))
-    .catch((err) => console.log(err));
+    .catch((err) => toast(err.response.data.message, "error"));
 };
 
 export const handleRemove = (id, callback) => {
@@ -36,7 +39,7 @@ export const handleRemove = (id, callback) => {
           .delete(`${SERVER_URL}/products/${id}`)
           .then(() => axios.get(`${SERVER_URL}/products`))
           .then((response) => callback(response.data))
-          .catch((err) => console.log(err));
+          .catch((err) => toast(err.response.data.message, "error"));
         window.swal.fire("Usunięto!");
       } else if (result.dismiss === window.swal.DismissReason.cancel) {
         window.swal.fire("Anulowano.");

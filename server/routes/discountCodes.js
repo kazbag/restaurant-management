@@ -17,7 +17,7 @@ router.get("/", getAuth("employee"), async (req, res) => {
     const discountCodes = await DiscountCodes.find();
     res.json(discountCodes);
   } catch (err) {
-    res.json({ message: err });
+    res.status(500).json({ message: err });
   }
 });
 
@@ -42,11 +42,12 @@ router.get("/:code", getAuth(["employee", "user"]), async (req, res) => {
     });
     if (!code) {
       const response = {
+        message: "Coś poszło nie tak.",
         code_submitted: false,
         ratio: 1,
         error: true,
       };
-      res.json(response);
+      res.status(200).json(response);
     } else {
       const response = {
         code_submitted: true,
@@ -98,13 +99,16 @@ router.post("/", getAuth("admin"), async (req, res) => {
     value: parseInt(req.body.value) / 100,
   });
   try {
-    if (!discountCodes.code)
-      return res
-        .status(500)
-        .json({ error: { message: "brak danych wejsciowych" } });
+    if (!discountCodes.code) {
+      return res.status(500).json({ message: "Nieprawidłowy kod." });
+    }
+    const codeExists = await DiscountCodes.find({ code: req.body.code });
+    if (codeExists.length) {
+      return res.status(400).json({ message: "Podany kod już istnieje." });
+    }
     const savedDiscountCodes = await discountCodes.save((error) => {
       if (error) {
-        res.status(400).json({ error: { message: "podany kod juz istnieje" } });
+        res.status(400).json({ message: "Podany kod już istnieje." });
       } else res.json(savedDiscountCodes);
     });
   } catch (err) {

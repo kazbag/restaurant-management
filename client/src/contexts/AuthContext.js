@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+
 axios.defaults.withCredentials = true;
 
 export const AuthContext = createContext();
@@ -12,7 +13,7 @@ const AuthContextProvider = ({ children }) => {
   const [userRole, setUserRole] = useState("user");
 
   useEffect(() => {
-    axios(`http://localhost:3001/check`, {
+    axios(`${serverUrl}/check`, {
       method: "POST",
       withCredentials: true,
     })
@@ -23,7 +24,6 @@ const AuthContextProvider = ({ children }) => {
         setAuth(true);
       })
       .catch((err) => {
-        console.log(err);
         setAuth(false);
       });
   }, [isAuthenticated]);
