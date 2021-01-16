@@ -8,7 +8,7 @@ export const submitOrder = (url, data) => {
   axios
     .post(`${url}/orders`, data)
     .then((res) => console.log(res))
-    .catch((err) => toast(err.message, "error"));
+    .catch((err) => toast(err.response.data.message, "error"));
 };
 
 export const handleRegister = (uri, data, callback) => {
@@ -19,7 +19,7 @@ export const handleRegister = (uri, data, callback) => {
       callback && callback();
     })
     .catch((err) => {
-      toast(err.message, "error");
+      toast(err.response.data.message, "error");
     });
 };
 
@@ -34,7 +34,6 @@ export const handleLogin = (url, data, callback) => {
       window.location.href = "/";
     })
     .catch((err) => {
-      console.log(err.response);
       toast(err.response.data.message, "error");
       callback && callback(false);
     });

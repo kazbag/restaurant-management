@@ -86,7 +86,7 @@ db.once("open", () => {
   const secured = (req, res, next) => {
     let token = req.token;
     if (!token) {
-      res.status(401).send("access denied, no token provided");
+      res.status(401).json({ message: "Brak dostępu." });
     } else {
       const session = fetchSession(token);
       if (session) {
@@ -94,7 +94,7 @@ db.once("open", () => {
         req.session = session;
         next();
       } else {
-        res.status(401).send("Invalid token");
+        res.status(401).json({ message: "Nieprawidłowy token." });
       }
     }
   };
@@ -105,7 +105,7 @@ db.once("open", () => {
     secured,
   ];
 
-  app.get("/", (req, res) => res.send("witaj na stronie"));
+  app.get("/", (req, res) => res.json({ message: "witaj na stronie" }));
 
   app.post("/check", async (req, res, next) => {
     const token = req.cookies.session;
@@ -113,11 +113,11 @@ db.once("open", () => {
     console.log("Token in check endpoint ", token);
     const [user, error] = await checkSession(token);
     if (!user) {
-      res.status(400).send(error);
+      res.status(400).json({ message: "Brak użytkownika." });
       next();
       return;
     } else {
-      res.send(user);
+      res.json(user);
     }
   });
 

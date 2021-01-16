@@ -18,5 +18,5 @@ export const handleStatusToggle = (
     .then(() => axios.get(`${SERVER_URL}/orders/completed`))
     .then((response) => setCompletedOrders(response.data))
     .then(() => message())
-    .catch((err) => toast(err.message, "error"));
+    .catch((err) => toast(err.response.data.message, "error"));
 };

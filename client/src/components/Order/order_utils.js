@@ -20,7 +20,7 @@ export const handleSubmit = (data) => {
   axios
     .post(`${SERVER_URL}/orders`, data)
     .then((res) => console.log(res))
-    .catch((err) => toast(err.message, "error"));
+    .catch((err) => toast(err.response.data.message, "error"));
 };
 
 export const handleCode = (data, callback) => {
@@ -29,7 +29,7 @@ export const handleCode = (data, callback) => {
     .then((response) => {
       callback(response.data);
     })
-    .catch((err) => toast(err.message, "error"));
+    .catch((err) => toast(err.response.data.message, "error"));
 };
 
 export const getProducts = (callback) => {
@@ -39,6 +39,6 @@ export const getProducts = (callback) => {
       callback({ products_list: response.data });
     })
     .catch((err) => {
-      toast(err.message, "error");
+      toast(err.response.data.message, "error");
     });
 };

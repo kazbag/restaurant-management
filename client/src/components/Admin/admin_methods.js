@@ -12,7 +12,7 @@ export const handleEdit = (id, data, callback) => {
       callback(response.data);
     })
     .then(() => window.swal.fire("Zaktualizowano dane użytkownika."))
-    .catch((err) => toast(err.message, "error"));
+    .catch((err) => toast(err.response.data.message, "error"));
 };
 
 export const handleRemove = (id, callback) => {
@@ -31,7 +31,7 @@ export const handleRemove = (id, callback) => {
           .delete(`${SERVER_URL}/users/${id}`)
           .then(() => axios.get(`${SERVER_URL}/users`))
           .then((response) => callback(response.data))
-          .catch((err) => toast(err.message, "error"));
+          .catch((err) => toast(err.response.data.message, "error"));
         window.swal.fire("Usunięto!");
       } else if (result.dismiss === window.swal.DismissReason.cancel) {
         window.swal.fire("Anulowano.");
@@ -45,7 +45,7 @@ export const handleNew = (data, callback) => {
     .then(() => axios.get(`${SERVER_URL}/users`))
     .then((response) => callback(response.data))
     .then(() => window.swal.fire("Dodano użytkownika!"))
-    .catch((err) => toast(err.message, "error"));
+    .catch((err) => toast(err.response.data.message, "error"));
 };
 
 export const handleCreateMessage = (data, callback) => {
@@ -54,7 +54,7 @@ export const handleCreateMessage = (data, callback) => {
     .then(() => axios.get(`${SERVER_URL}/news`))
     .then((response) => callback(response.data))
     .then(() => window.swal.fire("Dodano nową wiadomość!"))
-    .catch((err) => toast(err.message, "error"));
+    .catch((err) => toast(err.response.data.message, "error"));
 };
 
 export const handleRemoveMessage = (id, callback) => {
@@ -73,7 +73,7 @@ export const handleRemoveMessage = (id, callback) => {
           .delete(`${SERVER_URL}/news/${id}`)
           .then(() => axios.get(`${SERVER_URL}/news`))
           .then((response) => callback(response.data))
-          .catch((err) => toast(err.message, "error"));
+          .catch((err) => toast(err.response.data.message, "error"));
         window.swal.fire("Usunięto!");
       } else if (result.dismiss === window.swal.DismissReason.cancel) {
         window.swal.fire("Anulowano.");

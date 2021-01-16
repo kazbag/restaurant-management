@@ -20,7 +20,7 @@ const LogoutPage = ({ history }) => {
         history.push("/");
       })
       .catch((err) => {
-        toast(err.message, "error");
+        toast(err.response.data.message, "error");
       });
   }, [isAuthenticated]);
   return (

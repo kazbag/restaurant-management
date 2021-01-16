@@ -17,7 +17,7 @@ router.get("/", getAuth("employee"), async (req, res) => {
     const discountCodes = await DiscountCodes.find();
     res.json(discountCodes);
   } catch (err) {
-    res.json({ message: err });
+    res.status(500).json({ message: err });
   }
 });
 
@@ -42,11 +42,12 @@ router.get("/:code", getAuth(["employee", "user"]), async (req, res) => {
     });
     if (!code) {
       const response = {
+        message: "Coś poszło nie tak.",
         code_submitted: false,
         ratio: 1,
         error: true,
       };
-      res.json(response);
+      res.status(200).json(response);
     } else {
       const response = {
         code_submitted: true,

@@ -18,7 +18,7 @@ const getAuth = (requiredRoles) => async (req, res, next) => {
 
     // if there's no cookie it means that user is almost for sure not logged in
     if (!cookie) {
-      return res.status(403).send("Zaloguj się.");
+      return res.status(403).json({ message: "Zaloguj się." });
     }
     // header cookie looks like session=$____TOKEN____$ so we need to replace 'session=' to empty string
     const token = cookie.replace("session=", "");
@@ -28,7 +28,7 @@ const getAuth = (requiredRoles) => async (req, res, next) => {
 
     // if in session there is not token as requested, something have to be wrong
     if (!userSession) {
-      res.status(403).send("Zaloguj się");
+      res.status(403).json({ message: "Zaloguj się" });
     }
     // retreive login from session
     const userLogin = userSession.user.login;
@@ -40,7 +40,7 @@ const getAuth = (requiredRoles) => async (req, res, next) => {
 
     // if one of params is invalid, returns error and don't pass further
     if (!session) {
-      return res.status(403).send("Zaloguj się.");
+      return res.status(403).json({ message: "Zaloguj się." });
     }
 
     // if everything is ok, find user in database and check his role. yes, we have role in session but database check will be more safe I think
@@ -56,15 +56,16 @@ const getAuth = (requiredRoles) => async (req, res, next) => {
       next();
     } else {
       // otherwise return forbidden
-      res.status(403).send("Nie masz dostępu do tej strony!");
+      res.status(403).json({ message: "Nie masz dostępu do tej strony!" });
     }
   } catch (err) {
     // if something else went wrong, just send message
     res
       .status(500)
-      .send(
-        "Niestety coś poszło nie tak. Spróbuj ponownie, lub skontaktuj się z administratorem."
-      );
+      .json({
+        message:
+          "Niestety coś poszło nie tak. Spróbuj ponownie, lub skontaktuj się z administratorem.",
+      });
   }
 };
 /**

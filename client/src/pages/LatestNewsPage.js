@@ -16,7 +16,7 @@ const getLatestNews = (url, callback) => {
       callback(response.data);
     })
     .catch((err) => {
-      toast(err.message, "error");
+      toast(err.response.data.message, "error");
     });
 };
 

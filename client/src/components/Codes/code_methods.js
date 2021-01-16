@@ -24,7 +24,7 @@ export const handleRemove = (id, callback) => {
           .delete(`${SERVER_URL}/discountCodes/${id}`)
           .then(() => axios.get(`${SERVER_URL}/discountCodes`))
           .then((response) => callback(response.data))
-          .catch((err) => toast(err.message, "error"));
+          .catch((err) => toast(err.response.data.message, "error"));
         window.swal.fire("Usunięto!");
       } else if (result.dismiss === window.swal.DismissReason.cancel) {
         window.swal.fire("Anulowano.");
@@ -40,9 +40,7 @@ export const handleCreate = (data, callback) => {
     .then(() => window.swal.fire("Dodano nowy kod!"))
     .catch((err) => {
       if (err.response) {
-        window.swal.fire(
-          "podałeś złe dane lub nie wprowadziłeś ich we wszystkich wymaganych polach"
-        );
+        window.swal.fire(err.response.data.message);
       }
     });
 };

@@ -95,13 +95,13 @@ router.post("/", async (req, res) => {
   });
   const userInDatabase = await Users.findOne({ login: user.login });
   if (userInDatabase) {
-    return res.status(400).send("user already registered");
+    return res.status(400).json({ message: "Taki użytkownik już istnieje." });
   } else {
     try {
       const savedUser = await user.save();
       res.json(savedUser);
     } catch (err) {
-      res.json({ message: err });
+      res.json({ message: "Coś poszło nie tak." });
     }
   }
 });

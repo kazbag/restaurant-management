@@ -33,7 +33,7 @@ export const useLoad = function(initialState, uri) {
       .then((res) => {
         setFields(res.data);
       })
-      .catch((err) => toast(err.message, "error"));
+      .catch((err) => toast(err.response.data.message, "error"));
   }, [uri]);
   return [fields, setFields];
 };
