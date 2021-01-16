@@ -23,6 +23,8 @@
   "homepage": "https://github.com/kazbag/restaurant-management#readme",
   "dependencies": {
     "concurrently": "^5.1.0",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1",
     "pusher": "^3.0.1",
     "pusher-js": "^6.0.3"
   }
