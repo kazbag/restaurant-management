@@ -1,3 +1,4 @@
+// TODO: deprecated, remove whole file
 const orders = require("express").Router();
 
 orders.get("/orders", async (req, res) => {

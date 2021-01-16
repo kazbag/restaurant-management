@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Users = require("../models/Users");
 const bcrypt = require("bcrypt");
+const { getAuth } = require("../SessionService");
 
 /**
  * @swagger
@@ -12,7 +13,7 @@ const bcrypt = require("bcrypt");
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/", async (req, res) => {
+router.get("/", getAuth("admin"), async (req, res) => {
   try {
     const users = await Users.find();
     res.json(users);
@@ -35,7 +36,7 @@ router.get("/", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/:userId", async (req, res) => {
+router.get("/:userId", getAuth("employee"), async (req, res) => {
   try {
     const user = await Users.findById(req.params.userId);
     res.json(user);
@@ -75,8 +76,10 @@ router.get("/:userId", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
+// TODO: think about it - new user should be able to create an account, shouldn't be? but also only admin should be able to create user with other role than user.
+// to discuss - should we make 2 separated routes for register or validate here is user admin
 router.post("/", async (req, res) => {
-
+  console.log(req.headers);
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
@@ -88,17 +91,15 @@ router.post("/", async (req, res) => {
     email: req.body.email,
     city: req.body.city,
     role: req.body.role,
-    address: req.body.address
+    address: req.body.address,
   });
-  const userInDatabase = await Users.findOne({ login: user.login })
+  const userInDatabase = await Users.findOne({ login: user.login });
   if (userInDatabase) {
-    return res.status(400).send("user already registered")
-  }
-  else {
+    return res.status(400).send("user already registered");
+  } else {
     try {
       const savedUser = await user.save();
       res.json(savedUser);
-
     } catch (err) {
       res.json({ message: err });
     }
@@ -119,7 +120,7 @@ router.post("/", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.delete("/:userId", async (req, res) => {
+router.delete("/:userId", getAuth("admin"), async (req, res) => {
   try {
     const removedUser = await Users.remove({ _id: req.params.userId });
     res.json(removedUser);
@@ -163,7 +164,7 @@ router.delete("/:userId", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.patch("/:userId", async (req, res) => {
+router.patch("/:userId", getAuth("admin"), async (req, res) => {
   try {
     const updatedUser = await Users.updateOne(
       { _id: req.params.userId },
