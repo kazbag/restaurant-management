@@ -29,7 +29,6 @@ export const useLoad = function(initialState, uri) {
     axios
       .get(uri, { withCredentials: true })
       .then((res) => {
-        console.log(res);
         setFields(res.data);
       })
       .catch((err) => console.log(err));
