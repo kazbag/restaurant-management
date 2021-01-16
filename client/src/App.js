@@ -13,7 +13,8 @@ import AboutPage from "./pages/AboutPage";
 import GalleryPage from "./pages/GalleryPage";
 import AdminPage from "./pages/AdminPage";
 import MenuPage from "./pages/MenuPage";
-import CodePage from "pages/CodePage";
+import CodePage from "./pages/CodePage";
+import SingleNewsPage from "./pages/SingleNewsPage";
 import Footer from "./components/Footer";
 
 import Swal from "sweetalert2";
@@ -28,6 +29,8 @@ const App = () => {
           <div className="container">
             <Switch>
               <Route exact path="/" component={LatestNews} />
+              <Route exact path="/news/:id" component={SingleNewsPage} />
+
               <Route path="/login" component={LoginPage} />
               <Route path="/register" component={LoginPage} />
               <Route path="/about" component={AboutPage} />

@@ -25,8 +25,17 @@ const NewsList = ({ data }) => {
         <div className="card-deck">
           <div className="card mb-4 col m-4 p-4 card-stretch">
             <h3 className="card-title text-dark">{msg.title}</h3>
-            <p className="card-text">{msg.message}</p>
-            <a className="btn btn-primary mt-auto" href={msg.link}>
+            <p
+              className="card-text"
+              style={{
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {msg.message}
+            </p>
+            <a className="btn btn-primary mt-auto" href={`/news/${msg.newsId}`}>
               Czytaj więcej
             </a>
           </div>
