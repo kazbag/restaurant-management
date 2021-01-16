@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { FormErrorMessage } from "../../utils/forms";
 
 export const ProductNewCard = ({ onClick }) => {
   return (
@@ -82,6 +84,8 @@ export const ProductList = ({
 };
 
 export const ProductNew = ({ onCancel, onChange, onSave, product }) => {
+  const { register, handleSubmit, errors } = useForm(); // initialize the hook
+
   return (
     <div
       className="card"
@@ -105,29 +109,59 @@ export const ProductNew = ({ onCancel, onChange, onSave, product }) => {
               <div className="form-group">
                 <label>Nazwa produktu</label>
                 <input
-                  className="form-control"
+                  ref={register({ required: true })}
+                  className={`form-control ${
+                    errors.name ? "border border-danger" : ""
+                  }`}
                   type="text"
                   name="name"
                   placeholder="wprowadź nazwę produktu"
                   value={product.name}
                   onChange={onChange}
                 />
+                {errors.name && (
+                  <FormErrorMessage message="Nazwa produktu jest wymagana" />
+                )}
+                {!errors.name && (
+                  <small className="form-text text-muted">
+                    Wprowadź nazwę produktu
+                  </small>
+                )}
               </div>
               <div className="form-group">
                 <label>Opis produktu</label>
                 <input
-                  className="form-control"
+                  ref={register({ required: true })}
+                  className={`form-control ${
+                    errors.description ? "border border-danger" : ""
+                  }`}
                   type="text"
                   name="description"
                   placeholder="wprowadź opis produktu"
                   value={product.description}
                   onChange={onChange}
                 />
+                {errors.description && (
+                  <FormErrorMessage message="Opis produktu jest wymagany" />
+                )}
+                {!errors.description && (
+                  <small className="form-text text-muted">
+                    Wprowadź opis produktu
+                  </small>
+                )}
               </div>
               <div className="form-group">
                 <label>Cena produktu</label>
                 <input
-                  className="form-control"
+                  ref={register({
+                    required: true,
+                    valueAsNumber: true,
+                    min: 1,
+                    max: 1000,
+                  })}
+                  className={`form-control ${
+                    errors.price ? "border border-danger" : ""
+                  }`}
                   type="number"
                   name="price"
                   min="1"
@@ -137,17 +171,36 @@ export const ProductNew = ({ onCancel, onChange, onSave, product }) => {
                   value={product.price}
                   onChange={onChange}
                 />
+                {errors.price && (
+                  <FormErrorMessage message="Wprowadź poprawną cenę (od 1 do 1000 zł)" />
+                )}
+                {!errors.price && (
+                  <small className="form-text text-muted">
+                    Wprowadź cenę produktu
+                  </small>
+                )}
               </div>
               <div className="form-group">
                 <label>Link do obrazka</label>
                 <input
-                  className="form-control"
+                  ref={register({ required: true })}
+                  className={`form-control ${
+                    errors.photo ? "border border-danger" : ""
+                  }`}
                   type="text"
                   name="photo"
                   placeholder="wprowadź link do obrazka produktu"
                   value={product.photo}
                   onChange={onChange}
                 />
+                {errors.photo && (
+                  <FormErrorMessage message="Link do obrazka jest wymagany." />
+                )}
+                {!errors.photo && (
+                  <small className="form-text text-muted">
+                    Wprowadź link do obrazka produktu
+                  </small>
+                )}
               </div>
             </form>
           </div>
@@ -155,7 +208,10 @@ export const ProductNew = ({ onCancel, onChange, onSave, product }) => {
       </div>
       <div className="card-footer px-0">
         <div className="d-flex mx-auto col-12 col-sm-9 col-md-6">
-          <button className="btn btn-success mr-2" onClick={onSave}>
+          <button
+            className="btn btn-success mr-2"
+            onClick={handleSubmit(onSave)}
+          >
             Dodaj produkt
           </button>
           <button className="btn btn-secondary" onClick={onCancel}>
@@ -168,6 +224,7 @@ export const ProductNew = ({ onCancel, onChange, onSave, product }) => {
 };
 
 export const ProductEdit = ({ product, onSave, onCancel, onChange }) => {
+  const { register, handleSubmit, errors } = useForm(); // initialize the hook
   return (
     <div
       className="card"
@@ -191,29 +248,59 @@ export const ProductEdit = ({ product, onSave, onCancel, onChange }) => {
               <div className="form-group">
                 <label>Nazwa produktu</label>
                 <input
-                  className="form-control"
+                  ref={register({ required: true })}
+                  className={`form-control ${
+                    errors.name ? "border border-danger" : ""
+                  }`}
                   type="text"
                   name="name"
                   placeholder="wprowadź nazwę produktu"
                   onChange={onChange}
                   value={product.name}
                 />
+                {errors.name && (
+                  <FormErrorMessage message="Nazwa produktu jest wymagana" />
+                )}
+                {!errors.name && (
+                  <small className="form-text text-muted">
+                    Wprowadź nazwę produktu
+                  </small>
+                )}
               </div>
               <div className="form-group">
                 <label>Opis produktu</label>
                 <input
-                  className="form-control"
+                  ref={register({ required: true })}
+                  className={`form-control ${
+                    errors.description ? "border border-danger" : ""
+                  }`}
                   type="text"
                   name="description"
                   placeholder="wprowadź opis produktu"
                   onChange={onChange}
                   value={product.description}
                 />
+                {errors.description && (
+                  <FormErrorMessage message="Opis produktu jest wymagany" />
+                )}
+                {!errors.description && (
+                  <small className="form-text text-muted">
+                    Wprowadź opis produktu
+                  </small>
+                )}
               </div>
               <div className="form-group">
                 <label>Cena produktu</label>
                 <input
-                  className="form-control"
+                  ref={register({
+                    required: true,
+                    valueAsNumber: true,
+                    min: 1,
+                    max: 1000,
+                  })}
+                  className={`form-control ${
+                    errors.price ? "border border-danger" : ""
+                  }`}
                   type="number"
                   name="price"
                   min="1"
@@ -223,17 +310,36 @@ export const ProductEdit = ({ product, onSave, onCancel, onChange }) => {
                   onChange={onChange}
                   value={product.price}
                 />
+                {errors.price && (
+                  <FormErrorMessage message="Wprowadź poprawną cenę (od 1 do 1000 zł)" />
+                )}
+                {!errors.price && (
+                  <small className="form-text text-muted">
+                    Wprowadź cenę produktu
+                  </small>
+                )}
               </div>
               <div className="form-group">
                 <label>Link do obrazka</label>
                 <input
-                  className="form-control"
+                  ref={register({ required: true })}
+                  className={`form-control ${
+                    errors.photo ? "border border-danger" : ""
+                  }`}
                   type="text"
                   name="photo"
                   placeholder="wprowadź link do obrazka produktu"
                   onChange={onChange}
                   value={product.photo}
                 />
+                {errors.photo && (
+                  <FormErrorMessage message="Link do obrazka jest wymagany." />
+                )}
+                {!errors.photo && (
+                  <small className="form-text text-muted">
+                    Wprowadź link do obrazka produktu
+                  </small>
+                )}
               </div>
             </form>
           </div>
@@ -241,7 +347,10 @@ export const ProductEdit = ({ product, onSave, onCancel, onChange }) => {
       </div>
       <div className="card-footer px-0">
         <div className="d-flex mx-auto col-12 col-sm-9 col-md-6">
-          <button className="btn btn-primary mr-2" onClick={onSave}>
+          <button
+            className="btn btn-primary mr-2"
+            onClick={handleSubmit(onSave)}
+          >
             Zapisz produkt
           </button>
           <button className="btn btn-secondary" onClick={onCancel}>
