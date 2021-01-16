@@ -34,7 +34,8 @@ export const handleLogin = (url, data, callback) => {
       window.location.href = "/";
     })
     .catch((err) => {
-      toast(err.message, "error");
+      console.log(err.response);
+      toast(err.response.data.message, "error");
       callback && callback(false);
     });
 };

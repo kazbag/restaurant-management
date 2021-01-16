@@ -124,21 +124,13 @@ db.once("open", () => {
   app.get("/private", authorizationChain, (req, res) => {
     res.json({ session: req.session });
   });
-  /* 
-    app.post("/register", async (req, res) => {
-      const { name, password } = req.body;
-      const user = await registerUser(name, password);
-  
-      res.json(user);
-  
-    }); */
 
   app.post("/login", async (req, res) => {
     const { login, password, role } = req.body;
     const [user, error] = await loginUser(login, password);
 
     if (error) {
-      res.status(400).send(error);
+      res.status(400).json({ message: "Nieprawidłowe dane logowania." });
     } else {
       const token = createSession(user);
       res.cookie("session", token, { maxAge: 900000, httpOnly: true });
