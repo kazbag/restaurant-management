@@ -14,7 +14,7 @@ const getAuth = (requiredRoles) => async (req, res, next) => {
   try {
     // try to retreive cookie header
     const cookie = req.headers.cookie;
-    console.log(req.headers);
+    // console.log(req.headers);
 
     // if there's no cookie it means that user is almost for sure not logged in
     if (!cookie) {
@@ -60,12 +60,10 @@ const getAuth = (requiredRoles) => async (req, res, next) => {
     }
   } catch (err) {
     // if something else went wrong, just send message
-    res
-      .status(500)
-      .json({
-        message:
-          "Niestety coś poszło nie tak. Spróbuj ponownie, lub skontaktuj się z administratorem.",
-      });
+    res.status(500).json({
+      message:
+        "Niestety coś poszło nie tak. Spróbuj ponownie, lub skontaktuj się z administratorem.",
+    });
   }
 };
 /**

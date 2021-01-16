@@ -48,7 +48,7 @@ latestNews.get("/:id", async (req, res) => {
   try {
     const newsId = req.params.id;
     const news = await LatestNews.find({ newsId: newsId });
-    console.log(news);
+    // console.log(news);
     if (news.length > 0) {
       return res.status(200).json(news);
     } else {

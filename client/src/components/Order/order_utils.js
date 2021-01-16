@@ -19,7 +19,7 @@ export const addDiscountCode = (codesList, code, discountAmount) => {
 export const handleSubmit = (data) => {
   axios
     .post(`${SERVER_URL}/orders`, data)
-    .then((res) => console.log(res))
+    // .then((res) => console.log(res))
     .catch((err) => toast(err.response.data.message, "error"));
 };
 

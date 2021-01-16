@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true;
 export const submitOrder = (url, data) => {
   axios
     .post(`${url}/orders`, data)
-    .then((res) => console.log(res))
+    // .then((res) => console.log(res))
     .catch((err) => toast(err.response.data.message, "error"));
 };
 
@@ -15,7 +15,7 @@ export const handleRegister = (uri, data, callback) => {
   axios
     .post(`${uri}/users`, data)
     .then((response) => {
-      console.log(response);
+      // console.log(response);
       callback && callback();
     })
     .catch((err) => {

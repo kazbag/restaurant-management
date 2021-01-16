@@ -21,9 +21,9 @@ const ProductsPage = () => {
     ratio: 1,
   });
 
-  useEffect(() => {
-    console.log(order);
-  }, [order, setOrder]);
+  // useEffect(() => {
+  //   console.log(order);
+  // }, [order, setOrder]);
 
   const addToOrder = (productId) => {
     const product = products.find((item) => item._id === productId);
