@@ -99,13 +99,16 @@ router.post("/", getAuth("admin"), async (req, res) => {
     value: parseInt(req.body.value) / 100,
   });
   try {
-    if (!discountCodes.code)
-      return res
-        .status(500)
-        .json({ error: { message: "brak danych wejsciowych" } });
+    if (!discountCodes.code) {
+      return res.status(500).json({ message: "Nieprawidłowy kod." });
+    }
+    const codeExists = await DiscountCodes.find({ code: req.body.code });
+    if (codeExists.length) {
+      return res.status(400).json({ message: "Podany kod już istnieje." });
+    }
     const savedDiscountCodes = await discountCodes.save((error) => {
       if (error) {
-        res.status(400).json({ error: { message: "podany kod juz istnieje" } });
+        res.status(400).json({ message: "Podany kod już istnieje." });
       } else res.json(savedDiscountCodes);
     });
   } catch (err) {

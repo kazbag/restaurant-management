@@ -40,7 +40,7 @@ export const handleCreate = (data, callback) => {
     .then(() => window.swal.fire("Dodano nowy kod!"))
     .catch((err) => {
       if (err.response) {
-        window.swal.fire(err.response.data.message);
+        toast(err.response.data.message, "error");
       }
     });
 };
