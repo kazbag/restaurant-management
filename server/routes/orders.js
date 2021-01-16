@@ -31,7 +31,7 @@ router.get("/", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/completed", getAuth("admin"), async (req, res) => {
+router.get("/completed", getAuth("chef"), async (req, res) => {
   try {
     const orders = await Orders.find({ orderStatus: true });
     res.json(orders);
@@ -49,7 +49,7 @@ router.get("/completed", getAuth("admin"), async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/pending", async (req, res) => {
+router.get("/pending", getAuth("chef"), async (req, res) => {
   try {
     const orders = await Orders.find({ orderStatus: false });
     res.json(orders);
@@ -72,7 +72,7 @@ router.get("/pending", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/:orderId", async (req, res) => {
+router.get("/:orderId", getAuth("chef"), async (req, res) => {
   try {
     const order = await Orders.findById(req.params.orderId);
     res.json(order);

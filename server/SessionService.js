@@ -2,7 +2,7 @@ const Users = require("./models/Users");
 /**
  * Sessions
  */
-const sessions = [{ token: "abc", user: { name: "Andrzej" } }];
+let sessions = [];
 /**
  * Checking permisions
  *
@@ -10,19 +10,59 @@ const sessions = [{ token: "abc", user: { name: "Andrzej" } }];
  */
 const getAuth = (requiredRole) => async (req, res, next) => {
   try {
-    console.log(req.body);
-    console.log(req.headers);
-    const { login, token } = req.body;
-    const session = sessions.find((session) => session.token === token);
-    const user = await Users.findOne({ login: login });
-    console.log(user);
-    if (token === session.token && user.role === requiredRole) {
+    // try to retreive cookie header
+    const cookie = req.headers.cookie;
+
+    // if there's no cookie it means that user is almost for sure not logged in
+    if (!cookie) {
+      return res.status(403).send("Zaloguj się.");
+    }
+    // header cookie looks like session=$____TOKEN____$ so we need to replace 'session=' to empty string
+    const token = cookie.replace("session=", "");
+
+    // find session where token is equal to requested token
+    const userSession = sessions.find((s) => s.token === token);
+
+    // if in session there is not token as requested, something have to be wrong
+    if (!userSession) {
+      res.status(403).send("Zaloguj się");
+    }
+    // retreive login from session
+    const userLogin = userSession.user.login;
+
+    // check again that token matches and now that is also login valid
+    const session = sessions.find(
+      (s) => s.token === token && s.user.login === userLogin
+    );
+
+    // if one of params is invalid, returns error and don't pass further
+    if (!session) {
+      return res.status(403).send("Zaloguj się.");
+    }
+
+    // if everything is ok, find user in database and check his role. yes, we have role in session but database check will be more safe I think
+    const user = await Users.findOne({ login: userLogin });
+
+    // check one more time that is token valid and is user role allowed to access resources from specific endpoint
+    if (
+      token === session.token &&
+      user.role === requiredRole &&
+      // admin can access anything
+      user.role === "admin"
+    ) {
+      // if role is valid, allow to access data
       next();
     } else {
+      // otherwise return forbidden
       res.status(403).send("Nie masz dostępu do tej strony!");
     }
   } catch (err) {
-    res.status(500).send(err.message);
+    // if something else went wrong, just send message
+    res
+      .status(500)
+      .send(
+        "Niestety coś poszło nie tak. Spróbuj ponownie, lub skontaktuj się z administratorem."
+      );
   }
 };
 /**
@@ -41,7 +81,7 @@ const fetchSession = (token) => {
  */
 const createSession = (user) => {
   const token = Math.floor(Math.random() * 1000000000000).toString(36);
-  const session = { token, user: { name: user.name, role: user.role } };
+  const session = { token, user: { login: user.login, role: user.role } };
   sessions.push(session);
 
   return token;
