@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Products = require("../models/Products");
+const { getAuth } = require("../SessionService");
 
 /**
  * @swagger
@@ -11,6 +12,7 @@ const Products = require("../models/Products");
  *      '200':
  *        description: succesful repsonse
  */
+// no auth needed
 router.get("/", async (req, res) => {
   try {
     const products = await Products.find();
@@ -34,6 +36,8 @@ router.get("/", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
+
+// no auth needed
 router.get("/:productId", async (req, res) => {
   try {
     const product = await Products.findById(req.params.productId);
@@ -68,7 +72,8 @@ router.get("/:productId", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.post("/", async (req, res) => {
+
+router.post("/", getAuth("admin"), async (req, res) => {
   const product = new Products({
     name: req.body.name,
     price: req.body.price,
@@ -98,7 +103,8 @@ router.post("/", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.delete("/:productId", async (req, res) => {
+
+router.delete("/:productId", getAuth("admin"), async (req, res) => {
   try {
     const removedProducts = await Products.remove({
       _id: req.params.productId,
@@ -139,7 +145,7 @@ router.delete("/:productId", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.patch("/:productId", async (req, res) => {
+router.patch("/:productId", getAuth("admin"), async (req, res) => {
   try {
     const updatedProducts = await Products.updateOne(
       { _id: req.params.productId },

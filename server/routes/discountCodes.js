@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const DiscountCodes = require("../models/DiscountCodes");
-
+const { getAuth } = require("../SessionService");
 /**
  * @swagger
  * /discountCodes:
@@ -12,7 +12,7 @@ const DiscountCodes = require("../models/DiscountCodes");
  *        description: succesful repsonse
  */
 
-router.get("/", async (req, res) => {
+router.get("/", getAuth("employee"), async (req, res) => {
   try {
     const discountCodes = await DiscountCodes.find();
     res.json(discountCodes);
@@ -35,7 +35,7 @@ router.get("/", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/:code", async (req, res) => {
+router.get("/:code", getAuth(["employee", "user"]), async (req, res) => {
   try {
     const code = await DiscountCodes.findOne({
       code: req.params.code,
@@ -92,22 +92,21 @@ router.get("/:code", async (req, res) => {
  *        description: succesful repsonse
  */
 
-router.post("/", async (req, res) => {
+router.post("/", getAuth("admin"), async (req, res) => {
   const discountCodes = new DiscountCodes({
     code: req.body.code,
     value: parseInt(req.body.value) / 100,
   });
   try {
-    if (!discountCodes.code) return res.status(500).json({ error: { message: "brak danych wejsciowych" } });
+    if (!discountCodes.code)
+      return res
+        .status(500)
+        .json({ error: { message: "brak danych wejsciowych" } });
     const savedDiscountCodes = await discountCodes.save((error) => {
       if (error) {
         res.status(400).json({ error: { message: "podany kod juz istnieje" } });
-      }
-      else
-
-        res.json(savedDiscountCodes);
-    })
-
+      } else res.json(savedDiscountCodes);
+    });
   } catch (err) {
     res.json({ message: err });
   }
@@ -127,7 +126,7 @@ router.post("/", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.delete("/:discountCodeId", async (req, res) => {
+router.delete("/:discountCodeId", getAuth("admin"), async (req, res) => {
   try {
     const removedDiscountCodes = await DiscountCodes.remove({
       _id: req.params.discountCodeId,
@@ -175,7 +174,7 @@ router.delete("/:discountCodeId", async (req, res) => {
  *        description: succesful repsonse
  */
 
-router.patch("/:discountCodeId", async (req, res) => {
+router.patch("/:discountCodeId", getAuth("admin"), async (req, res) => {
   try {
     const updatedDiscountCodes = await DiscountCodes.updateOne(
       { _id: req.params.discountCodeId },

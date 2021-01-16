@@ -1,10 +1,10 @@
 import axios from "axios";
-
+axios.defaults.withCredentials = true;
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
-export const handleCreate = (product, callback) => {
+export const handleCreate = (data, callback) => {
   axios
-    .post(`${SERVER_URL}/products`, product)
+    .post(`${SERVER_URL}/products`, data)
     .then(() => axios.get(`${SERVER_URL}/products`))
     .then((response) => callback(response.data))
     .then(() => window.swal.fire("Dodano produkt!"))

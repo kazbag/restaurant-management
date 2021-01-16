@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Orders = require("../models/Orders");
 const DiscountCodes = require("../models/DiscountCodes");
-
+const { getAuth } = require("../SessionService");
 /**
  * @swagger
  * /orders:
@@ -12,7 +12,8 @@ const DiscountCodes = require("../models/DiscountCodes");
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/", async (req, res) => {
+
+router.get("/", getAuth("employee"), async (req, res) => {
   try {
     const orders = await Orders.find();
     res.json(orders);
@@ -31,7 +32,7 @@ router.get("/", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/completed", async (req, res) => {
+router.get("/completed", getAuth("employee"), async (req, res) => {
   try {
     const orders = await Orders.find({ orderStatus: true });
     res.json(orders);
@@ -49,7 +50,7 @@ router.get("/completed", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/pending", async (req, res) => {
+router.get("/pending", getAuth("employee"), async (req, res) => {
   try {
     const orders = await Orders.find({ orderStatus: false });
     res.json(orders);
@@ -72,7 +73,7 @@ router.get("/pending", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/:orderId", async (req, res) => {
+router.get("/:orderId", getAuth("employee"), async (req, res) => {
   try {
     const order = await Orders.findById(req.params.orderId);
     res.json(order);
@@ -95,7 +96,7 @@ router.get("/:orderId", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/date/:orderDate", async (req, res) => {
+router.get("/date/:orderDate", getAuth("employee"), async (req, res) => {
   try {
     const dateStart = new Date(req.params.orderDate);
     const orders = await Orders.find({ orderDate: dateStart });
@@ -123,18 +124,22 @@ router.get("/date/:orderDate", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/date/:orderDateStart/:orderDateEnd", async (req, res) => {
-  try {
-    const dateStart = new Date(req.params.orderDateStart);
-    const dateEnd = new Date(req.params.orderDateEnd);
-    const finalOrders = await Orders.find(
-      { orderDate: { $gte: dateStart } } && { orderDate: { $lte: dateEnd } }
-    );
-    res.json(finalOrders);
-  } catch (err) {
-    res.json({ message: err });
+router.get(
+  "/date/:orderDateStart/:orderDateEnd",
+  getAuth("employee"),
+  async (req, res) => {
+    try {
+      const dateStart = new Date(req.params.orderDateStart);
+      const dateEnd = new Date(req.params.orderDateEnd);
+      const finalOrders = await Orders.find(
+        { orderDate: { $gte: dateStart } } && { orderDate: { $lte: dateEnd } }
+      );
+      res.json(finalOrders);
+    } catch (err) {
+      res.json({ message: err });
+    }
   }
-});
+);
 
 /**
  * @swagger
@@ -167,8 +172,8 @@ router.get("/date/:orderDateStart/:orderDateEnd", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.post("/", async (req, res) => {
-  console.log(req);
+
+router.post("/", getAuth("user"), async (req, res) => {
   const products = req.body.products;
   const code = req.body.code;
   // check that is code valid
@@ -208,12 +213,11 @@ router.post("/", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.delete("/:orderId", async (req, res) => {
+router.delete("/:orderId", getAuth("admin"), async (req, res) => {
   try {
     const removedOrder = await Orders.remove({
       _id: req.params.orderId,
     }).exec();
-    console.log("usunięto");
     res.json(removedOrder);
   } catch (err) {
     res.json({ message: err });
@@ -239,7 +243,7 @@ router.delete("/:orderId", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.patch("/status/:id", async (req, res) => {
+router.patch("/status/:id", getAuth("employee"), async (req, res) => {
   try {
     const order = await Orders.findOne({ _id: req.params.id });
     const status = order.orderStatus;
@@ -285,7 +289,7 @@ router.patch("/status/:id", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.patch("/:orderId", async (req, res) => {
+router.patch("/:orderId", getAuth("employee"), async (req, res) => {
   try {
     const updatedOrder = await Orders.updateOne(
       { _id: req.params.orderId },

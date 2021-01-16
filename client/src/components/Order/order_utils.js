@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import _ from "lodash";
+axios.defaults.withCredentials = true;
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
@@ -13,16 +14,16 @@ export const addDiscountCode = (codesList, code, discountAmount) => {
   const discount = codesList.find((item) => item.code === code);
 };
 
-export const handleSubmit = (order) => {
+export const handleSubmit = (data) => {
   axios
-    .post(`${SERVER_URL}/orders`, order)
+    .post(`${SERVER_URL}/orders`, data)
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
 };
 
-export const handleCode = (code, callback) => {
+export const handleCode = (data, callback) => {
   axios
-    .get(`${SERVER_URL}/discountCodes/${code}`)
+    .get(`${SERVER_URL}/discountCodes/${data}`)
     .then((response) => {
       callback(response.data);
     })

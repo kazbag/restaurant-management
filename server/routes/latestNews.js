@@ -2,7 +2,9 @@ const latestNews = require("express").Router();
 const express = require("express");
 const router = express.Router();
 const LatestNews = require("../models/LatestNews");
+const { getAuth } = require("../SessionService");
 
+// no auth needed
 latestNews.get("/", async (req, res) => {
   try {
     const news = await LatestNews.find();
@@ -12,7 +14,7 @@ latestNews.get("/", async (req, res) => {
   }
 });
 
-latestNews.post("/", async (req, res) => {
+latestNews.post("/", getAuth("admin"), async (req, res) => {
   const newNews = new LatestNews({
     title: req.body.title,
     message: req.body.message,
@@ -27,7 +29,7 @@ latestNews.post("/", async (req, res) => {
   }
 });
 
-latestNews.delete("/:newsId", async (req, res) => {
+latestNews.delete("/:newsId", getAuth("admin"), async (req, res) => {
   try {
     const removedNews = await LatestNews.remove({
       _id: req.params.newsId,
