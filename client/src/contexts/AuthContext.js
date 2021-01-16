@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
-import toast from "toast-me";
 
 axios.defaults.withCredentials = true;
 
@@ -14,7 +13,7 @@ const AuthContextProvider = ({ children }) => {
   const [userRole, setUserRole] = useState("user");
 
   useEffect(() => {
-    axios(`http://localhost:3001/check`, {
+    axios(`${serverUrl}/check`, {
       method: "POST",
       withCredentials: true,
     })
@@ -25,7 +24,6 @@ const AuthContextProvider = ({ children }) => {
         setAuth(true);
       })
       .catch((err) => {
-        toast(err.message, "error");
         setAuth(false);
       });
   }, [isAuthenticated]);
