@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { FormErrorMessage } from "../../utils/forms";
 
 export const UserList = ({
   users,
@@ -267,6 +269,8 @@ export const OrderList = ({ orders }) => {
 };
 
 export const NewsModal = ({ onChange, onSubmit, onCancel }) => {
+  const { register, handleSubmit, errors } = useForm(); // initialize the hook
+
   return (
     <div className="col-12 mb-4">
       <div className="card">
@@ -278,25 +282,48 @@ export const NewsModal = ({ onChange, onSubmit, onCancel }) => {
             <div className="form-group">
               <label>Tytuł</label>
               <input
+                ref={register({ required: true })}
+                className={`form-control ${
+                  errors.title ? "border border-danger" : ""
+                }`}
                 placeholder="wpisz tytuł wiadomości"
                 onChange={onChange}
                 type="text"
-                className="form-control"
                 name="title"
               />
+              {errors.title && (
+                <FormErrorMessage message="Tytuł jest wymagany" />
+              )}
+              {!errors.title && (
+                <small className="form-text text-muted">Wprowadź tytuł</small>
+              )}
             </div>
             <div className="form-group">
               <textarea
+                ref={register({ required: true })}
+                className={`form-control ${
+                  errors.message ? "border border-danger" : ""
+                }`}
                 placeholder="wpisz wiadomość"
                 onChange={onChange}
-                className="form-control"
                 name="message"
               ></textarea>
+              {errors.message && (
+                <FormErrorMessage message="Treść newsa jest wymagana" />
+              )}
+              {!errors.message && (
+                <small className="form-text text-muted">
+                  Wprowadź treść newsa
+                </small>
+              )}
             </div>
           </form>
         </div>
         <div className="card-footer">
-          <button className="btn btn-success mr-2" onClick={onSubmit}>
+          <button
+            className="btn btn-success mr-2"
+            onClick={handleSubmit(onSubmit)}
+          >
             Dodaj
           </button>
           <button
