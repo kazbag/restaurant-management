@@ -54,7 +54,6 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
             <div className="form-group">
               <label>Imię</label>
               <input
-                className="form-control"
                 type="text"
                 placeholder="imię"
                 name="name"

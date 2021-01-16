@@ -69,6 +69,8 @@ export const UserList = ({
   );
 };
 
+// TODO: check that don't we have to unhash user password first
+// TODO: to discuss, should we at all have access to user password here?
 export const UserEdit = ({
   header,
   onSubmit,
@@ -78,6 +80,8 @@ export const UserEdit = ({
   roles,
   buttonText,
 }) => {
+  const { register, handleSubmit, errors } = useForm(); // initialize the hook
+
   return (
     <div
       className="card"
@@ -100,67 +104,119 @@ export const UserEdit = ({
             <label>Imię</label>
             <input
               type="text"
-              className="form-control"
               value={user.name}
               name="name"
               placeholder="Wpisz imię użytkownika"
               onChange={onChange}
+              ref={register({ required: true })}
+              className={`form-control ${
+                errors.name ? "border border-danger" : ""
+              }`}
             />
+            {errors.name && <FormErrorMessage message="Imię jest wymagane" />}
+            {!errors.name && (
+              <small className="form-text text-muted">Wprowadź imię</small>
+            )}
           </div>
           <div className="form-group">
             <label>Nazwisko</label>
             <input
               type="text"
-              className="form-control"
+              ref={register({ required: true })}
+              className={`form-control ${
+                errors.surname ? "border border-danger" : ""
+              }`}
               value={user.surname}
               name="surname"
               placeholder="Wpisz nazwisko użytkownika"
               onChange={onChange}
             />
+            {errors.surname && (
+              <FormErrorMessage message="Nazwisko jest wymagane" />
+            )}
+            {!errors.surname && (
+              <small className="form-text text-muted">
+                Wprowadź swoje nazwisko
+              </small>
+            )}
           </div>
           <div className="form-group">
             <label>Login</label>
             <input
+              ref={register({ required: true })}
+              className={`form-control ${
+                errors.login ? "border border-danger" : ""
+              }`}
               type="text"
-              className="form-control"
               value={user.login}
               name="login"
               placeholder="Wpisz nazwisko użytkownika"
               onChange={onChange}
             />
+            {errors.login && <FormErrorMessage message="Login jest wymagany" />}
+            {!errors.login && (
+              <small className="form-text text-muted">
+                Wprowadź swój login
+              </small>
+            )}
           </div>
           <div className="form-group">
             <label>Hasło</label>
             <input
+              ref={register({ required: true, minLength: 4 })}
+              className={`form-control ${
+                errors.password ? "border border-danger" : ""
+              }`}
               type="password"
-              className="form-control"
               value={user.password}
               name="password"
               placeholder="Wpisz hasło użytkownika"
               onChange={onChange}
             />
+            {errors.password && (
+              <FormErrorMessage message="Hasło jest wymagane" />
+            )}
+            {!errors.password && (
+              <small className="form-text text-muted">Wprowadź hasło</small>
+            )}
           </div>
           <div className="form-group">
             <label>E-mail</label>
             <input
+              ref={register({ required: true, pattern: /^\S+@\S+$/i })}
+              className={`form-control ${
+                errors.email ? "border border-danger" : ""
+              }`}
               type="email"
-              className="form-control"
               value={user.email}
               name="email"
               placeholder="Wpisz e-mail użytkownika"
               onChange={onChange}
             />
+            {errors.email && (
+              <FormErrorMessage message="E-mail jest wymagany" />
+            )}
+            {!errors.email && (
+              <small className="form-text text-muted">Wprowadź e-mail</small>
+            )}
           </div>
           <div className="form-group">
             <label>Miasto</label>
             <input
+              ref={register({ required: true })}
+              className={`form-control ${
+                errors.city ? "border border-danger" : ""
+              }`}
               type="city"
-              className="form-control"
               value={user.city}
               name="city"
               placeholder="Wpisz miasto użytkownika"
               onChange={onChange}
             />
+            {errors.city && <FormErrorMessage message="Miasto jest wymagane" />}
+            {!errors.city && (
+              <small className="form-text text-muted">Wprowadź miasto</small>
+            )}
           </div>
           <div className="form-group">
             <label>Rola</label>
@@ -183,7 +239,10 @@ export const UserEdit = ({
         </form>
       </div>
       <div className="card-footer d-flex">
-        <button className="btn btn-primary mr-2" onClick={onSubmit}>
+        <button
+          className="btn btn-primary mr-2"
+          onClick={handleSubmit(onSubmit)}
+        >
           {buttonText}
         </button>
         <button className="btn btn-secondary" onClick={onCancel}>
