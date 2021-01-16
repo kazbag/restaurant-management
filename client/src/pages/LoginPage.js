@@ -4,32 +4,49 @@ import { withRouter } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { useFields } from "../utils/hooks";
 import { handleRegister, handleLogin } from "../utils/form_methods";
+import { useForm } from "react-hook-form";
+import { FormErrorMessage } from "../utils/forms";
 
 const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
+  const { register, handleSubmit, errors } = useForm(); // initialize the hook
   return (
     <form className="d-flex align-items-center flex-column form">
       <div className="p-5 bg-white rounded">
         <div className="form-group">
           <label>Login</label>
           <input
-            className="form-control"
+            ref={register({ required: true })}
+            className={`form-control ${
+              errors.login ? "border border-danger" : ""
+            }`}
             type="text"
             placeholder="login"
             name="login"
             onChange={handleChange}
           />
-          <small className="form-text text-muted">Wprowadź swój login</small>
+          {errors.login && <FormErrorMessage message="Login jest wymagany" />}
+          {!errors.login && (
+            <small className="form-text text-muted">Wprowadź swój login</small>
+          )}
         </div>
         <div className="form-group">
           <label>Hasło</label>
           <input
-            className="form-control"
+            ref={register({ required: true })}
+            className={`form-control ${
+              errors.password ? "border border-danger" : ""
+            }`}
             type="password"
             placeholder="hasło"
             name="password"
             onChange={handleChange}
           />
-          <small className="form-text text-muted">Wprowadź hasło</small>
+          {errors.password && (
+            <FormErrorMessage message="Hasło jest wymagane" />
+          )}
+          {!errors.password && (
+            <small className="form-text text-muted">Wprowadź hasło</small>
+          )}
         </div>
 
         {window.location.pathname === "/register" && (
@@ -39,72 +56,122 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
               <input
                 className="form-control"
                 type="text"
-                placeholder="name"
+                placeholder="imię"
                 name="name"
                 onChange={handleChange}
+                ref={register({ required: true })}
+                className={`form-control ${
+                  errors.name ? "border border-danger" : ""
+                }`}
               />
-              <small className="form-text text-muted">Wprowadź swoje imię</small>
+              {errors.name && <FormErrorMessage message="Imię jest wymagane" />}
+              {!errors.name && (
+                <small className="form-text text-muted">Wprowadź imię</small>
+              )}
             </div>
 
             <div className="form-group">
               <label>Nazwisko</label>
               <input
-                className="form-control"
+                ref={register({ required: true })}
+                className={`form-control ${
+                  errors.surname ? "border border-danger" : ""
+                }`}
                 type="text"
-                placeholder="surname"
+                placeholder="nazwisko"
                 name="surname"
                 onChange={handleChange}
               />
-              <small className="form-text text-muted">Wprowadź swoje nazwisko</small>
+              {errors.surname && (
+                <FormErrorMessage message="Nazwisko jest wymagane" />
+              )}
+              {!errors.surname && (
+                <small className="form-text text-muted">
+                  Wprowadź swoje nazwisko
+                </small>
+              )}
             </div>
 
             <div className="form-group">
               <label>E-mail</label>
               <input
-                className="form-control"
+                // TODO: email pattern regex
+                ref={register({ required: true, pattern: /^\S+@\S+$/i })}
+                className={`form-control ${
+                  errors.email ? "border border-danger" : ""
+                }`}
                 type="text"
-                placeholder="Jan.Kowalski@gmail.com"
+                placeholder="jankowalski@gmail.com"
                 name="email"
                 onChange={handleChange}
               />
-              <small className="form-text text-muted">Wprowadź swój e-mail</small>
+              {errors.email && (
+                <FormErrorMessage message="E-mail jest wymagany" />
+              )}
+              {!errors.email && (
+                <small className="form-text text-muted">Wprowadź e-mail</small>
+              )}
             </div>
 
             <div className="form-group">
               <label>Adres</label>
               <input
-                className="form-control"
+                ref={register({ required: true })}
+                className={`form-control ${
+                  errors.address ? "border border-danger" : ""
+                }`}
                 type="text"
                 placeholder="ul. Wielicka 23/2"
                 name="address"
                 onChange={handleChange}
               />
-              <small className="form-text text-muted">Wprowadź swój adres</small>
+              {errors.address && (
+                <FormErrorMessage message="Adres jest wymagany" />
+              )}
+              {!errors.address && (
+                <small className="form-text text-muted">Wprowadź adres</small>
+              )}
             </div>
 
             <div className="form-group">
               <label>Miasto</label>
               <input
-                className="form-control"
+                ref={register({ required: true })}
+                className={`form-control ${
+                  errors.city ? "border border-danger" : ""
+                }`}
                 type="text"
                 placeholder="Kraków"
                 name="city"
                 onChange={handleChange}
               />
-              <small className="form-text text-muted">Wprowadź swoje miasto</small>
+              {errors.city && (
+                <FormErrorMessage message="Miasto jest wymagane" />
+              )}
+              {!errors.city && (
+                <small className="form-text text-muted">Wprowadź miasto</small>
+              )}
             </div>
           </>
         )}
 
         {window.location.pathname === "/login" && (
-          <a className="btn btn-primary px-5 w-100" onClick={handleLogin}>
+          <button
+            type="button"
+            className="btn btn-primary px-5 w-100"
+            onClick={handleSubmit(handleLogin)}
+          >
             Zaloguj się
-          </a>
+          </button>
         )}
         {window.location.pathname === "/register" && (
-          <a className="btn btn-primary px-5 w-100" onClick={handleRegister}>
+          <button
+            type="button"
+            className="btn btn-primary px-5 w-100"
+            onClick={handleSubmit(handleRegister)}
+          >
             Zarejestruj się
-          </a>
+          </button>
         )}
       </div>
     </form>
@@ -130,7 +197,7 @@ const LoginPage = ({ history, location }) => {
   }, [isAuthenticated]);
 
   return (
-    <div className="container">
+    <div className="d-flex flex-column mt-4">
       <h3 className="text-center mb-4 text-white">
         {window.location.pathname === "/login" ? "Logowanie" : "Rejestracja"}
       </h3>
