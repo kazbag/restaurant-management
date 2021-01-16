@@ -3,6 +3,8 @@ import { withRouter } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import { useFields } from "../utils/hooks";
+import toast from "toast-me";
+
 axios.defaults.withCredentials = true;
 
 const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
@@ -14,7 +16,7 @@ const getLatestNews = (url, callback) => {
       callback(response.data);
     })
     .catch((err) => {
-      console.log(err.message);
+      toast(err.message, "error");
     });
 };
 

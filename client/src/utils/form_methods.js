@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import toast from "toast-me";
+
 axios.defaults.withCredentials = true;
 
+// TODO: handle it
 export const submitOrder = (url, data) => {
   axios
     .post(`${url}/orders`, data)
     .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+    .catch((err) => toast(err.message, "error"));
 };
 
 export const handleRegister = (uri, data, callback) => {
@@ -16,8 +18,8 @@ export const handleRegister = (uri, data, callback) => {
       console.log(response);
       callback && callback();
     })
-    .catch((error) => {
-      console.log(error.message);
+    .catch((err) => {
+      toast(err.message, "error");
     });
 };
 
@@ -32,7 +34,7 @@ export const handleLogin = (url, data, callback) => {
       window.location.href = "/";
     })
     .catch((err) => {
-      console.log(err);
+      toast(err.message, "error");
       callback && callback(false);
     });
 };

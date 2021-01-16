@@ -1,6 +1,8 @@
-import React from "react";
 import axios from "axios";
+import toast from "toast-me";
+
 axios.defaults.withCredentials = true;
+
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 export const handleStatusToggle = (
@@ -16,5 +18,5 @@ export const handleStatusToggle = (
     .then(() => axios.get(`${SERVER_URL}/orders/completed`))
     .then((response) => setCompletedOrders(response.data))
     .then(() => message())
-    .catch((err) => console.log(err));
+    .catch((err) => toast(err.message, "error"));
 };

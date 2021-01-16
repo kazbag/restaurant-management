@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import toast from "toast-me";
+
 axios.defaults.withCredentials = true;
 
 export const useFields = function(initialValue) {
@@ -31,7 +33,7 @@ export const useLoad = function(initialState, uri) {
       .then((res) => {
         setFields(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast(err.message, "error"));
   }, [uri]);
   return [fields, setFields];
 };

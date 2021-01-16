@@ -87,6 +87,7 @@ const AdminPage = () => {
           handleUserSelection(e.target.dataset.id);
           setIsEdit(true);
         }}
+        // TODO: handle it
         onEdit={(e) => console.log(e.target.dataset.id)}
         performNew={() => {
           setIsAdd(true);

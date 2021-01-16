@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import toast from "toast-me";
+
 axios.defaults.withCredentials = true;
 
 export const AuthContext = createContext();
@@ -23,7 +25,7 @@ const AuthContextProvider = ({ children }) => {
         setAuth(true);
       })
       .catch((err) => {
-        console.log(err);
+        toast(err.message, "error");
         setAuth(false);
       });
   }, [isAuthenticated]);
