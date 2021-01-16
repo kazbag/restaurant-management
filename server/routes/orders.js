@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Orders = require("../models/Orders");
 const DiscountCodes = require("../models/DiscountCodes");
-
+const { getAuth } = require("../SessionService");
 /**
  * @swagger
  * /orders:
@@ -31,7 +31,7 @@ router.get("/", async (req, res) => {
  *      '200':
  *        description: succesful repsonse
  */
-router.get("/completed", async (req, res) => {
+router.get("/completed", getAuth("admin"), async (req, res) => {
   try {
     const orders = await Orders.find({ orderStatus: true });
     res.json(orders);

@@ -26,7 +26,7 @@ export const useLoad = function(initialState, uri) {
   const [fields, setFields] = useState(initialState);
   useEffect(() => {
     axios
-      .get(uri)
+      .get(uri, { withCredentials: true })
       .then((res) => {
         console.log(res);
         setFields(res.data);

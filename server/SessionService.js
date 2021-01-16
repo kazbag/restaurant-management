@@ -1,33 +1,30 @@
-const Users = require("./models/Users")
+const Users = require("./models/Users");
 /**
  * Sessions
  */
 const sessions = [{ token: "abc", user: { name: "Andrzej" } }];
 /**
  * Checking permisions
- * 
+ *
  * @param {*} userRole role which user has
  */
-const getAuth = (userRole) => async (req, res, next) => {
+const getAuth = (requiredRole) => async (req, res, next) => {
   try {
+    console.log(req.body);
+    console.log(req.headers);
     const { login, token } = req.body;
     const session = sessions.find((session) => session.token === token);
-    const { role } = await Users.findOne({ login: login });
-
-    if (
-      (token === session.token && role === "user") ||
-      (token === session.token && role === "chef") ||
-      (token === session.token && role === "admin")
-    ) {
+    const user = await Users.findOne({ login: login });
+    console.log(user);
+    if (token === session.token && user.role === requiredRole) {
       next();
     } else {
-
       res.status(403).send("Nie masz dostępu do tej strony!");
     }
   } catch (err) {
     res.status(500).send(err.message);
   }
-}
+};
 /**
  * Fetch user session by token
  *
@@ -53,15 +50,14 @@ const createSession = (user) => {
 /**
  * Remove user session
  */
-const removeSession = (token, name) => {
+const removeSession = (token, login) => {
   sessions = sessions.filter(
-    (session) => session.token !== token && session.user.name !== name
+    (session) => session.token !== token && session.user.login !== login
   );
   console.log("current sessions after remove ", sessions);
 };
 
 const checkSession = (token) => {
-
   return [sessions.find((session) => session.token === token), null];
 };
 
@@ -70,5 +66,5 @@ module.exports = {
   fetchSession,
   removeSession,
   checkSession,
-  getAuth
+  getAuth,
 };

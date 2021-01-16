@@ -15,8 +15,6 @@ const usersRoutes = require("./routes/users");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
-
-
 const originUrl = process.env.ORIGIN_URL || "http://localhost:3000";
 const port = process.env.PORT || 3001;
 
@@ -25,7 +23,7 @@ const {
   fetchSession,
   removeSession,
   checkSession,
-  getAuth
+  getAuth,
 } = require("./SessionService");
 const { loginUser } = require("./UserRepository");
 const { collection } = require("./models/Users");
@@ -147,7 +145,7 @@ db.once("open", () => {
       res.json({
         token,
         user: {
-          name: user.name,
+          login: user.login,
           role: user.role,
         },
         message: "everything is ok from server",
@@ -157,57 +155,12 @@ db.once("open", () => {
 
   app.post("/logout", authorizationChain, async (req, res) => {
     console.log(req.token + " req token");
-    removeSession(req.token, req.session.user.name);
+    removeSession(req.token, req.session.user.login);
     res.clearCookie("session");
     res.redirect("/");
   });
 
-  app.get("/user-page", getAuth("user"), async (req, res) => {
-    res.send("Witaj na zabezpieczonym roucie dla użytkowników!");
-  });
-
-  app.get("/chef-page", getAuth("chef"), async (req, res) => {
-    res.send("Witaj na zabezpieczonym roucie dla kucharzy!");
-  });
-
-  app.get("/admin-page", getAuth("admin"), async (req, res) => {
-    res.send(
-      "Witaj na zabezpieczonym roucie administratorze!"
-    );
-  });
-
   // pusher
-  var Pusher = require("pusher");
-
-  var pusher = new Pusher({
-    appId: process.env.PUSHER_APP_ID,
-    key: process.env.PUSHER_KEY,
-    secret: process.env.PUSHER_SECRET,
-    cluster: process.env.PUSHER_CLUSTER,
-    encrypted: true,
-  });
-  const channel = "my-channel";
-  pusher.trigger("my-channel", "my-event", {
-    message: "hello world",
-  });
 
   app.listen(port, () => console.log(`app listening on port ${port}!`));
-
-  const ordersCollection = db.collection("orders");
-  const changeStream = ordersCollection.watch();
-
-  changeStream.on("change", (change) => {
-    console.log(change);
-    if (change.operationType === "insert") {
-      const order = change.fullDocument;
-      pusher.trigger(channel, "inserted", {
-        id: order._id,
-        order: order.order,
-      });
-    } else if (change.operationType === "delete") {
-      pusher.trigger(channel, "deleted", change.documentKey._id);
-    } else if (change.operationType === "update") {
-      pusher.trigger(channel, "updated", change.documentKey._id);
-    }
-  });
 });

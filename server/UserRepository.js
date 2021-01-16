@@ -27,11 +27,8 @@ const Users = require("./models/Users");
 ]; */
 
 const loginUser = async (login, password) => {
-  //const user = users.find((user) => user.name === name);
-  const user = await Users.findOne({ login: login })
+  const user = await Users.findOne({ login: login });
   const users = await Users.find();
-  //console.log(users)
-  //console.log(user)
   if (!user) {
     return [null, "cannot find user"];
   }
