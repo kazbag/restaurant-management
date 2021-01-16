@@ -197,7 +197,7 @@ const LoginPage = ({ history, location }) => {
   }, [isAuthenticated]);
 
   return (
-    <div className="d-flex flex-column mt-4">
+    <div className="d-flex flex-column">
       <h3 className="text-center mb-4 text-white">
         {window.location.pathname === "/login" ? "Logowanie" : "Rejestracja"}
       </h3>

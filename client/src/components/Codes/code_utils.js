@@ -1,6 +1,9 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+import { FormErrorMessage } from "../../utils/forms";
 
 export const CodeModal = ({ onChange, onCreate, onReset }) => {
+  const { register, handleSubmit, errors } = useForm(); // initialize the hook
   return (
     <div className="col-12 col-md-6">
       <div className="card">
@@ -14,16 +17,34 @@ export const CodeModal = ({ onChange, onCreate, onReset }) => {
                 <div className="form-group">
                   <label>Wpisz kod</label>
                   <input
+                    ref={register({ required: true })}
+                    className={`form-control ${
+                      errors.code ? "border border-danger" : ""
+                    }`}
                     placeholder="wprowadź kod"
                     type="text"
-                    className="form-control"
                     onChange={onChange}
                     name="code"
                   />
+                  {errors.code && (
+                    <FormErrorMessage message="Kod jest wymagany" />
+                  )}
+                  {!errors.code && (
+                    <small className="form-text text-muted">Wprowadź kod</small>
+                  )}
                 </div>
                 <div className="form-group">
                   <label>Rabat (w procentach)</label>
                   <input
+                    ref={register({
+                      required: true,
+                      valueAsNumber: true,
+                      min: 1,
+                      max: 80,
+                    })}
+                    className={`form-control ${
+                      errors.value ? "border border-danger" : ""
+                    }`}
                     onChange={onChange}
                     className="form-control"
                     type="number"
@@ -33,12 +54,20 @@ export const CodeModal = ({ onChange, onCreate, onReset }) => {
                     step="1"
                     defaultValue="10"
                   />
+                  {errors.value && (
+                    <FormErrorMessage message="Wprowadź poprawną wartość (od 1 do 80%)" />
+                  )}
+                  {!errors.value && (
+                    <small className="form-text text-muted">
+                      Wprowadź rabat
+                    </small>
+                  )}
                 </div>
                 <div className="form-group d-flex mt-8">
                   <button
                     className="btn btn-success mr-2"
                     type="button"
-                    onClick={onCreate}
+                    onClick={handleSubmit(onCreate)}
                   >
                     Dodaj kod
                   </button>

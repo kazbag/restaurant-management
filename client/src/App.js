@@ -26,7 +26,7 @@ const App = () => {
       <AuthContextProvider>
         <Router>
           <Navbar />
-          <div className="container">
+          <div className="container mt-4">
             <Switch>
               <Route exact path="/" component={LatestNews} />
               <Route exact path="/news/:id" component={SingleNewsPage} />
