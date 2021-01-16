@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import _ from "lodash";
+axios.defaults.withCredentials = true;
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
@@ -15,14 +16,14 @@ export const addDiscountCode = (codesList, code, discountAmount) => {
 
 export const handleSubmit = (data) => {
   axios
-    .post(`${SERVER_URL}/orders`, { data, withCredentials: true })
+    .post(`${SERVER_URL}/orders`, data)
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
 };
 
 export const handleCode = (data, callback) => {
   axios
-    .get(`${SERVER_URL}/discountCodes/${data}`, { withCredentials: true })
+    .get(`${SERVER_URL}/discountCodes/${data}`)
     .then((response) => {
       callback(response.data);
     })
@@ -31,7 +32,7 @@ export const handleCode = (data, callback) => {
 
 export const getProducts = (callback) => {
   axios
-    .get(`${SERVER_URL}/products`, { withCredentials: true })
+    .get(`${SERVER_URL}/products`)
     .then((response) => {
       callback({ products_list: response.data });
     })

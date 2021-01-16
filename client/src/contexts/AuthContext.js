@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+axios.defaults.withCredentials = true;
+
 export const AuthContext = createContext();
 
 const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";

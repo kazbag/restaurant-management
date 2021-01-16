@@ -1,11 +1,11 @@
 import axios from "axios";
-
+axios.defaults.withCredentials = true;
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
 
 export const handleEdit = (id, data, callback) => {
   axios
-    .patch(`${SERVER_URL}/users/${id}`, { data, withCredentials: true })
-    .then(() => axios.get(`${SERVER_URL}/users`, { withCredentials: true }))
+    .patch(`${SERVER_URL}/users/${id}`, data)
+    .then(() => axios.get(`${SERVER_URL}/users`))
     .then((response) => callback(response.data))
     .then(() => window.swal.fire("Zaktualizowano dane użytkownika."))
     .catch((err) => console.log(err));
@@ -24,10 +24,8 @@ export const handleRemove = (id, callback) => {
     .then((result) => {
       if (result.value) {
         axios
-          .delete(`${SERVER_URL}/users/${id}`, { withCredentials: true })
-          .then(() =>
-            axios.get(`${SERVER_URL}/users`, { withCredentials: true })
-          )
+          .delete(`${SERVER_URL}/users/${id}`)
+          .then(() => axios.get(`${SERVER_URL}/users`))
           .then((response) => callback(response.data))
           .catch((err) => console.log(err));
         window.swal.fire("Usunięto!");
@@ -39,8 +37,8 @@ export const handleRemove = (id, callback) => {
 
 export const handleNew = (data, callback) => {
   axios
-    .post(`${SERVER_URL}/users`, { data, withCredentials: true })
-    .then(() => axios.get(`${SERVER_URL}/users`, { withCredentials: true }))
+    .post(`${SERVER_URL}/users`, data)
+    .then(() => axios.get(`${SERVER_URL}/users`))
     .then((response) => callback(response.data))
     .then(() => window.swal.fire("Dodano użytkownika!"))
     .catch((err) => console.log(err));
@@ -48,8 +46,8 @@ export const handleNew = (data, callback) => {
 
 export const handleCreateMessage = (data, callback) => {
   axios
-    .post(`${SERVER_URL}/news`, { data, withCredentials: true })
-    .then(() => axios.get(`${SERVER_URL}/news`, { withCredentials: true }))
+    .post(`${SERVER_URL}/news`, data)
+    .then(() => axios.get(`${SERVER_URL}/news`))
     .then((response) => callback(response.data))
     .then(() => window.swal.fire("Dodano nową wiadomość!"))
     .catch((err) => console.log(err));
@@ -68,10 +66,8 @@ export const handleRemoveMessage = (id, callback) => {
     .then((result) => {
       if (result.value) {
         axios
-          .delete(`${SERVER_URL}/news/${id}`, { withCredentials: true })
-          .then(() =>
-            axios.get(`${SERVER_URL}/news`, { withCredentials: true })
-          )
+          .delete(`${SERVER_URL}/news/${id}`)
+          .then(() => axios.get(`${SERVER_URL}/news`))
           .then((response) => callback(response.data))
           .catch((err) => console.log(err));
         window.swal.fire("Usunięto!");

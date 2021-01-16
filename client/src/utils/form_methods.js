@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 export const submitOrder = (url, data) => {
   axios
-    .post(`${url}/orders`, { data, withCredentials: true })
+    .post(`${url}/orders`, data)
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
 };
 
 export const handleRegister = (uri, data, callback) => {
   axios
-    .post(`${uri}/users`, { data, withCredentials: true })
+    .post(`${uri}/users`, data)
     .then((response) => {
       console.log(response);
       callback && callback();

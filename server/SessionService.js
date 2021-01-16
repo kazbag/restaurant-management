@@ -14,6 +14,7 @@ const getAuth = (requiredRoles) => async (req, res, next) => {
   try {
     // try to retreive cookie header
     const cookie = req.headers.cookie;
+    console.log(req.headers);
 
     // if there's no cookie it means that user is almost for sure not logged in
     if (!cookie) {
