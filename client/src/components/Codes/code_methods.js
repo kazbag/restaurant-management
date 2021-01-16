@@ -17,8 +17,12 @@ export const handleRemove = (id, callback) => {
     .then((result) => {
       if (result.value) {
         axios
-          .delete(`${SERVER_URL}/discountCodes/${id}`)
-          .then(() => axios.get(`${SERVER_URL}/discountCodes`))
+          .delete(`${SERVER_URL}/discountCodes/${id}`, {
+            withCredentials: true,
+          })
+          .then(() =>
+            axios.get(`${SERVER_URL}/discountCodes`, { withCredentials: true })
+          )
           .then((response) => callback(response.data))
           .catch((err) => console.log(err));
         window.swal.fire("Usunięto!");
@@ -28,24 +32,19 @@ export const handleRemove = (id, callback) => {
     });
 };
 
-
-export const handleCreate = (code, callback) => {
-
+export const handleCreate = (data, callback) => {
   axios
-    .post(`${SERVER_URL}/discountCodes`, code)
-    .then(() => axios.get(`${SERVER_URL}/discountCodes`))
+    .post(`${SERVER_URL}/discountCodes`, { data, withCredentials: true })
+    .then(() =>
+      axios.get(`${SERVER_URL}/discountCodes`, { withCredentials: true })
+    )
     .then((response) => callback(response.data))
     .then(() => window.swal.fire("Dodano nowy kod!"))
     .catch((err) => {
       if (err.response) {
-        window.swal.fire("podałeś złe dane lub nie wprowadziłeś ich we wszystkich wymaganych polach")
+        window.swal.fire(
+          "podałeś złe dane lub nie wprowadziłeś ich we wszystkich wymaganych polach"
+        );
       }
-
-    })
-
-
-
-
-
-}
-
+    });
+};

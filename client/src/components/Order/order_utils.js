@@ -13,16 +13,16 @@ export const addDiscountCode = (codesList, code, discountAmount) => {
   const discount = codesList.find((item) => item.code === code);
 };
 
-export const handleSubmit = (order) => {
+export const handleSubmit = (data) => {
   axios
-    .post(`${SERVER_URL}/orders`, order)
+    .post(`${SERVER_URL}/orders`, { data, withCredentials: true })
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
 };
 
-export const handleCode = (code, callback) => {
+export const handleCode = (data, callback) => {
   axios
-    .get(`${SERVER_URL}/discountCodes/${code}`)
+    .get(`${SERVER_URL}/discountCodes/${data}`, { withCredentials: true })
     .then((response) => {
       callback(response.data);
     })
@@ -31,7 +31,7 @@ export const handleCode = (code, callback) => {
 
 export const getProducts = (callback) => {
   axios
-    .get(`${SERVER_URL}/products`)
+    .get(`${SERVER_URL}/products`, { withCredentials: true })
     .then((response) => {
       callback({ products_list: response.data });
     })

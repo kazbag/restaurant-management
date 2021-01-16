@@ -10,10 +10,14 @@ export const handleStatusToggle = (
   message
 ) => {
   axios
-    .patch(`${SERVER_URL}/orders/status/${orderId}`)
-    .then(() => axios.get(`${SERVER_URL}/orders/pending`))
+    .patch(`${SERVER_URL}/orders/status/${orderId}`, { withCredentials: true })
+    .then(() =>
+      axios.get(`${SERVER_URL}/orders/pending`, { withCredentials: true })
+    )
     .then((response) => setPendingOrders(response.data))
-    .then(() => axios.get(`${SERVER_URL}/orders/completed`))
+    .then(() =>
+      axios.get(`${SERVER_URL}/orders/completed`, { withCredentials: true })
+    )
     .then((response) => setCompletedOrders(response.data))
     .then(() => message())
     .catch((err) => console.log(err));

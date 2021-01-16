@@ -3,14 +3,14 @@ import axios from "axios";
 
 export const submitOrder = (url, data) => {
   axios
-    .post(`${url}/orders`, data)
+    .post(`${url}/orders`, { data, withCredentials: true })
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
 };
 
 export const handleRegister = (uri, data, callback) => {
   axios
-    .post(`${uri}/users`, data)
+    .post(`${uri}/users`, { data, withCredentials: true })
     .then((response) => {
       console.log(response);
       callback && callback();
