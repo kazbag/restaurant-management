@@ -1,15 +1,12 @@
-import React, {
-  useContext, useState, useRef, useEffect,
-} from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 
-const Navbar = (props) => {
+const Navbar = () => {
   const { isAuthenticated, userRole } = useContext(AuthContext);
-  // TODO: menu toggle is not working
   return (
     <AuthContext.Consumer>
-      {(context) => (
+      {() => (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <a className="navbar-brand" href="/">
             Restauracja

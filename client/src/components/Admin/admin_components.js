@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import PropTypes from 'prop-types';
 import { FormErrorMessage } from '../../utils/forms';
 
 export const UserList = ({
-  users,
-  performEdit,
-  onEdit,
-  performNew,
-  onRemove,
+  users, performEdit, performNew, onRemove,
 }) => (
   <div className="col-12 col-md-6">
     <div className="card">
@@ -24,6 +21,7 @@ export const UserList = ({
               Nowy użytkownik
             </span>
             <button
+              type="button"
               className="btn btn-sm btn-success ml-auto"
               onClick={performNew}
             >
@@ -33,35 +31,37 @@ export const UserList = ({
           {users.map((user, index) => (
             <li
               className="list-item d-flex mb-2 mb-lg-4 justify-content-center align-items-center"
-              key={index}
+              key={user.name}
             >
               <span>
                 <span className="text-bold">
-                    #
-                    {index + 1}
-                    {' '}
-                    {user.name}
-                    {' '}
-                    -
-                    {' '}
-                    <span className="text-primary">{user.role}</span>
-                  </span>
+                  #
+                  {index + 1}
+                  {' '}
+                  {user.name}
+                  {' '}
+                  -
+                  {' '}
+                  <span className="text-primary">{user.role}</span>
+                </span>
               </span>
               <div className="d-flex ml-auto">
                 <button
-                    data-id={user._id}
-                    onClick={performEdit}
-                    className="btn btn-sm btn-primary mr-2"
-                  >
-                    Edytuj
-                  </button>
+                  type="button"
+                  data-id={user._id}
+                  onClick={performEdit}
+                  className="btn btn-sm btn-primary mr-2"
+                >
+                  Edytuj
+                </button>
                 <button
-                    data-id={user._id}
-                    onClick={onRemove}
-                    className="btn btn-sm btn-danger"
-                  >
-                    Usuń
-                  </button>
+                  type="button"
+                  data-id={user._id}
+                  onClick={onRemove}
+                  className="btn btn-sm btn-danger"
+                >
+                  Usuń
+                </button>
               </div>
             </li>
           ))}
@@ -70,6 +70,13 @@ export const UserList = ({
     </div>
   </div>
 );
+
+UserList.propTypes = {
+  users: PropTypes.object.isRequired,
+  performEdit: PropTypes.func.isRequired,
+  performNew: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+};
 
 // TODO: check that don't we have to unhash user password first
 // TODO: to discuss, should we at all have access to user password here?
@@ -229,8 +236,8 @@ export const UserEdit = ({
               name="role"
             >
               <option value="" disabled />
-              {roles.map((role, index) => (
-                <option key={index} value={role}>
+              {roles.map((role) => (
+                <option key={role} value={role}>
                   {role}
                 </option>
               ))}
@@ -240,17 +247,32 @@ export const UserEdit = ({
       </div>
       <div className="card-footer d-flex">
         <button
+          type="button"
           className="btn btn-primary mr-2"
           onClick={handleSubmit(onSubmit)}
         >
           {buttonText}
         </button>
-        <button className="btn btn-secondary" onClick={onCancel}>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={onCancel}
+        >
           Anuluj
         </button>
       </div>
     </div>
   );
+};
+
+UserEdit.propTypes = {
+  header: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  roles: PropTypes.any,
+  buttonText: PropTypes.string.isRequired,
 };
 
 export const OrderList = ({ orders }) => {
@@ -300,7 +322,7 @@ export const OrderList = ({ orders }) => {
               && orders[orderType].map((item, index) => (
                 <li
                   className="list-item d-flex mb-2 align-items-center"
-                  key={index}
+                  key={item._id}
                 >
                   <span className="mr-auto">
                     #
@@ -317,15 +339,19 @@ export const OrderList = ({ orders }) => {
                   </button>
                 </li>
               ))}
-
-            {orders
+            {/* TODO: handle it */}
+            {/* {orders
               && orderType === 'completed'
-              && orders[orderType].map((item, index) => {})}
+              && orders[orderType].map((item, index) => {})} */}
           </ul>
         </div>
       </div>
     </div>
   );
+};
+
+OrderList.propTypes = {
+  orders: PropTypes.array.isRequired,
 };
 
 export const NewsModal = ({ onChange, onSubmit, onCancel }) => {
@@ -381,6 +407,7 @@ export const NewsModal = ({ onChange, onSubmit, onCancel }) => {
         </div>
         <div className="card-footer">
           <button
+            type="button"
             className="btn btn-success mr-2"
             onClick={handleSubmit(onSubmit)}
           >
@@ -399,56 +426,57 @@ export const NewsModal = ({ onChange, onSubmit, onCancel }) => {
   );
 };
 
-export const NewsList = ({ data, performNew, onRemove }) => {
-  return (
-    <div className="col-12 mb-4">
-      <div className="card">
-        <div className="card-header">
-          <h3 className="card-title">Lista newsów</h3>
-        </div>
-        <div className="card-body">
-          <ul className="list list-unstyled">
-            <li
-              className="list-item d-flex align-items-center mb-4 pb-4"
-              style={{ borderBottom: '1px solid black' }}
+NewsModal.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+};
+
+export const NewsList = ({ data, performNew, onRemove }) => (
+  <div className="col-12 mb-4">
+    <div className="card">
+      <div className="card-header">
+        <h3 className="card-title">Lista newsów</h3>
+      </div>
+      <div className="card-body">
+        <ul className="list list-unstyled">
+          <li
+            className="list-item d-flex align-items-center mb-4 pb-4"
+            style={{ borderBottom: '1px solid black' }}
+          >
+            <span className="text-success font-weight-bold">Dodaj news</span>
+            <button
+              type="button"
+              className="btn btn-sm btn-success ml-auto"
+              onClick={performNew}
             >
-              <span className="text-success font-weight-bold">Dodaj news</span>
+              Dodaj
+            </button>
+          </li>
+          {data.map((item) => (
+            <li
+              key={item._id}
+              className="list-item d-flex mb-2 align-items-center"
+            >
+              <span>{item.title}</span>
               <button
+                data-id={item._id}
                 type="button"
-                className="btn btn-sm btn-success ml-auto"
-                onClick={performNew}
+                className="btn btn-sm btn-danger ml-auto"
+                onClick={onRemove}
               >
-                Dodaj
+                Usuń
               </button>
             </li>
-            {data.map((item, index) => (
-              <li
-                key={index}
-                className="list-item d-flex mb-2 align-items-center"
-              >
-                <span>{item.title}</span>
-                <button
-                  data-id={item._id}
-                  type="button"
-                  className="btn btn-sm btn-danger ml-auto"
-                  onClick={onRemove}
-                >
-                  Usuń
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+          ))}
+        </ul>
       </div>
     </div>
-  );
-  return data.map((msg, index) => (
-    <div className="col-12 col-md-6 col-lg-4 h-100" key={index}>
-      <div className="card-deck">
-        <div className="card mb-4 col m-4 p-4 card-stretch">
-          <h3 className="card-title text-dark">{msg.title}</h3>
-        </div>
-      </div>
-    </div>
-  ));
+  </div>
+);
+
+NewsList.propTypes = {
+  data: PropTypes.array.isRequired,
+  performNew: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
 };

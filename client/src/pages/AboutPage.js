@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router';
 import Countup from 'react-countup';
 
@@ -47,6 +47,8 @@ const AboutPage = () => (
     <div className="col-12 col-md mt-4 mt-md-0">
       <div className="mx-auto d-flex align-items-center justify-content-center">
         <img
+          // TODO: replace image
+          alt="Zdjęcie naszej ekipy"
           className="img-fluid"
           src="https://dziendobry.tvn.pl/media/cache/content/kucharz-i-obsluga-restauracji-jpg.jpg"
         />

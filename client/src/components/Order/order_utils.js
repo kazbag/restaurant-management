@@ -1,5 +1,4 @@
 import axios from 'axios';
-import _ from 'lodash';
 import toast from 'toast-me';
 
 axios.defaults.withCredentials = true;
@@ -11,9 +10,10 @@ export const handleAdd = (product, products, productsList, callback) => {
   callback({ products: [...products, _product] });
 };
 
-export const addDiscountCode = (codesList, code, discountAmount) => {
-  const discount = codesList.find((item) => item.code === code);
-};
+// TODO: remove
+// export const addDiscountCode = (codesList, code, discountAmount) => {
+//   const discount = codesList.find((item) => item.code === code);
+// };
 
 // TODO: handle callback for submit order
 export const handleSubmit = (data) => {

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
+import PropTypes from 'prop-types';
 import { FormErrorMessage } from '../../utils/forms';
 
 export const ProductNewCard = ({ onClick }) => (
@@ -18,24 +19,27 @@ export const ProductNewCard = ({ onClick }) => (
       </p>
     </div>
     <div className="card-footer">
-      <button onClick={onClick} className="btn btn-success">
+      <button type="button" onClick={onClick} className="btn btn-success">
         Dodaj
       </button>
     </div>
   </div>
 );
 
+ProductNewCard.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
+
 export const ProductList = ({
   list,
   children,
-  onEdit,
   performEdit,
   onRemove,
 }) => (
   <div className="row">
     <div className="col-12 col-md-6 col-lg-4 mb-4">{children}</div>
-    {list.map((item, index) => (
-      <div className="col-12 col-md-6 col-lg-4 mb-4" key={index}>
+    {list.map((item) => (
+      <div className="col-12 col-md-6 col-lg-4 mb-4" key={item._id}>
         <div className="card h-100">
           <div className="card-header d-flex flex-column">
             <h3 className="card-title">
@@ -59,6 +63,7 @@ export const ProductList = ({
           </div>
           <div className="card-footer d-flex">
             <button
+              type="button"
               id={item._id}
               onClick={performEdit}
               className="btn btn-primary mr-2"
@@ -66,6 +71,7 @@ export const ProductList = ({
               Edytuj
             </button>
             <button
+              type="button"
               id={item._id}
               onClick={onRemove}
               className="btn btn-danger"
@@ -78,6 +84,13 @@ export const ProductList = ({
     ))}
   </div>
 );
+
+ProductList.propTypes = {
+  list: PropTypes.any,
+  children: PropTypes.any,
+  performEdit: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+};
 
 export const ProductNew = ({
   onCancel, onChange, onSave, product,
@@ -207,18 +220,26 @@ export const ProductNew = ({
       <div className="card-footer px-0">
         <div className="d-flex mx-auto col-12 col-sm-9 col-md-6">
           <button
+            type="button"
             className="btn btn-success mr-2"
             onClick={handleSubmit(onSave)}
           >
             Dodaj produkt
           </button>
-          <button className="btn btn-secondary" onClick={onCancel}>
+          <button type="button" className="btn btn-secondary" onClick={onCancel}>
             Anuluj
           </button>
         </div>
       </div>
     </div>
   );
+};
+
+ProductNew.propTypes = {
+  onCancel: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  product: PropTypes.object.isRequired,
 };
 
 export const ProductEdit = ({
@@ -351,16 +372,24 @@ export const ProductEdit = ({
       <div className="card-footer px-0">
         <div className="d-flex mx-auto col-12 col-sm-9 col-md-6">
           <button
+            type="button"
             className="btn btn-primary mr-2"
             onClick={handleSubmit(onSave)}
           >
             Zapisz produkt
           </button>
-          <button className="btn btn-secondary" onClick={onCancel}>
+          <button type="button" className="btn btn-secondary" onClick={onCancel}>
             Anuluj
           </button>
         </div>
       </div>
     </div>
   );
+};
+
+ProductEdit.propTypes = {
+  onCancel: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  product: PropTypes.object.isRequired,
 };

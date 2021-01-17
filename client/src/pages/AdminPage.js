@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router';
 import {
   UserList,
@@ -47,8 +47,8 @@ const AdminPage = () => {
   const [newsList, setNewsList] = useLoad([], `${SERVER_URL}/news`);
   const [isNewsModalVisible, setIsNewsModalVisible] = useState(false);
   const handleUserSelection = (id) => {
-    const user = users.filter((u) => u._id === id);
-    if (user.length) {
+    const _user = users.filter((u) => u._id === id);
+    if (_user.length) {
       setIsUserModalVisible(true);
       setSelectedUser(user[0]);
     } else {
@@ -84,7 +84,7 @@ const AdminPage = () => {
           setIsEdit(true);
         }}
         // TODO: handle it
-        onEdit={(e) => console.log(e.target.dataset.id)}
+        // onEdit={(e) => console.log(e.target.dataset.id)}
         performNew={() => {
           setIsAdd(true);
           setIsUserModalVisible(true);

@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import {
   Container,
-  Modal,
   List,
 } from '../components/Kitchen/kitchen_components';
 import { useLoad } from '../utils/hooks';
@@ -11,8 +11,12 @@ import { handleStatusToggle } from '../components/Kitchen/kitchen_methods';
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
 
+// TODO: handle history
+// eslint-disable-next-line no-unused-vars
 const KitchenPage = ({ history }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  // TODO: handle it
+  // eslint-disable-next-line no-unused-vars
   const { isAuthenticated, setAuth } = useContext(AuthContext);
   const [pendingOrders, setPendingOrders] = useLoad(
     [],
@@ -30,7 +34,7 @@ const KitchenPage = ({ history }) => {
 
   return (
     <AuthContext.Consumer>
-      {(context) => (
+      {() => (
         <Container>
           <List
             isModalVisible={isModalVisible}
@@ -50,6 +54,10 @@ const KitchenPage = ({ history }) => {
       )}
     </AuthContext.Consumer>
   );
+};
+
+KitchenPage.propTypes = {
+  history: PropTypes.any,
 };
 
 export default withRouter(KitchenPage);

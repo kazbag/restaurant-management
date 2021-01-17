@@ -1,7 +1,4 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { Redirect } from 'react-router';
-import { redirectToHomepage } from 'utils/form_methods';
 import toast from 'toast-me';
 
 axios.defaults.withCredentials = true;

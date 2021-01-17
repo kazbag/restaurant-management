@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 export const Container = ({ children }) => <div className="row">{children}</div>;
 
-export const Modal = ({ data }) => {};
+Container.propTypes = {
+  children: PropTypes.any,
+};
 
 export const List = ({
   data,
@@ -30,7 +33,7 @@ export const List = ({
       <ul className="list list-unstyled">
         {data
           && data.map((item, index) => (
-            <li className="list-item d-flex mb-4" key={index}>
+            <li className="list-item d-flex mb-4" key={item._id}>
               <span className="text-muted mr-2">
                 #
                 {index}
@@ -70,8 +73,8 @@ export const List = ({
             <ul className="list list-unstyled">
               <li className="list-item font-weight-bold mb-8">Produkty</li>
               {selectedOrder
-                && selectedOrder.products.map((product, index) => (
-                  <li key={index} className="list-item">
+                && selectedOrder.products.map((product) => (
+                  <li key={product} className="list-item">
                     {product}
                   </li>
                 ))}
@@ -79,12 +82,13 @@ export const List = ({
           </div>
           <div className="card-footer mt-auto d-flex">
             <button
+              type="button"
               className="btn btn-success mr-4"
               onClick={() => onSubmit(selectedOrder._id)}
             >
               Zmień status
             </button>
-            <button className="btn btn-secondary" onClick={handleModal}>
+            <button type="button" className="btn btn-secondary" onClick={handleModal}>
               Zamknij
             </button>
           </div>
@@ -92,4 +96,12 @@ export const List = ({
       )}
     </div>
   );
+};
+
+List.propTypes = {
+  data: PropTypes.any,
+  header: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  isModalVisible: PropTypes.any,
+  setIsModalVisible: PropTypes.func.isRequired,
 };

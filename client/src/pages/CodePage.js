@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router';
 import { AuthContext } from '../contexts/AuthContext';
 import { CodeModal, CodeList } from '../components/Codes/code_utils';
@@ -17,7 +17,7 @@ const CodesPage = () => {
 
   return (
     <AuthContext.Consumer>
-      {(context) => (
+      {() => (
         <div className="container row">
           <CodeModal
             onChange={(e) => setCode({ ...code, [e.target.name]: e.target.value })}

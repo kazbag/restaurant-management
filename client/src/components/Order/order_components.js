@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const Menu = ({ products, onClick }) => (
   <div className="col-12 col-md-6 col-lg-8">
     <div className="card">
       <div className="card-body">
         <ul className="list">
-          {products.map((product, index) => (
+          {products.map((product) => (
             <li
-              key={index}
+              key={product.name}
               className="list-item d-flex align-items-center mb-4"
             >
               <img
@@ -22,7 +23,7 @@ export const Menu = ({ products, onClick }) => (
                 onClick={() => onClick(product._id)}
                 className="btn btn-info ml-auto"
               >
-                  Dodaj
+                Dodaj
               </button>
             </li>
           ))}
@@ -31,6 +32,11 @@ export const Menu = ({ products, onClick }) => (
     </div>
   </div>
 );
+
+Menu.propTypes = {
+  products: PropTypes.any,
+  onClick: PropTypes.func.isRequired,
+};
 
 export const Order = ({
   order,
@@ -56,10 +62,11 @@ export const Order = ({
               {order.products.map((product, index) => (
                 <li
                   className="list-item d-flex mb-2 align-items-center"
-                  key={index}
+                  key={product}
                 >
                   <span>{product.name}</span>
                   <button
+                    type="button"
                     data-id={index}
                     className="btn btn-sm btn-outline-danger ml-auto font-weight-bold cursor-pointer"
                     onClick={() => onRemove(index)}
@@ -130,4 +137,13 @@ export const Order = ({
       </div>
     </div>
   );
+};
+
+Order.propTypes = {
+  order: PropTypes.any,
+  onRemove: PropTypes.func.isRequired,
+  onCodeSubmit: PropTypes.func.isRequired,
+  onCodeChange: PropTypes.func.isRequired,
+  codeDisabled: PropTypes.any,
+  onAdd: PropTypes.func.isRequired,
 };

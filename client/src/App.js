@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Navbar from './components/Navbar/Navbar';
@@ -16,7 +16,9 @@ import AdminPage from './pages/AdminPage';
 import MenuPage from './pages/MenuPage';
 import CodePage from './pages/CodePage';
 import SingleNewsPage from './pages/SingleNewsPage';
-import Footer from './components/Footer';
+
+// TODO: import footer
+// import Footer from './components/Footer';
 
 window.swal = Swal;
 

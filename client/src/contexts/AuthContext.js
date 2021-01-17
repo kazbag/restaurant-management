@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 axios.defaults.withCredentials = true;
 
@@ -23,7 +24,7 @@ const AuthContextProvider = ({ children }) => {
         setUserRole(response.data.user.role);
         setAuth(true);
       })
-      .catch((err) => {
+      .catch(() => {
         setAuth(false);
       });
   }, [isAuthenticated]);
@@ -38,4 +39,9 @@ const AuthContextProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+AuthContextProvider.propTypes = {
+  children: PropTypes.any,
+};
+
 export default AuthContextProvider;

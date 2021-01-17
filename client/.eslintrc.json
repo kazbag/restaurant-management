@@ -22,5 +22,21 @@
         "react"
     ],
     "rules": {
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        ],
+        "no-underscore-dangle": "off",
+        "jsx-a11y/label-has-associated-control": "off",
+        "jsx-a11y/label-has-for": "off",
+        "jsx-a11y/control-has-associated-label": "off",
+        "react/forbid-prop-types": "off",
+        "react/require-default-props": "off",
+        "import/prefer-default-export": "off"
     }
 }

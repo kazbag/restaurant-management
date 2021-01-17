@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import PropTypes from 'prop-types';
 import { FormErrorMessage } from '../../utils/forms';
 
 export const CodeModal = ({ onChange, onCreate, onReset }) => {
@@ -46,7 +47,6 @@ export const CodeModal = ({ onChange, onCreate, onReset }) => {
                       errors.value ? 'border border-danger' : ''
                     }`}
                     onChange={onChange}
-                    className="form-control"
                     type="number"
                     min="1"
                     max="50"
@@ -73,7 +73,7 @@ export const CodeModal = ({ onChange, onCreate, onReset }) => {
                   </button>
                   <button
                     className="btn btn-secondary"
-                    type="reset"
+                    type="button"
                     onClick={onReset}
                   >
                     Anuluj
@@ -88,6 +88,12 @@ export const CodeModal = ({ onChange, onCreate, onReset }) => {
   );
 };
 
+CodeModal.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired,
+  onReset: PropTypes.func.isRequired,
+};
+
 export const CodeList = ({ list, onRemove }) => (
   <div className="col-12 col-md-6 mt-4 mt-md-0">
     <div className="card">
@@ -96,21 +102,22 @@ export const CodeList = ({ list, onRemove }) => (
       </div>
       <div className="card-body">
         <ul className="list list-unstyled">
-          {list.map((item, index) => (
-            <li className="list-item d-flex mb-2" key={index}>
+          {list.map((item) => (
+            <li className="list-item d-flex mb-2" key={item.code}>
               <span>
                 {item.code}
                 {' '}
                 -
-                  {item.value * 100}
+                {item.value * 100}
                 {' '}
                 %
-                </span>
+              </span>
               <button
+                type="button"
                 onClick={() => onRemove(item._id)}
                 className="btn btn-sm btn-danger ml-auto"
               >
-                  Usuń
+                Usuń
               </button>
             </li>
           ))}
@@ -119,3 +126,9 @@ export const CodeList = ({ list, onRemove }) => (
     </div>
   </div>
 );
+
+CodeList.propTypes = {
+  list: PropTypes.any,
+  onRemove: PropTypes.func.isRequired,
+
+};

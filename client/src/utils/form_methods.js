@@ -11,7 +11,7 @@ export const submitOrder = (url, data) => {
     .catch((err) => toast(err.response.data.message, 'error'));
 };
 
-export const handleRegister = (uri, data, callback) => {
+export const onRegister = (uri, data, callback) => {
   axios
     .post(`${uri}/users`, data)
     .then((response) => {
@@ -23,7 +23,7 @@ export const handleRegister = (uri, data, callback) => {
     });
 };
 
-export const handleLogin = (url, data, callback) => {
+export const onLogin = (url, data, callback) => {
   axios(`${url}/login`, {
     method: 'POST',
     data,

@@ -4,11 +4,11 @@ import { withRouter } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../contexts/AuthContext';
 import { useFields } from '../utils/hooks';
-import { handleRegister, handleLogin } from '../utils/form_methods';
+import { onRegister, onLogin } from '../utils/form_methods';
 import { FormErrorMessage } from '../utils/forms';
 
 const AccountForm = ({
-  handleChange, handleRegister, handleLogin, fields,
+  handleChange, onRegister, onLogin, fields,
 }) => {
   const { register, handleSubmit, errors } = useForm(); // initialize the hook
   return (
@@ -160,7 +160,7 @@ const AccountForm = ({
           <button
             type="button"
             className="btn btn-primary px-5 w-100"
-            onClick={handleSubmit(handleLogin)}
+            onClick={handleSubmit(onLogin)}
           >
             Zaloguj się
           </button>
@@ -169,7 +169,7 @@ const AccountForm = ({
           <button
             type="button"
             className="btn btn-primary px-5 w-100"
-            onClick={handleSubmit(handleRegister)}
+            onClick={handleSubmit(onRegister)}
           >
             Zarejestruj się
           </button>
@@ -204,8 +204,8 @@ const LoginPage = ({ history, location }) => {
       </h3>
       <AccountForm
         handleChange={setField}
-        handleLogin={() => handleLogin(serverUrl, fields, () => setAuth())}
-        handleRegister={() => handleRegister(serverUrl, fields, () => setIsRegistered(true))}
+        onLogin={() => onLogin(serverUrl, fields, () => setAuth())}
+        onRegister={() => onRegister(serverUrl, fields, () => setIsRegistered(true))}
         fields={fields}
       />
     </div>

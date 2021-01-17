@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 const Order = ({
@@ -6,7 +7,7 @@ const Order = ({
 }) => {
   const productPrice = order.products.reduce((a, b) => +a + +b.price, 0);
 
-  const getProductAmount = (productName) => order.products.filter((i) => i.name === productName).length;
+  const getProductAmount = (name) => order.products.filter((i) => i.name === name).length;
 
   const uniqueProducts = _(order.products)
     .groupBy('name')
@@ -14,7 +15,7 @@ const Order = ({
     .value();
 
   const productsList = uniqueProducts.map((product, index) => (
-    <li key={index} data-id={`product_${index}`}>
+    <li key={product._id} data-id={`product_${index}`}>
       {product.name}
       {' '}
       {product.price}
@@ -75,7 +76,8 @@ const Order = ({
       </div>
       <div className="row mt-4">
         <div className="col">
-          <a
+          <button
+            type="button"
             className={`btn btn-primary w-100 ${
               order.code_submitted || order.code === '' ? 'disabled' : ''
             }`}
@@ -86,12 +88,12 @@ const Order = ({
             onClick={handleCode}
           >
             Dodaj kod
-          </a>
+          </button>
         </div>
         <div className="col">
-          <a className="btn btn-success w-100" onClick={handleSubmit}>
+          <button type="button" className="btn btn-success w-100" onClick={handleSubmit}>
             Zamów
-          </a>
+          </button>
         </div>
       </div>
 
@@ -108,6 +110,13 @@ const Order = ({
       )}
     </div>
   );
+};
+
+Order.propTypes = {
+  order: PropTypes.object,
+  handleChange: PropTypes.func.isRequired,
+  handleCode: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default Order;

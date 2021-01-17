@@ -20,8 +20,8 @@ const getLatestNews = (url, callback) => {
     });
 };
 
-const NewsList = ({ data }) => data.map((msg, index) => (
-  <div className="col-12 col-md-6 col-lg-4 h-100" key={index}>
+const NewsList = ({ data }) => data.map((msg) => (
+  <div className="col-12 col-md-6 col-lg-4 h-100" key={msg.newsId}>
     <div className="card-deck">
       <div className="card mb-4 col m-4 p-4 card-stretch">
         <h3 className="card-title text-dark">{msg.title}</h3>
@@ -45,6 +45,8 @@ const NewsList = ({ data }) => data.map((msg, index) => (
 
 const LatestNewsPage = () => {
   const [data, , setData] = useFields([]);
+  // TODO: handle isAuthenticated
+  // eslint-disable-next-line no-unused-vars
   const { isAuthenticated } = useContext(AuthContext);
 
   useEffect(() => {
@@ -53,7 +55,7 @@ const LatestNewsPage = () => {
 
   return (
     <AuthContext.Consumer>
-      {(context) => (
+      {() => (
         <>
           <div className="row">
             <NewsList data={data} />
