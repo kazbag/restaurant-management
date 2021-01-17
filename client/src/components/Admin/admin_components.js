@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { FormErrorMessage } from "../../utils/forms";
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { FormErrorMessage } from '../../utils/forms';
 
 export const UserList = ({
   users,
@@ -8,66 +8,68 @@ export const UserList = ({
   onEdit,
   performNew,
   onRemove,
-}) => {
-  return (
-    <div className="col-12 col-md-6">
-      <div className="card">
-        <div className="card-header">
-          <h3 className="card-title">Użytkownicy</h3>
-        </div>
-        <div className="card-body">
-          <ul className="list list-unstyled">
-            <li
-              className="list-item d-flex pb-2 pb-lg-4 mb-2 mb-lg-4 justify-content-center align-items-center"
-              style={{ borderBottom: "1px solid #28a745" }}
+}) => (
+  <div className="col-12 col-md-6">
+    <div className="card">
+      <div className="card-header">
+        <h3 className="card-title">Użytkownicy</h3>
+      </div>
+      <div className="card-body">
+        <ul className="list list-unstyled">
+          <li
+            className="list-item d-flex pb-2 pb-lg-4 mb-2 mb-lg-4 justify-content-center align-items-center"
+            style={{ borderBottom: '1px solid #28a745' }}
+          >
+            <span className="text-success font-weight-bold mr-auto">
+              Nowy użytkownik
+            </span>
+            <button
+              className="btn btn-sm btn-success ml-auto"
+              onClick={performNew}
             >
-              <span className="text-success font-weight-bold mr-auto">
-                Nowy użytkownik
-              </span>
-              <button
-                className="btn btn-sm btn-success ml-auto"
-                onClick={performNew}
-              >
-                Dodaj
-              </button>
-            </li>
-            {users.map((user, index) => {
-              return (
-                <li
-                  className="list-item d-flex mb-2 mb-lg-4 justify-content-center align-items-center"
-                  key={index}
-                >
-                  <span>
-                    <span className="text-bold">
-                      #{index + 1} {user.name} -{" "}
-                      <span className="text-primary">{user.role}</span>
-                    </span>
+              Dodaj
+            </button>
+          </li>
+          {users.map((user, index) => (
+            <li
+              className="list-item d-flex mb-2 mb-lg-4 justify-content-center align-items-center"
+              key={index}
+            >
+              <span>
+                <span className="text-bold">
+                    #
+                    {index + 1}
+                    {' '}
+                    {user.name}
+                    {' '}
+                    -
+                    {' '}
+                    <span className="text-primary">{user.role}</span>
                   </span>
-                  <div className="d-flex ml-auto">
-                    <button
-                      data-id={user._id}
-                      onClick={performEdit}
-                      className="btn btn-sm btn-primary mr-2"
-                    >
-                      Edytuj
-                    </button>
-                    <button
-                      data-id={user._id}
-                      onClick={onRemove}
-                      className="btn btn-sm btn-danger"
-                    >
-                      Usuń
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+              </span>
+              <div className="d-flex ml-auto">
+                <button
+                    data-id={user._id}
+                    onClick={performEdit}
+                    className="btn btn-sm btn-primary mr-2"
+                  >
+                    Edytuj
+                  </button>
+                <button
+                    data-id={user._id}
+                    onClick={onRemove}
+                    className="btn btn-sm btn-danger"
+                  >
+                    Usuń
+                  </button>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 // TODO: check that don't we have to unhash user password first
 // TODO: to discuss, should we at all have access to user password here?
@@ -86,13 +88,13 @@ export const UserEdit = ({
     <div
       className="card"
       style={{
-        minWidth: "75vw",
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        zIndex: "100000",
-        boxShadow: "5px 5px rgba(0,0,0,0.3)",
+        minWidth: '75vw',
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: '100000',
+        boxShadow: '5px 5px rgba(0,0,0,0.3)',
       }}
     >
       <div className="card-header">
@@ -110,7 +112,7 @@ export const UserEdit = ({
               onChange={onChange}
               ref={register({ required: true })}
               className={`form-control ${
-                errors.name ? "border border-danger" : ""
+                errors.name ? 'border border-danger' : ''
               }`}
             />
             {errors.name && <FormErrorMessage message="Imię jest wymagane" />}
@@ -124,7 +126,7 @@ export const UserEdit = ({
               type="text"
               ref={register({ required: true })}
               className={`form-control ${
-                errors.surname ? "border border-danger" : ""
+                errors.surname ? 'border border-danger' : ''
               }`}
               value={user.surname}
               name="surname"
@@ -145,7 +147,7 @@ export const UserEdit = ({
             <input
               ref={register({ required: true })}
               className={`form-control ${
-                errors.login ? "border border-danger" : ""
+                errors.login ? 'border border-danger' : ''
               }`}
               type="text"
               value={user.login}
@@ -165,7 +167,7 @@ export const UserEdit = ({
             <input
               ref={register({ required: true, minLength: 4 })}
               className={`form-control ${
-                errors.password ? "border border-danger" : ""
+                errors.password ? 'border border-danger' : ''
               }`}
               type="password"
               value={user.password}
@@ -185,7 +187,7 @@ export const UserEdit = ({
             <input
               ref={register({ required: true, pattern: /^\S+@\S+$/i })}
               className={`form-control ${
-                errors.email ? "border border-danger" : ""
+                errors.email ? 'border border-danger' : ''
               }`}
               type="email"
               value={user.email}
@@ -205,7 +207,7 @@ export const UserEdit = ({
             <input
               ref={register({ required: true })}
               className={`form-control ${
-                errors.city ? "border border-danger" : ""
+                errors.city ? 'border border-danger' : ''
               }`}
               type="city"
               value={user.city}
@@ -226,14 +228,12 @@ export const UserEdit = ({
               onChange={onChange}
               name="role"
             >
-              <option value="" disabled></option>
-              {roles.map((role, index) => {
-                return (
-                  <option key={index} value={role}>
-                    {role}
-                  </option>
-                );
-              })}
+              <option value="" disabled />
+              {roles.map((role, index) => (
+                <option key={index} value={role}>
+                  {role}
+                </option>
+              ))}
             </select>
           </div>
         </form>
@@ -254,8 +254,8 @@ export const UserEdit = ({
 };
 
 export const OrderList = ({ orders }) => {
-  const [orderType, setOrderType] = useState("pending");
-  const [orderDate, setOrderDate] = useState("all");
+  const [orderType, setOrderType] = useState('pending');
+  const [orderDate, setOrderDate] = useState('all');
   // TODO: complete data sort
   // TODO: handle showDetails
   return (
@@ -277,7 +277,7 @@ export const OrderList = ({ orders }) => {
               <option value="completed">Zakończone</option>
             </select>
           </div>
-          {orderType === "completed" && (
+          {orderType === 'completed' && (
             <div className="form-group">
               <label>Okres</label>
               <select
@@ -295,31 +295,32 @@ export const OrderList = ({ orders }) => {
             </div>
           )}
           <ul className="list list-unstyled">
-            {orders &&
-              orderType === "pending" &&
-              orders[orderType].map((item, index) => {
-                return (
-                  <li
-                    className="list-item d-flex mb-2 align-items-center"
-                    key={index}
+            {orders
+              && orderType === 'pending'
+              && orders[orderType].map((item, index) => (
+                <li
+                  className="list-item d-flex mb-2 align-items-center"
+                  key={index}
+                >
+                  <span className="mr-auto">
+                    #
+                    {index + 1}
+                    {' '}
+                    {item.address}
+                  </span>
+                  <button
+                    data-id={item._id}
+                    type="button"
+                    className="btn btn-sm btn-primary ml-auto"
                   >
-                    <span className="mr-auto">
-                      #{index + 1} {item.address}
-                    </span>
-                    <button
-                      data-id={item._id}
-                      type="button"
-                      className="btn btn-sm btn-primary ml-auto"
-                    >
-                      Szczegóły
-                    </button>
-                  </li>
-                );
-              })}
+                    Szczegóły
+                  </button>
+                </li>
+              ))}
 
-            {orders &&
-              orderType === "completed" &&
-              orders[orderType].map((item, index) => {})}
+            {orders
+              && orderType === 'completed'
+              && orders[orderType].map((item, index) => {})}
           </ul>
         </div>
       </div>
@@ -343,7 +344,7 @@ export const NewsModal = ({ onChange, onSubmit, onCancel }) => {
               <input
                 ref={register({ required: true })}
                 className={`form-control ${
-                  errors.title ? "border border-danger" : ""
+                  errors.title ? 'border border-danger' : ''
                 }`}
                 placeholder="wpisz tytuł wiadomości"
                 onChange={onChange}
@@ -361,12 +362,12 @@ export const NewsModal = ({ onChange, onSubmit, onCancel }) => {
               <textarea
                 ref={register({ required: true })}
                 className={`form-control ${
-                  errors.message ? "border border-danger" : ""
+                  errors.message ? 'border border-danger' : ''
                 }`}
                 placeholder="wpisz wiadomość"
                 onChange={onChange}
                 name="message"
-              ></textarea>
+              />
               {errors.message && (
                 <FormErrorMessage message="Treść newsa jest wymagana" />
               )}
@@ -409,7 +410,7 @@ export const NewsList = ({ data, performNew, onRemove }) => {
           <ul className="list list-unstyled">
             <li
               className="list-item d-flex align-items-center mb-4 pb-4"
-              style={{ borderBottom: "1px solid black" }}
+              style={{ borderBottom: '1px solid black' }}
             >
               <span className="text-success font-weight-bold">Dodaj news</span>
               <button
@@ -420,38 +421,34 @@ export const NewsList = ({ data, performNew, onRemove }) => {
                 Dodaj
               </button>
             </li>
-            {data.map((item, index) => {
-              return (
-                <li
-                  key={index}
-                  className="list-item d-flex mb-2 align-items-center"
+            {data.map((item, index) => (
+              <li
+                key={index}
+                className="list-item d-flex mb-2 align-items-center"
+              >
+                <span>{item.title}</span>
+                <button
+                  data-id={item._id}
+                  type="button"
+                  className="btn btn-sm btn-danger ml-auto"
+                  onClick={onRemove}
                 >
-                  <span>{item.title}</span>
-                  <button
-                    data-id={item._id}
-                    type="button"
-                    className="btn btn-sm btn-danger ml-auto"
-                    onClick={onRemove}
-                  >
-                    Usuń
-                  </button>
-                </li>
-              );
-            })}
+                  Usuń
+                </button>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
     </div>
   );
-  return data.map((msg, index) => {
-    return (
-      <div className="col-12 col-md-6 col-lg-4 h-100" key={index}>
-        <div className="card-deck">
-          <div className="card mb-4 col m-4 p-4 card-stretch">
-            <h3 className="card-title text-dark">{msg.title}</h3>
-          </div>
+  return data.map((msg, index) => (
+    <div className="col-12 col-md-6 col-lg-4 h-100" key={index}>
+      <div className="card-deck">
+        <div className="card mb-4 col m-4 p-4 card-stretch">
+          <h3 className="card-title text-dark">{msg.title}</h3>
         </div>
       </div>
-    );
-  });
+    </div>
+  ));
 };

@@ -1,24 +1,25 @@
-import React, { useEffect, useContext, useState } from "react";
-import { AuthContext } from "../contexts/AuthContext";
-import { withRouter } from "react-router-dom";
+import React, { useEffect, useContext, useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 import {
   ProductList,
   ProductEdit,
   ProductNew,
   ProductNewCard,
-} from "../components/Menu/menu_components";
+} from '../components/Menu/menu_components';
 import {
   handleCreate,
   handleEdit,
   handleRemove,
-} from "../components/Menu/menu_methods";
-import { useLoad } from "../utils/hooks";
-const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+} from '../components/Menu/menu_methods';
+import { useLoad } from '../utils/hooks';
+
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
 const EMPTY_PRODUCT_TEMPLATE = {
-  name: "",
-  description: "",
+  name: '',
+  description: '',
   price: 10,
-  photo: "",
+  photo: '',
 };
 
 const MenuPage = ({ history }) => {
@@ -73,12 +74,10 @@ const MenuPage = ({ history }) => {
                 setIsModalVisible(false);
                 setSelectedProduct(null);
               }}
-              onChange={(e) =>
-                setSelectedProduct({
-                  ...selectedProduct,
-                  [e.target.name]: e.target.value,
-                })
-              }
+              onChange={(e) => setSelectedProduct({
+                ...selectedProduct,
+                [e.target.name]: e.target.value,
+              })}
             />
           )}
           {isModalVisible && isNew && (
@@ -89,16 +88,12 @@ const MenuPage = ({ history }) => {
                 setIsModalVisible(false);
                 setProduct(EMPTY_PRODUCT_TEMPLATE);
               }}
-              onSave={() =>
-                handleCreate(product, (data) => {
-                  setProducts(data);
-                  setIsNew(false);
-                  setIsModalVisible(false);
-                })
-              }
-              onChange={(e) =>
-                setProduct({ ...product, [e.target.name]: e.target.value })
-              }
+              onSave={() => handleCreate(product, (data) => {
+                setProducts(data);
+                setIsNew(false);
+                setIsModalVisible(false);
+              })}
+              onChange={(e) => setProduct({ ...product, [e.target.name]: e.target.value })}
             />
           )}
         </div>

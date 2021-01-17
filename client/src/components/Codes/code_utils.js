@@ -1,6 +1,6 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { FormErrorMessage } from "../../utils/forms";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { FormErrorMessage } from '../../utils/forms';
 
 export const CodeModal = ({ onChange, onCreate, onReset }) => {
   const { register, handleSubmit, errors } = useForm(); // initialize the hook
@@ -19,7 +19,7 @@ export const CodeModal = ({ onChange, onCreate, onReset }) => {
                   <input
                     ref={register({ required: true })}
                     className={`form-control ${
-                      errors.code ? "border border-danger" : ""
+                      errors.code ? 'border border-danger' : ''
                     }`}
                     placeholder="wprowadź kod"
                     type="text"
@@ -43,7 +43,7 @@ export const CodeModal = ({ onChange, onCreate, onReset }) => {
                       max: 80,
                     })}
                     className={`form-control ${
-                      errors.value ? "border border-danger" : ""
+                      errors.value ? 'border border-danger' : ''
                     }`}
                     onChange={onChange}
                     className="form-control"
@@ -88,33 +88,34 @@ export const CodeModal = ({ onChange, onCreate, onReset }) => {
   );
 };
 
-export const CodeList = ({ list, onRemove }) => {
-  return (
-    <div className="col-12 col-md-6 mt-4 mt-md-0">
-      <div className="card">
-        <div className="card-header">
-          <h3 className="card-title">Dostępne kody</h3>
-        </div>
-        <div className="card-body">
-          <ul className="list list-unstyled">
-            {list.map((item, index) => {
-              return (
-                <li className="list-item d-flex mb-2" key={index}>
-                  <span>
-                    {item.code} - {item.value * 100} %
-                  </span>
-                  <button
-                    onClick={() => onRemove(item._id)}
-                    className="btn btn-sm btn-danger ml-auto"
-                  >
-                    Usuń
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+export const CodeList = ({ list, onRemove }) => (
+  <div className="col-12 col-md-6 mt-4 mt-md-0">
+    <div className="card">
+      <div className="card-header">
+        <h3 className="card-title">Dostępne kody</h3>
+      </div>
+      <div className="card-body">
+        <ul className="list list-unstyled">
+          {list.map((item, index) => (
+            <li className="list-item d-flex mb-2" key={index}>
+              <span>
+                {item.code}
+                {' '}
+                -
+                  {item.value * 100}
+                {' '}
+                %
+                </span>
+              <button
+                onClick={() => onRemove(item._id)}
+                className="btn btn-sm btn-danger ml-auto"
+              >
+                  Usuń
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
-  );
-};
+  </div>
+);

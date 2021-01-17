@@ -1,8 +1,8 @@
-import axios from "axios";
-import toast from "toast-me";
+import axios from 'axios';
+import toast from 'toast-me';
 
 axios.defaults.withCredentials = true;
-const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
 
 export const handleEdit = (id, data, callback) => {
   axios
@@ -11,19 +11,19 @@ export const handleEdit = (id, data, callback) => {
     .then((response) => {
       callback(response.data);
     })
-    .then(() => window.swal.fire("Zaktualizowano dane użytkownika."))
-    .catch((err) => toast(err.response.data.message, "error"));
+    .then(() => window.swal.fire('Zaktualizowano dane użytkownika.'))
+    .catch((err) => toast(err.response.data.message, 'error'));
 };
 
 export const handleRemove = (id, callback) => {
   window.swal
     .fire({
-      title: "Czy na pewno chcesz usunąć tego użytkownika?",
-      text: "Ta zmiana jest nieodwracalna!",
-      icon: "warning",
+      title: 'Czy na pewno chcesz usunąć tego użytkownika?',
+      text: 'Ta zmiana jest nieodwracalna!',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: "Tak, usuń!",
-      cancelButtonText: "Nie, zostaw.",
+      confirmButtonText: 'Tak, usuń!',
+      cancelButtonText: 'Nie, zostaw.',
     })
     .then((result) => {
       if (result.value) {
@@ -31,10 +31,10 @@ export const handleRemove = (id, callback) => {
           .delete(`${SERVER_URL}/users/${id}`)
           .then(() => axios.get(`${SERVER_URL}/users`))
           .then((response) => callback(response.data))
-          .catch((err) => toast(err.response.data.message, "error"));
-        window.swal.fire("Usunięto!");
+          .catch((err) => toast(err.response.data.message, 'error'));
+        window.swal.fire('Usunięto!');
       } else if (result.dismiss === window.swal.DismissReason.cancel) {
-        window.swal.fire("Anulowano.");
+        window.swal.fire('Anulowano.');
       }
     });
 };
@@ -44,8 +44,8 @@ export const handleNew = (data, callback) => {
     .post(`${SERVER_URL}/users`, data)
     .then(() => axios.get(`${SERVER_URL}/users`))
     .then((response) => callback(response.data))
-    .then(() => window.swal.fire("Dodano użytkownika!"))
-    .catch((err) => toast(err.response.data.message, "error"));
+    .then(() => window.swal.fire('Dodano użytkownika!'))
+    .catch((err) => toast(err.response.data.message, 'error'));
 };
 
 export const handleCreateMessage = (data, callback) => {
@@ -53,19 +53,19 @@ export const handleCreateMessage = (data, callback) => {
     .post(`${SERVER_URL}/news`, data)
     .then(() => axios.get(`${SERVER_URL}/news`))
     .then((response) => callback(response.data))
-    .then(() => window.swal.fire("Dodano nową wiadomość!"))
-    .catch((err) => toast(err.response.data.message, "error"));
+    .then(() => window.swal.fire('Dodano nową wiadomość!'))
+    .catch((err) => toast(err.response.data.message, 'error'));
 };
 
 export const handleRemoveMessage = (id, callback) => {
   window.swal
     .fire({
-      title: "Czy na pewno chcesz usunąć ten news?",
-      text: "Ta zmiana jest nieodwracalna!",
-      icon: "warning",
+      title: 'Czy na pewno chcesz usunąć ten news?',
+      text: 'Ta zmiana jest nieodwracalna!',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: "Tak, usuń!",
-      cancelButtonText: "Nie, zostaw.",
+      confirmButtonText: 'Tak, usuń!',
+      cancelButtonText: 'Nie, zostaw.',
     })
     .then((result) => {
       if (result.value) {
@@ -73,10 +73,10 @@ export const handleRemoveMessage = (id, callback) => {
           .delete(`${SERVER_URL}/news/${id}`)
           .then(() => axios.get(`${SERVER_URL}/news`))
           .then((response) => callback(response.data))
-          .catch((err) => toast(err.response.data.message, "error"));
-        window.swal.fire("Usunięto!");
+          .catch((err) => toast(err.response.data.message, 'error'));
+        window.swal.fire('Usunięto!');
       } else if (result.dismiss === window.swal.DismissReason.cancel) {
-        window.swal.fire("Anulowano.");
+        window.swal.fire('Anulowano.');
       }
     });
 };

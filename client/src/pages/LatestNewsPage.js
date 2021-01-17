@@ -1,51 +1,47 @@
-import React, { useContext, useEffect } from "react";
-import { withRouter } from "react-router";
-import { AuthContext } from "../contexts/AuthContext";
-import axios from "axios";
-import { useFields } from "../utils/hooks";
-import toast from "toast-me";
+import React, { useContext, useEffect } from 'react';
+import { withRouter } from 'react-router';
+import axios from 'axios';
+import toast from 'toast-me';
+import { AuthContext } from '../contexts/AuthContext';
+import { useFields } from '../utils/hooks';
 
 axios.defaults.withCredentials = true;
 
-const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+const serverUrl = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
 const getLatestNews = (url, callback) => {
   axios
-    .get(url + "/news")
+    .get(`${url}/news`)
     .then((response) => {
       // console.log(response.data);
       callback(response.data);
     })
     .catch((err) => {
-      toast(err.response.data.message, "error");
+      toast(err.response.data.message, 'error');
     });
 };
 
-const NewsList = ({ data }) => {
-  return data.map((msg, index) => {
-    return (
-      <div className="col-12 col-md-6 col-lg-4 h-100" key={index}>
-        <div className="card-deck">
-          <div className="card mb-4 col m-4 p-4 card-stretch">
-            <h3 className="card-title text-dark">{msg.title}</h3>
-            <p
-              className="card-text"
-              style={{
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-              }}
-            >
-              {msg.message}
-            </p>
-            <a className="btn btn-primary mt-auto" href={`/news/${msg.newsId}`}>
-              Czytaj więcej
-            </a>
-          </div>
-        </div>
+const NewsList = ({ data }) => data.map((msg, index) => (
+  <div className="col-12 col-md-6 col-lg-4 h-100" key={index}>
+    <div className="card-deck">
+      <div className="card mb-4 col m-4 p-4 card-stretch">
+        <h3 className="card-title text-dark">{msg.title}</h3>
+        <p
+          className="card-text"
+          style={{
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          {msg.message}
+        </p>
+        <a className="btn btn-primary mt-auto" href={`/news/${msg.newsId}`}>
+          Czytaj więcej
+        </a>
       </div>
-    );
-  });
-};
+    </div>
+  </div>
+));
 
 const LatestNewsPage = () => {
   const [data, , setData] = useFields([]);

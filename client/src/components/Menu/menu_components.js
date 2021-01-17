@@ -1,31 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { FormErrorMessage } from "../../utils/forms";
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { FormErrorMessage } from '../../utils/forms';
 
-export const ProductNewCard = ({ onClick }) => {
-  return (
-    <div className="card h-100">
-      <div className="card-header">
-        <h3 className="card-title">Dodaj nowy produkt</h3>
-      </div>
-      <div className="card-body">
-        <p className="text-muted">
-          Aby dodać nowy produkt do bazy danych, wybierz poniższy przycisk i
-          wypełnij formularz.
-        </p>
-        <p className="text-muted">
-          Produkt pojawi się tutaj automatycznie po dodaniu oraz zostanie
-          natychmiastowo wyświetlony nowym klientom.
-        </p>
-      </div>
-      <div className="card-footer">
-        <button onClick={onClick} className="btn btn-success">
-          Dodaj
-        </button>
-      </div>
+export const ProductNewCard = ({ onClick }) => (
+  <div className="card h-100">
+    <div className="card-header">
+      <h3 className="card-title">Dodaj nowy produkt</h3>
     </div>
-  );
-};
+    <div className="card-body">
+      <p className="text-muted">
+        Aby dodać nowy produkt do bazy danych, wybierz poniższy przycisk i
+        wypełnij formularz.
+      </p>
+      <p className="text-muted">
+        Produkt pojawi się tutaj automatycznie po dodaniu oraz zostanie
+        natychmiastowo wyświetlony nowym klientom.
+      </p>
+    </div>
+    <div className="card-footer">
+      <button onClick={onClick} className="btn btn-success">
+        Dodaj
+      </button>
+    </div>
+  </div>
+);
 
 export const ProductList = ({
   list,
@@ -33,70 +31,70 @@ export const ProductList = ({
   onEdit,
   performEdit,
   onRemove,
-}) => {
-  return (
-    <div className="row">
-      <div className="col-12 col-md-6 col-lg-4 mb-4">{children}</div>
-      {list.map((item, index) => {
-        return (
-          <div className="col-12 col-md-6 col-lg-4 mb-4" key={index}>
-            <div className="card h-100">
-              <div className="card-header d-flex flex-column">
-                <h3 className="card-title">
-                  {item.name || "brak nazwy produktu"}
-                </h3>
-                <span className="text-muted">
-                  {item.description || "brak opisu produktu"}
-                </span>
-                <span className="text-success ">
-                  {item.price || "brak ceny w "} zł
-                </span>
-              </div>
-              <div className="card-body">
-                <img
-                  className="card-img-bottom"
-                  src={item.photo}
-                  alt={item.name}
-                />
-              </div>
-              <div className="card-footer d-flex">
-                <button
-                  id={item._id}
-                  onClick={performEdit}
-                  className="btn btn-primary mr-2"
-                >
-                  Edytuj
-                </button>
-                <button
-                  id={item._id}
-                  onClick={onRemove}
-                  className="btn btn-danger"
-                >
-                  Usuń
-                </button>
-              </div>
-            </div>
+}) => (
+  <div className="row">
+    <div className="col-12 col-md-6 col-lg-4 mb-4">{children}</div>
+    {list.map((item, index) => (
+      <div className="col-12 col-md-6 col-lg-4 mb-4" key={index}>
+        <div className="card h-100">
+          <div className="card-header d-flex flex-column">
+            <h3 className="card-title">
+              {item.name || 'brak nazwy produktu'}
+            </h3>
+            <span className="text-muted">
+              {item.description || 'brak opisu produktu'}
+            </span>
+            <span className="text-success ">
+              {item.price || 'brak ceny w '}
+              {' '}
+              zł
+            </span>
           </div>
-        );
-      })}
-    </div>
-  );
-};
+          <div className="card-body">
+            <img
+              className="card-img-bottom"
+              src={item.photo}
+              alt={item.name}
+            />
+          </div>
+          <div className="card-footer d-flex">
+            <button
+              id={item._id}
+              onClick={performEdit}
+              className="btn btn-primary mr-2"
+            >
+              Edytuj
+            </button>
+            <button
+              id={item._id}
+              onClick={onRemove}
+              className="btn btn-danger"
+            >
+              Usuń
+            </button>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
 
-export const ProductNew = ({ onCancel, onChange, onSave, product }) => {
+export const ProductNew = ({
+  onCancel, onChange, onSave, product,
+}) => {
   const { register, handleSubmit, errors } = useForm(); // initialize the hook
 
   return (
     <div
       className="card"
       style={{
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        minWidth: "75vw",
-        transform: "translate(-50%, -50%)",
-        zIndex: "100000",
-        boxShadow: "5px 5px rgba(0,0,0,0.3)",
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        minWidth: '75vw',
+        transform: 'translate(-50%, -50%)',
+        zIndex: '100000',
+        boxShadow: '5px 5px rgba(0,0,0,0.3)',
       }}
     >
       <div className="card-header">
@@ -111,7 +109,7 @@ export const ProductNew = ({ onCancel, onChange, onSave, product }) => {
                 <input
                   ref={register({ required: true })}
                   className={`form-control ${
-                    errors.name ? "border border-danger" : ""
+                    errors.name ? 'border border-danger' : ''
                   }`}
                   type="text"
                   name="name"
@@ -133,7 +131,7 @@ export const ProductNew = ({ onCancel, onChange, onSave, product }) => {
                 <input
                   ref={register({ required: true })}
                   className={`form-control ${
-                    errors.description ? "border border-danger" : ""
+                    errors.description ? 'border border-danger' : ''
                   }`}
                   type="text"
                   name="description"
@@ -160,7 +158,7 @@ export const ProductNew = ({ onCancel, onChange, onSave, product }) => {
                     max: 1000,
                   })}
                   className={`form-control ${
-                    errors.price ? "border border-danger" : ""
+                    errors.price ? 'border border-danger' : ''
                   }`}
                   type="number"
                   name="price"
@@ -185,7 +183,7 @@ export const ProductNew = ({ onCancel, onChange, onSave, product }) => {
                 <input
                   ref={register({ required: true })}
                   className={`form-control ${
-                    errors.photo ? "border border-danger" : ""
+                    errors.photo ? 'border border-danger' : ''
                   }`}
                   type="text"
                   name="photo"
@@ -223,23 +221,28 @@ export const ProductNew = ({ onCancel, onChange, onSave, product }) => {
   );
 };
 
-export const ProductEdit = ({ product, onSave, onCancel, onChange }) => {
+export const ProductEdit = ({
+  product, onSave, onCancel, onChange,
+}) => {
   const { register, handleSubmit, errors } = useForm(); // initialize the hook
   return (
     <div
       className="card"
       style={{
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        minWidth: "75vw",
-        transform: "translate(-50%, -50%)",
-        zIndex: "100000",
-        boxShadow: "5px 5px rgba(0,0,0,0.3)",
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        minWidth: '75vw',
+        transform: 'translate(-50%, -50%)',
+        zIndex: '100000',
+        boxShadow: '5px 5px rgba(0,0,0,0.3)',
       }}
     >
       <div className="card-header">
-        <h3 className="card-title">Edytuj produkt - {product.name}</h3>
+        <h3 className="card-title">
+          Edytuj produkt -
+          {product.name}
+        </h3>
       </div>
       <div className="card-body">
         <div className="row">
@@ -250,7 +253,7 @@ export const ProductEdit = ({ product, onSave, onCancel, onChange }) => {
                 <input
                   ref={register({ required: true })}
                   className={`form-control ${
-                    errors.name ? "border border-danger" : ""
+                    errors.name ? 'border border-danger' : ''
                   }`}
                   type="text"
                   name="name"
@@ -272,7 +275,7 @@ export const ProductEdit = ({ product, onSave, onCancel, onChange }) => {
                 <input
                   ref={register({ required: true })}
                   className={`form-control ${
-                    errors.description ? "border border-danger" : ""
+                    errors.description ? 'border border-danger' : ''
                   }`}
                   type="text"
                   name="description"
@@ -299,7 +302,7 @@ export const ProductEdit = ({ product, onSave, onCancel, onChange }) => {
                     max: 1000,
                   })}
                   className={`form-control ${
-                    errors.price ? "border border-danger" : ""
+                    errors.price ? 'border border-danger' : ''
                   }`}
                   type="number"
                   name="price"
@@ -324,7 +327,7 @@ export const ProductEdit = ({ product, onSave, onCancel, onChange }) => {
                 <input
                   ref={register({ required: true })}
                   className={`form-control ${
-                    errors.photo ? "border border-danger" : ""
+                    errors.photo ? 'border border-danger' : ''
                   }`}
                   type="text"
                   name="photo"

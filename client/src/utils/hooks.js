@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import toast from "toast-me";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import toast from 'toast-me';
 
 axios.defaults.withCredentials = true;
 
-export const useFields = function(initialValue) {
+export const useFields = function (initialValue) {
   const [fields, setValues] = useState(initialValue);
   const setField = (e) => {
     let val = e.target.value;
     if (e.target.dataset.integer) {
       val = parseInt(val);
     }
-    if (e.target.type === "checkbox") {
+    if (e.target.type === 'checkbox') {
       val = e.target.checked;
     }
     setValues({
@@ -25,7 +25,7 @@ export const useFields = function(initialValue) {
   return [fields, setField, setValues, updateFields];
 };
 
-export const useLoad = function(initialState, uri) {
+export const useLoad = function (initialState, uri) {
   const [fields, setFields] = useState(initialState);
   useEffect(() => {
     axios
@@ -33,7 +33,7 @@ export const useLoad = function(initialState, uri) {
       .then((res) => {
         setFields(res.data);
       })
-      .catch((err) => toast(err.response.data.message, "error"));
+      .catch((err) => toast(err.response.data.message, 'error'));
   }, [uri]);
   return [fields, setFields];
 };

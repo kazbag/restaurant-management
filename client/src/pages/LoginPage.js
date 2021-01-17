@@ -1,13 +1,15 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect, useContext } from "react";
-import { withRouter } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext";
-import { useFields } from "../utils/hooks";
-import { handleRegister, handleLogin } from "../utils/form_methods";
-import { useForm } from "react-hook-form";
-import { FormErrorMessage } from "../utils/forms";
+import React, { useState, useEffect, useContext } from 'react';
+import { withRouter } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { AuthContext } from '../contexts/AuthContext';
+import { useFields } from '../utils/hooks';
+import { handleRegister, handleLogin } from '../utils/form_methods';
+import { FormErrorMessage } from '../utils/forms';
 
-const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
+const AccountForm = ({
+  handleChange, handleRegister, handleLogin, fields,
+}) => {
   const { register, handleSubmit, errors } = useForm(); // initialize the hook
   return (
     <form className="d-flex align-items-center flex-column form">
@@ -17,7 +19,7 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
           <input
             ref={register({ required: true })}
             className={`form-control ${
-              errors.login ? "border border-danger" : ""
+              errors.login ? 'border border-danger' : ''
             }`}
             type="text"
             placeholder="login"
@@ -34,7 +36,7 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
           <input
             ref={register({ required: true })}
             className={`form-control ${
-              errors.password ? "border border-danger" : ""
+              errors.password ? 'border border-danger' : ''
             }`}
             type="password"
             placeholder="hasło"
@@ -49,7 +51,7 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
           )}
         </div>
 
-        {window.location.pathname === "/register" && (
+        {window.location.pathname === '/register' && (
           <>
             <div className="form-group">
               <label>Imię</label>
@@ -60,7 +62,7 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
                 onChange={handleChange}
                 ref={register({ required: true })}
                 className={`form-control ${
-                  errors.name ? "border border-danger" : ""
+                  errors.name ? 'border border-danger' : ''
                 }`}
               />
               {errors.name && <FormErrorMessage message="Imię jest wymagane" />}
@@ -74,7 +76,7 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
               <input
                 ref={register({ required: true })}
                 className={`form-control ${
-                  errors.surname ? "border border-danger" : ""
+                  errors.surname ? 'border border-danger' : ''
                 }`}
                 type="text"
                 placeholder="nazwisko"
@@ -97,7 +99,7 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
                 // TODO: email pattern regex
                 ref={register({ required: true, pattern: /^\S+@\S+$/i })}
                 className={`form-control ${
-                  errors.email ? "border border-danger" : ""
+                  errors.email ? 'border border-danger' : ''
                 }`}
                 type="text"
                 placeholder="jankowalski@gmail.com"
@@ -117,7 +119,7 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
               <input
                 ref={register({ required: true })}
                 className={`form-control ${
-                  errors.address ? "border border-danger" : ""
+                  errors.address ? 'border border-danger' : ''
                 }`}
                 type="text"
                 placeholder="ul. Wielicka 23/2"
@@ -137,7 +139,7 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
               <input
                 ref={register({ required: true })}
                 className={`form-control ${
-                  errors.city ? "border border-danger" : ""
+                  errors.city ? 'border border-danger' : ''
                 }`}
                 type="text"
                 placeholder="Kraków"
@@ -154,7 +156,7 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
           </>
         )}
 
-        {window.location.pathname === "/login" && (
+        {window.location.pathname === '/login' && (
           <button
             type="button"
             className="btn btn-primary px-5 w-100"
@@ -163,7 +165,7 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
             Zaloguj się
           </button>
         )}
-        {window.location.pathname === "/register" && (
+        {window.location.pathname === '/register' && (
           <button
             type="button"
             className="btn btn-primary px-5 w-100"
@@ -178,34 +180,32 @@ const AccountForm = ({ handleChange, handleRegister, handleLogin, fields }) => {
 };
 
 const LoginPage = ({ history, location }) => {
-  const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+  const serverUrl = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
   const { isAuthenticated, setAuth } = useContext(AuthContext);
   const [isRegistered, setIsRegistered] = useState(false);
   const [fields, setField] = useFields({});
 
   useEffect(() => {
     if (isRegistered) {
-      history.push("/login");
+      history.push('/login');
     }
   }, [isRegistered]);
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/");
+      history.push('/');
     }
   }, [isAuthenticated]);
 
   return (
     <div className="d-flex flex-column">
       <h3 className="text-center mb-4 text-white">
-        {window.location.pathname === "/login" ? "Logowanie" : "Rejestracja"}
+        {window.location.pathname === '/login' ? 'Logowanie' : 'Rejestracja'}
       </h3>
       <AccountForm
         handleChange={setField}
         handleLogin={() => handleLogin(serverUrl, fields, () => setAuth())}
-        handleRegister={() =>
-          handleRegister(serverUrl, fields, () => setIsRegistered(true))
-        }
+        handleRegister={() => handleRegister(serverUrl, fields, () => setIsRegistered(true))}
         fields={fields}
       />
     </div>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
-import variables from "../../variables/variables";
+import React, { useEffect, useState } from 'react';
+import styled, { css } from 'styled-components';
+import variables from '../../variables/variables';
 
 const Hamburger = ({ isHamburgerOpen, setIsHamburgerOpen }) => {
   const handleHamburgerClick = () => {
@@ -35,9 +35,8 @@ const StyledLine = styled.span`
   height: 0.2rem;
   background-color: ${variables.primaryColor};
   transition: 0.35s ease-in-out;
-  ${({ isHamburgerOpen }) =>
-    isHamburgerOpen &&
-    css`
+  ${({ isHamburgerOpen }) => isHamburgerOpen
+    && css`
       &:nth-of-type(2) {
         transform: translateX(15rem) rotate(360deg);
         visibility: hidden;
