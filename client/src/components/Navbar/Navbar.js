@@ -1,13 +1,12 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
+import React, { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthContext';
 
-const Navbar = (props) => {
+const Navbar = () => {
   const { isAuthenticated, userRole } = useContext(AuthContext);
-  // TODO: menu toggle is not working
   return (
     <AuthContext.Consumer>
-      {(context) => (
+      {() => (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <a className="navbar-brand" href="/">
             Restauracja
@@ -21,11 +20,11 @@ const Navbar = (props) => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon" />
           </button>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-              {isAuthenticated && userRole === "admin" && (
+              {isAuthenticated && userRole === 'admin' && (
                 <>
                   <NavLink className="nav-link" toexact to="/">
                     Strona główna
@@ -47,7 +46,7 @@ const Navbar = (props) => {
                   </NavLink>
                 </>
               )}
-              {isAuthenticated && userRole === "employee" && (
+              {isAuthenticated && userRole === 'employee' && (
                 <>
                   <NavLink className="nav-link" exact to="/">
                     Strona główna
@@ -60,7 +59,7 @@ const Navbar = (props) => {
                   </NavLink>
                 </>
               )}
-              {isAuthenticated && userRole === "user" && (
+              {isAuthenticated && userRole === 'user' && (
                 <>
                   <NavLink className="nav-link" exact to="/">
                     Strona główna

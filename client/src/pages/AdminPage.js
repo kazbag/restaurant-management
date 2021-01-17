@@ -1,36 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { withRouter } from "react-router";
+import React, { useState } from 'react';
+import { withRouter } from 'react-router';
 import {
   UserList,
   UserEdit,
   OrderList,
   NewsModal,
   NewsList,
-} from "../components/Admin/admin_components";
+} from '../components/Admin/admin_components';
 import {
   handleEdit,
   handleRemove,
   handleNew,
   handleCreateMessage,
   handleRemoveMessage,
-} from "../components/Admin/admin_methods";
-import { useLoad } from "../utils/hooks";
+} from '../components/Admin/admin_methods';
+import { useLoad } from '../utils/hooks';
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
 
-const USER_ROLES = ["user", "employee", "admin"];
+const USER_ROLES = ['user', 'employee', 'admin'];
 const EMPTY_USER_TEMPLATE = {
-  name: "",
-  surname: "",
-  login: "",
-  password: "",
-  email: "",
-  city: "",
-  role: "user",
+  name: '',
+  surname: '',
+  login: '',
+  password: '',
+  email: '',
+  city: '',
+  role: 'user',
 };
 const EMPTY_NEWS_TEMPLATE = {
-  title: "",
-  message: "",
+  title: '',
+  message: '',
 };
 
 const AdminPage = () => {
@@ -47,8 +47,8 @@ const AdminPage = () => {
   const [newsList, setNewsList] = useLoad([], `${SERVER_URL}/news`);
   const [isNewsModalVisible, setIsNewsModalVisible] = useState(false);
   const handleUserSelection = (id) => {
-    const user = users.filter((u) => u._id === id);
-    if (user.length) {
+    const _user = users.filter((u) => u._id === id);
+    if (_user.length) {
       setIsUserModalVisible(true);
       setSelectedUser(user[0]);
     } else {
@@ -66,16 +66,12 @@ const AdminPage = () => {
       />
       {isNewsModalVisible && (
         <NewsModal
-          onChange={(e) =>
-            setNews({ ...news, [e.target.name]: e.target.value })
-          }
-          onSubmit={() =>
-            handleCreateMessage(news, (newList) => {
-              setNews(EMPTY_USER_TEMPLATE);
-              setIsNewsModalVisible(false);
-              setNewsList(newList);
-            })
-          }
+          onChange={(e) => setNews({ ...news, [e.target.name]: e.target.value })}
+          onSubmit={() => handleCreateMessage(news, (newList) => {
+            setNews(EMPTY_USER_TEMPLATE);
+            setIsNewsModalVisible(false);
+            setNewsList(newList);
+          })}
           onCancel={() => {
             setIsNewsModalVisible(false);
             setNews(EMPTY_USER_TEMPLATE);
@@ -88,7 +84,7 @@ const AdminPage = () => {
           setIsEdit(true);
         }}
         // TODO: handle it
-        onEdit={(e) => console.log(e.target.dataset.id)}
+        // onEdit={(e) => console.log(e.target.dataset.id)}
         performNew={() => {
           setIsAdd(true);
           setIsUserModalVisible(true);
@@ -99,25 +95,21 @@ const AdminPage = () => {
       {isUserModalVisible && isEdit && (
         <UserEdit
           header="Edycja użytkownika"
-          onSubmit={() =>
-            handleEdit(selectedUser._id, selectedUser, (userData) => {
-              setUsers(userData);
-              setIsEdit(false);
-              setIsUserModalVisible(false);
-              setUser(EMPTY_USER_TEMPLATE);
-            })
-          }
+          onSubmit={() => handleEdit(selectedUser._id, selectedUser, (userData) => {
+            setUsers(userData);
+            setIsEdit(false);
+            setIsUserModalVisible(false);
+            setUser(EMPTY_USER_TEMPLATE);
+          })}
           onCancel={() => {
             setIsEdit(false);
             setIsUserModalVisible(false);
             setSelectedUser(EMPTY_USER_TEMPLATE);
           }}
-          onChange={(e) =>
-            setSelectedUser({
-              ...selectedUser,
-              [e.target.name]: e.target.value,
-            })
-          }
+          onChange={(e) => setSelectedUser({
+            ...selectedUser,
+            [e.target.name]: e.target.value,
+          })}
           user={selectedUser}
           roles={USER_ROLES}
           buttonText="Zapisz"
@@ -126,22 +118,18 @@ const AdminPage = () => {
       {isUserModalVisible && isAdd && (
         <UserEdit
           header="Dodawanie użytkownika"
-          onSubmit={() =>
-            handleNew(user, (userData) => {
-              setUsers(userData);
-              setIsAdd(false);
-              setIsUserModalVisible(false);
-              setUser(EMPTY_USER_TEMPLATE);
-            })
-          }
+          onSubmit={() => handleNew(user, (userData) => {
+            setUsers(userData);
+            setIsAdd(false);
+            setIsUserModalVisible(false);
+            setUser(EMPTY_USER_TEMPLATE);
+          })}
           onCancel={() => {
             setIsAdd(false);
             setIsUserModalVisible(false);
             setUser(EMPTY_USER_TEMPLATE);
           }}
-          onChange={(e) =>
-            setUser({ ...user, [e.target.name]: e.target.value })
-          }
+          onChange={(e) => setUser({ ...user, [e.target.name]: e.target.value })}
           user={user}
           roles={USER_ROLES}
           buttonText="Dodaj"

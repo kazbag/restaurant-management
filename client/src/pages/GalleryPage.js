@@ -1,12 +1,10 @@
-import React from "react";
-import { withRouter } from "react-router";
+import React from 'react';
+import { withRouter } from 'react-router';
 
 const GalleryPage = () => {
   const images = new Array(32)
-    .fill("https://picsum.photos/id/unique_id/500/400.jpg")
-    .map((item, index) =>
-      item.replace("unique_id", Math.floor(index * Math.random() * 5))
-    );
+    .fill('https://picsum.photos/id/unique_id/500/400.jpg')
+    .map((item, index) => item.replace('unique_id', Math.floor(index * Math.random() * 5)));
 
   const mappedImages = images.map((item) => (
     <img

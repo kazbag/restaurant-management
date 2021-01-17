@@ -1,15 +1,15 @@
-import axios from "axios";
-import toast from "toast-me";
+import axios from 'axios';
+import toast from 'toast-me';
 
 axios.defaults.withCredentials = true;
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:3001";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
 
 export const handleStatusToggle = (
   orderId,
   setPendingOrders,
   setCompletedOrders,
-  message
+  message,
 ) => {
   axios
     .patch(`${SERVER_URL}/orders/status/${orderId}`)
@@ -18,5 +18,5 @@ export const handleStatusToggle = (
     .then(() => axios.get(`${SERVER_URL}/orders/completed`))
     .then((response) => setCompletedOrders(response.data))
     .then(() => message())
-    .catch((err) => toast(err.response.data.message, "error"));
+    .catch((err) => toast(err.response.data.message, 'error'));
 };

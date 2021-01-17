@@ -1,5 +1,5 @@
-import axios from "axios";
-import toast from "toast-me";
+import axios from 'axios';
+import toast from 'toast-me';
 
 axios.defaults.withCredentials = true;
 
@@ -8,36 +8,40 @@ export const submitOrder = (url, data) => {
   axios
     .post(`${url}/orders`, data)
     // .then((res) => console.log(res))
-    .catch((err) => toast(err.response.data.message, "error"));
+    .catch((err) => toast(err.response.data.message, 'error'));
 };
 
 export const handleRegister = (uri, data, callback) => {
   axios
     .post(`${uri}/users`, data)
-    .then((response) => {
-      // console.log(response);
+    .then(() => {
+      // eslint-disable-next-line no-unused-expressions
       callback && callback();
     })
     .catch((err) => {
-      toast(err.response.data.message, "error");
+      toast(err.response.data.message, 'error');
     });
 };
 
 export const handleLogin = (url, data, callback) => {
   axios(`${url}/login`, {
-    method: "POST",
-    data: data,
+    method: 'POST',
+    data,
     withCredentials: true,
   })
-    .then((response) => {
+    .then(() => {
+      // eslint-disable-next-line no-unused-expressions
       callback && callback(true);
-      window.location.href = "/";
+      window.location.href = '/';
     })
     .catch((err) => {
-      toast(err.response.data.message, "error");
+      toast(err.response.data.message, 'error');
+      // eslint-disable-next-line no-unused-expressions
       callback && callback(false);
     });
 };
 
-export const redirectToLogin = () => (window.location.href = "/login");
-export const redirectToHomepage = () => (window.location.href = "/");
+// eslint-disable-next-line no-return-assign
+export const redirectToLogin = () => window.location.href = '/login';
+// eslint-disable-next-line no-return-assign
+export const redirectToHomepage = () => window.location.href = '/';

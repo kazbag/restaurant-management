@@ -1,39 +1,41 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export const Menu = ({ products, onClick }) => {
-  return (
-    <div className="col-12 col-md-6 col-lg-8">
-      <div className="card">
-        <div className="card-body">
-          <ul className="list">
-            {products.map((product, index) => {
-              return (
-                <li
-                  key={index}
-                  className="list-item d-flex align-items-center mb-4"
-                >
-                  <img
-                    className="mr-4"
-                    style={{ width: "50px", height: "50px" }}
-                    src={product.photo}
-                    alt={product.name}
-                  />
-                  <span className="text-muted">{product.name}</span>
-                  <button
-                    type="button"
-                    onClick={() => onClick(product._id)}
-                    className="btn btn-info ml-auto"
-                  >
-                    Dodaj
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+export const Menu = ({ products, onClick }) => (
+  <div className="col-12 col-md-6 col-lg-8">
+    <div className="card">
+      <div className="card-body">
+        <ul className="list">
+          {products.map((product) => (
+            <li
+              key={product.name}
+              className="list-item d-flex align-items-center mb-4"
+            >
+              <img
+                className="mr-4"
+                style={{ width: '50px', height: '50px' }}
+                src={product.photo}
+                alt={product.name}
+              />
+              <span className="text-muted">{product.name}</span>
+              <button
+                type="button"
+                onClick={() => onClick(product._id)}
+                className="btn btn-info ml-auto"
+              >
+                Dodaj
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
-  );
+  </div>
+);
+
+Menu.propTypes = {
+  products: PropTypes.any,
+  onClick: PropTypes.func.isRequired,
 };
 
 export const Order = ({
@@ -57,26 +59,29 @@ export const Order = ({
           )}
           {order.products.length > 0 && (
             <ul className="list-unstyled">
-              {order.products.map((product, index) => {
-                return (
-                  <li
-                    className="list-item d-flex mb-2 align-items-center"
-                    key={index}
+              {order.products.map((product, index) => (
+                <li
+                  className="list-item d-flex mb-2 align-items-center"
+                  key={product}
+                >
+                  <span>{product.name}</span>
+                  <button
+                    type="button"
+                    data-id={index}
+                    className="btn btn-sm btn-outline-danger ml-auto font-weight-bold cursor-pointer"
+                    onClick={() => onRemove(index)}
                   >
-                    <span>{product.name}</span>
-                    <button
-                      data-id={index}
-                      className="btn btn-sm btn-outline-danger ml-auto font-weight-bold cursor-pointer"
-                      onClick={() => onRemove(index)}
-                    >
-                      usuń
-                    </button>
-                  </li>
-                );
-              })}
+                    usuń
+                  </button>
+                </li>
+              ))}
               {order.products.length && (
                 <li className="list-item text-success mt-8 font-weight-bold">
-                  Cena: {orderAmount} zł
+                  Cena:
+                  {' '}
+                  {orderAmount}
+                  {' '}
+                  zł
                 </li>
               )}
             </ul>
@@ -97,7 +102,11 @@ export const Order = ({
               <div className="col-12 mt-4">
                 <div className="alert alert-danger">
                   <p>
-                    Niepoprawny kod, spróbuj ponownie <br /> lub skontaktuj się
+                    Niepoprawny kod, spróbuj ponownie
+                    {' '}
+                    <br />
+                    {' '}
+                    lub skontaktuj się
                     z obsługą.
                   </p>
                 </div>
@@ -107,7 +116,7 @@ export const Order = ({
               <div className="d-flex mt-4">
                 <button
                   className={`btn btn-primary mr-2 ${
-                    codeDisabled ? "disabled" : ""
+                    codeDisabled ? 'disabled' : ''
                   }`}
                   type="button"
                   onClick={codeDisabled ? undefined : () => onCodeSubmit()}
@@ -128,4 +137,13 @@ export const Order = ({
       </div>
     </div>
   );
+};
+
+Order.propTypes = {
+  order: PropTypes.any,
+  onRemove: PropTypes.func.isRequired,
+  onCodeSubmit: PropTypes.func.isRequired,
+  onCodeChange: PropTypes.func.isRequired,
+  codeDisabled: PropTypes.any,
+  onAdd: PropTypes.func.isRequired,
 };
