@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import toast from 'toast-me';
@@ -15,7 +16,7 @@ const LogoutPage = ({ history }) => {
       method: 'POST',
       withCredentials: true,
     })
-      .then((res) => {
+      .then(() => {
         setAuth(false);
         history.push('/');
       })
@@ -25,13 +26,17 @@ const LogoutPage = ({ history }) => {
   }, [isAuthenticated]);
   return (
     <AuthContext.Consumer>
-      {(context) => (
+      {() => (
         <div>
           <h3 className="logout">Wylogowano</h3>
         </div>
       )}
     </AuthContext.Consumer>
   );
+};
+
+LogoutPage.propTypes = {
+  history: PropTypes.any,
 };
 
 export default withRouter(LogoutPage);

@@ -1,14 +1,17 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'toast-me';
 
 axios.defaults.withCredentials = true;
 
+// eslint-disable-next-line func-names
 export const useFields = function (initialValue) {
   const [fields, setValues] = useState(initialValue);
   const setField = (e) => {
     let val = e.target.value;
     if (e.target.dataset.integer) {
+      // eslint-disable-next-line radix
       val = parseInt(val);
     }
     if (e.target.type === 'checkbox') {
@@ -25,6 +28,7 @@ export const useFields = function (initialValue) {
   return [fields, setField, setValues, updateFields];
 };
 
+// eslint-disable-next-line func-names
 export const useLoad = function (initialState, uri) {
   const [fields, setFields] = useState(initialState);
   useEffect(() => {

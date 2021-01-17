@@ -14,8 +14,8 @@ export const submitOrder = (url, data) => {
 export const onRegister = (uri, data, callback) => {
   axios
     .post(`${uri}/users`, data)
-    .then((response) => {
-      // console.log(response);
+    .then(() => {
+      // eslint-disable-next-line no-unused-expressions
       callback && callback();
     })
     .catch((err) => {
@@ -29,15 +29,19 @@ export const onLogin = (url, data, callback) => {
     data,
     withCredentials: true,
   })
-    .then((response) => {
+    .then(() => {
+      // eslint-disable-next-line no-unused-expressions
       callback && callback(true);
       window.location.href = '/';
     })
     .catch((err) => {
       toast(err.response.data.message, 'error');
+      // eslint-disable-next-line no-unused-expressions
       callback && callback(false);
     });
 };
 
-export const redirectToLogin = () => (window.location.href = '/login');
-export const redirectToHomepage = () => (window.location.href = '/');
+// eslint-disable-next-line no-return-assign
+export const redirectToLogin = () => window.location.href = '/login';
+// eslint-disable-next-line no-return-assign
+export const redirectToHomepage = () => window.location.href = '/';

@@ -1,4 +1,5 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import {
@@ -22,7 +23,11 @@ const EMPTY_PRODUCT_TEMPLATE = {
   photo: '',
 };
 
+// TODO: handle history
+// eslint-disable-next-line no-unused-vars
 const MenuPage = ({ history }) => {
+  // TODO: handle isAuthenticated
+  // eslint-disable-next-line no-unused-vars
   const { isAuthenticated, setAuth } = useContext(AuthContext);
   const [isEdit, setIsEdit] = useState(false);
   const [isNew, setIsNew] = useState(false);
@@ -32,18 +37,18 @@ const MenuPage = ({ history }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleProductEditSelect = (e) => {
-    const product = products.filter((i) => i._id === e.target.id);
+    const _product = products.filter((i) => i._id === e.target.id);
     setIsModalVisible(true);
     setIsEdit(true);
     setIsNew(false);
-    if (product && product.length) {
-      setSelectedProduct(product[0]);
+    if (_product && _product.length) {
+      setSelectedProduct(_product[0]);
     } else {
       setSelectedProduct(null);
     }
   };
 
-  const handleProductNewSelect = (e) => {
+  const handleProductNewSelect = () => {
     setIsModalVisible(true);
     setIsEdit(false);
     setIsNew(true);
@@ -52,7 +57,7 @@ const MenuPage = ({ history }) => {
 
   return (
     <AuthContext.Consumer>
-      {(context) => (
+      {() => (
         <div className="row">
           <ProductList
             list={products}
@@ -100,6 +105,10 @@ const MenuPage = ({ history }) => {
       )}
     </AuthContext.Consumer>
   );
+};
+
+MenuPage.propTypes = {
+  history: PropTypes.any,
 };
 
 export default withRouter(MenuPage);
