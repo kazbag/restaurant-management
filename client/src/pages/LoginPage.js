@@ -1,14 +1,14 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../contexts/AuthContext';
 import { useFields } from '../utils/hooks';
-import { onRegister, onLogin } from '../utils/form_methods';
+import { handleRegister, handleLogin } from '../utils/form_methods';
 import { FormErrorMessage } from '../utils/forms';
 
 const AccountForm = ({
-  handleChange, onRegister, onLogin, fields,
+  handleChange, onRegister, onLogin,
 }) => {
   const { register, handleSubmit, errors } = useForm(); // initialize the hook
   return (
@@ -179,6 +179,15 @@ const AccountForm = ({
   );
 };
 
+AccountForm.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  onRegister: PropTypes.func.isRequired,
+  onLogin: PropTypes.func.isRequired,
+
+};
+
+// TODO: handle location
+// eslint-disable-next-line no-unused-vars
 const LoginPage = ({ history, location }) => {
   const serverUrl = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
   const { isAuthenticated, setAuth } = useContext(AuthContext);
@@ -204,12 +213,17 @@ const LoginPage = ({ history, location }) => {
       </h3>
       <AccountForm
         handleChange={setField}
-        onLogin={() => onLogin(serverUrl, fields, () => setAuth())}
-        onRegister={() => onRegister(serverUrl, fields, () => setIsRegistered(true))}
+        onLogin={() => handleLogin(serverUrl, fields, () => setAuth())}
+        onRegister={() => handleRegister(serverUrl, fields, () => setIsRegistered(true))}
         fields={fields}
       />
     </div>
   );
+};
+
+LoginPage.propTypes = {
+  history: PropTypes.any,
+  location: PropTypes.any,
 };
 
 export default withRouter(LoginPage);
