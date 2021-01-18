@@ -12,170 +12,189 @@ const AccountForm = ({
 }) => {
   const { register, handleSubmit, errors } = useForm(); // initialize the hook
   return (
-    <form className="d-flex align-items-center flex-column form">
-      <div className="p-5 bg-white rounded">
-        <div className="form-group">
-          <label>Login</label>
-          <input
-            ref={register({ required: true })}
-            className={`form-control ${
-              errors.login ? 'border border-danger' : ''
-            }`}
-            type="text"
-            placeholder="login"
-            name="login"
-            onChange={handleChange}
-          />
-          {errors.login && <FormErrorMessage message="Login jest wymagany" />}
-          {!errors.login && (
-            <small className="form-text text-muted">Wprowadź swój login</small>
-          )}
+    <div className="col-12 col-md-9 col-lg-6 mx-auto">
+      <div className="card">
+        <div className="card-header">
+          <h3 className="card-title">
+            {window.location.pathname === '/login' ? 'Logowanie' : 'Rejestracja'}
+          </h3>
         </div>
-        <div className="form-group">
-          <label>Hasło</label>
-          <input
-            ref={register({ required: true })}
-            className={`form-control ${
-              errors.password ? 'border border-danger' : ''
-            }`}
-            type="password"
-            placeholder="hasło"
-            name="password"
-            onChange={handleChange}
-          />
-          {errors.password && (
-            <FormErrorMessage message="Hasło jest wymagane" />
-          )}
-          {!errors.password && (
-            <small className="form-text text-muted">Wprowadź hasło</small>
-          )}
-        </div>
+        <div className="card-body">
+          <form className="form">
+            <div className="row">
 
-        {window.location.pathname === '/register' && (
-          <>
-            <div className="form-group">
-              <label>Imię</label>
-              <input
-                type="text"
-                placeholder="imię"
-                name="name"
-                onChange={handleChange}
-                ref={register({ required: true })}
-                className={`form-control ${
-                  errors.name ? 'border border-danger' : ''
-                }`}
-              />
-              {errors.name && <FormErrorMessage message="Imię jest wymagane" />}
-              {!errors.name && (
-                <small className="form-text text-muted">Wprowadź imię</small>
-              )}
-            </div>
+              <div className="form-group col-12">
+                <label>Login</label>
+                <input
+                  ref={register({ required: true })}
+                  className={`form-control ${
+                    errors.login ? 'border border-danger' : ''
+                  }`}
+                  type="text"
+                  placeholder="login"
+                  name="login"
+                  onChange={handleChange}
+                />
+                {errors.login && <FormErrorMessage message="Login jest wymagany" />}
+                {!errors.login && (
+                <small className="form-text text-muted">Wprowadź swój login</small>
+                )}
+              </div>
+              <div className="form-group col-12">
+                <label>Hasło</label>
+                <input
+                  ref={register({ required: true })}
+                  className={`form-control ${
+                    errors.password ? 'border border-danger' : ''
+                  }`}
+                  type="password"
+                  placeholder="hasło"
+                  name="password"
+                  onChange={handleChange}
+                />
+                {errors.password && (
+                <FormErrorMessage message="Hasło jest wymagane" />
+                )}
+                {!errors.password && (
+                <small className="form-text text-muted">Wprowadź hasło</small>
+                )}
+              </div>
 
-            <div className="form-group">
-              <label>Nazwisko</label>
-              <input
-                ref={register({ required: true })}
-                className={`form-control ${
-                  errors.surname ? 'border border-danger' : ''
-                }`}
-                type="text"
-                placeholder="nazwisko"
-                name="surname"
-                onChange={handleChange}
-              />
-              {errors.surname && (
-                <FormErrorMessage message="Nazwisko jest wymagane" />
-              )}
-              {!errors.surname && (
-                <small className="form-text text-muted">
-                  Wprowadź swoje nazwisko
-                </small>
-              )}
-            </div>
+              {window.location.pathname === '/register' && (
+              <>
+                <div className="form-group col-12 col-md-6">
+                  <label>Imię</label>
+                  <input
+                    type="text"
+                    placeholder="imię"
+                    name="name"
+                    onChange={handleChange}
+                    ref={register({ required: true })}
+                    className={`form-control ${
+                      errors.name ? 'border border-danger' : ''
+                    }`}
+                  />
+                  {errors.name && <FormErrorMessage message="Imię jest wymagane" />}
+                  {!errors.name && (
+                  <small className="form-text text-muted">Wprowadź imię</small>
+                  )}
+                </div>
 
-            <div className="form-group">
-              <label>E-mail</label>
-              <input
+                <div className="form-group col-12 col-md-6">
+                  <label>Nazwisko</label>
+                  <input
+                    ref={register({ required: true })}
+                    className={`form-control ${
+                      errors.surname ? 'border border-danger' : ''
+                    }`}
+                    type="text"
+                    placeholder="nazwisko"
+                    name="surname"
+                    onChange={handleChange}
+                  />
+                  {errors.surname && (
+                  <FormErrorMessage message="Nazwisko jest wymagane" />
+                  )}
+                  {!errors.surname && (
+                  <small className="form-text text-muted">
+                    Wprowadź swoje nazwisko
+                  </small>
+                  )}
+                </div>
+
+                <div className="form-group col-12 col-md-6">
+                  <label>E-mail</label>
+                  <input
                 // TODO: email pattern regex
-                ref={register({ required: true, pattern: /^\S+@\S+$/i })}
-                className={`form-control ${
-                  errors.email ? 'border border-danger' : ''
-                }`}
-                type="text"
-                placeholder="jankowalski@gmail.com"
-                name="email"
-                onChange={handleChange}
-              />
-              {errors.email && (
-                <FormErrorMessage message="E-mail jest wymagany" />
-              )}
-              {!errors.email && (
-                <small className="form-text text-muted">Wprowadź e-mail</small>
+                    ref={register({ required: true, pattern: /^\S+@\S+$/i })}
+                    className={`form-control ${
+                      errors.email ? 'border border-danger' : ''
+                    }`}
+                    type="text"
+                    placeholder="jankowalski@gmail.com"
+                    name="email"
+                    onChange={handleChange}
+                  />
+                  {errors.email && (
+                  <FormErrorMessage message="E-mail jest wymagany" />
+                  )}
+                  {!errors.email && (
+                  <small className="form-text text-muted">Wprowadź e-mail</small>
+                  )}
+                </div>
+
+                <div className="form-group col-12 col-md-6">
+                  <label>Adres</label>
+                  <input
+                    ref={register({ required: true })}
+                    className={`form-control ${
+                      errors.address ? 'border border-danger' : ''
+                    }`}
+                    type="text"
+                    placeholder="ul. Wielicka 23/2"
+                    name="address"
+                    onChange={handleChange}
+                  />
+                  {errors.address && (
+                  <FormErrorMessage message="Adres jest wymagany" />
+                  )}
+                  {!errors.address && (
+                  <small className="form-text text-muted">Wprowadź adres</small>
+                  )}
+                </div>
+
+                <div className="form-group col-12 col-md-6">
+                  <label>Miasto</label>
+                  <input
+                    ref={register({ required: true })}
+                    className={`form-control ${
+                      errors.city ? 'border border-danger' : ''
+                    }`}
+                    type="text"
+                    placeholder="Kraków"
+                    name="city"
+                    onChange={handleChange}
+                  />
+                  {errors.city && (
+                  <FormErrorMessage message="Miasto jest wymagane" />
+                  )}
+                  {!errors.city && (
+                  <small className="form-text text-muted">Wprowadź miasto</small>
+                  )}
+                </div>
+              </>
               )}
             </div>
+          </form>
 
-            <div className="form-group">
-              <label>Adres</label>
-              <input
-                ref={register({ required: true })}
-                className={`form-control ${
-                  errors.address ? 'border border-danger' : ''
-                }`}
-                type="text"
-                placeholder="ul. Wielicka 23/2"
-                name="address"
-                onChange={handleChange}
-              />
-              {errors.address && (
-                <FormErrorMessage message="Adres jest wymagany" />
-              )}
-              {!errors.address && (
-                <small className="form-text text-muted">Wprowadź adres</small>
-              )}
-            </div>
-
-            <div className="form-group">
-              <label>Miasto</label>
-              <input
-                ref={register({ required: true })}
-                className={`form-control ${
-                  errors.city ? 'border border-danger' : ''
-                }`}
-                type="text"
-                placeholder="Kraków"
-                name="city"
-                onChange={handleChange}
-              />
-              {errors.city && (
-                <FormErrorMessage message="Miasto jest wymagane" />
-              )}
-              {!errors.city && (
-                <small className="form-text text-muted">Wprowadź miasto</small>
-              )}
-            </div>
-          </>
-        )}
-
-        {window.location.pathname === '/login' && (
-          <button
-            type="button"
-            className="btn btn-primary px-5 w-100"
-            onClick={handleSubmit(onLogin)}
-          >
-            Zaloguj się
-          </button>
-        )}
-        {window.location.pathname === '/register' && (
-          <button
-            type="button"
-            className="btn btn-primary px-5 w-100"
-            onClick={handleSubmit(onRegister)}
-          >
-            Zarejestruj się
-          </button>
-        )}
+        </div>
+        <div className="card-footer">
+          {window.location.pathname === '/login' && (
+          <div className="form-group col-12 mt-4">
+            <button
+              type="button"
+              className="btn btn-primary px-5"
+              onClick={handleSubmit(onLogin)}
+            >
+              Zaloguj się
+            </button>
+          </div>
+          )}
+          {window.location.pathname === '/register' && (
+          <div className="form-group col-12 mt-4">
+            <button
+              type="button"
+              className="btn btn-primary px-5"
+              onClick={handleSubmit(onRegister)}
+            >
+              Zarejestruj się
+            </button>
+          </div>
+          )}
+        </div>
       </div>
-    </form>
+    </div>
+
   );
 };
 
@@ -208,9 +227,6 @@ const LoginPage = ({ history, location }) => {
 
   return (
     <div className="d-flex flex-column">
-      <h3 className="text-center mb-4 text-white">
-        {window.location.pathname === '/login' ? 'Logowanie' : 'Rejestracja'}
-      </h3>
       <AccountForm
         handleChange={setField}
         onLogin={() => handleLogin(serverUrl, fields, () => setAuth())}
