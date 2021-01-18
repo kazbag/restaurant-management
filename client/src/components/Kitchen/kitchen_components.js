@@ -14,9 +14,6 @@ export const List = ({
   isModalVisible,
   setIsModalVisible,
 }) => {
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState({});
 
@@ -83,7 +80,7 @@ export const List = ({
                     {product.price ? `${product.price} zł` : ''}
                   </li>
                 ))}
-              <li className="list-item mt-4" style={{borderTop: '1px solid black'}}>
+              <li className="list-item mt-4" style={{ borderTop: '1px solid black' }}>
                 <span className="d-block mt-4">Całkowity koszt zamówienia:</span>
                 <span className="d-block text-success">
                   {selectedOrder.price}

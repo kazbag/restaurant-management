@@ -45,7 +45,7 @@ export const Order = ({
   onCodeChange,
   codeDisabled,
   onAdd,
-  submitDisabled
+  submitDisabled,
 }) => {
   const orderAmount = (
     order.products.reduce((a, b) => +a + +b.price, 0) * order.ratio

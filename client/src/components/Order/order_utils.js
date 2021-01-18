@@ -21,7 +21,7 @@ export const handleSubmit = (data, callback) => {
   axios
     .post(`${SERVER_URL}/orders`, data)
     .then(() => {
-      toast('Złożono zamówienie!', {toastClass: 'bg-success'});
+      toast('Złożono zamówienie!', { toastClass: 'bg-success' });
       setTimeout(() => {
         window.location = '';
       }, 3000);
