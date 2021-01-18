@@ -17,6 +17,7 @@ export const handleRegister = (uri, data, callback) => {
     .then(() => {
       // eslint-disable-next-line no-unused-expressions
       callback && callback();
+      toast('Użytkownik zarejestrowany. Możesz się zalogować.', { toastClass: 'bg-success' });
     })
     .catch((err) => {
       toast(err.response.data.message, 'error');

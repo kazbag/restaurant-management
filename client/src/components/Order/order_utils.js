@@ -16,11 +16,20 @@ export const handleAdd = (product, products, productsList, callback) => {
 // };
 
 // TODO: handle callback for submit order
-export const handleSubmit = (data) => {
+export const handleSubmit = (data, callback) => {
+  callback(true);
   axios
     .post(`${SERVER_URL}/orders`, data)
-    // .then((res) => console.log(res))
-    .catch((err) => toast(err.response.data.message, 'error'));
+    .then(() => {
+      toast('Złożono zamówienie!', { toastClass: 'bg-success' });
+      setTimeout(() => {
+        window.location = '';
+      }, 3000);
+    })
+    .catch((err) => {
+      callback(false);
+      toast(err.response.data.message, 'error');
+    });
 };
 
 export const handleCode = (data, callback) => {

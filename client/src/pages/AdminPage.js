@@ -49,11 +49,11 @@ const AdminPage = () => {
   const handleUserSelection = (id) => {
     const _user = users.filter((u) => u._id === id);
     if (_user.length) {
+      setSelectedUser(_user[0]);
       setIsUserModalVisible(true);
-      setSelectedUser(user[0]);
     } else {
-      setIsUserModalVisible(false);
       setSelectedUser(null);
+      setIsUserModalVisible(false);
     }
   };
 

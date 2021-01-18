@@ -37,11 +37,15 @@ export const UserList = ({
                 <span className="text-bold">
                   #
                   {index + 1}
-                  {' '}
-                  {user.name}
-                  {' '}
-                  -
-                  {' '}
+                  <span className="mx-2">
+                    {user.name}
+                    {' '}
+                    {user.surname}
+                    {' '}
+                    (
+                    {user.login}
+                    )
+                  </span>
                   <span className="text-primary">{user.role}</span>
                 </span>
               </span>
@@ -90,7 +94,6 @@ export const UserEdit = ({
   buttonText,
 }) => {
   const { register, handleSubmit, errors } = useForm(); // initialize the hook
-
   return (
     <div
       className="card"
@@ -167,26 +170,6 @@ export const UserEdit = ({
               <small className="form-text text-muted">
                 Wprowadź swój login
               </small>
-            )}
-          </div>
-          <div className="form-group">
-            <label>Hasło</label>
-            <input
-              ref={register({ required: true, minLength: 4 })}
-              className={`form-control ${
-                errors.password ? 'border border-danger' : ''
-              }`}
-              type="password"
-              value={user.password}
-              name="password"
-              placeholder="Wpisz hasło użytkownika"
-              onChange={onChange}
-            />
-            {errors.password && (
-              <FormErrorMessage message="Hasło jest wymagane" />
-            )}
-            {!errors.password && (
-              <small className="form-text text-muted">Wprowadź hasło</small>
             )}
           </div>
           <div className="form-group">

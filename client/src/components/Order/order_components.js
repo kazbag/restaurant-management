@@ -45,6 +45,7 @@ export const Order = ({
   onCodeChange,
   codeDisabled,
   onAdd,
+  submitDisabled,
 }) => {
   const orderAmount = (
     order.products.reduce((a, b) => +a + +b.price, 0) * order.ratio
@@ -126,7 +127,7 @@ export const Order = ({
                 <button
                   className="btn btn-success"
                   type="button"
-                  onClick={onAdd}
+                  onClick={submitDisabled ? undefined : onAdd}
                 >
                   Złóż zamówienie
                 </button>
@@ -146,4 +147,5 @@ Order.propTypes = {
   onCodeChange: PropTypes.func.isRequired,
   codeDisabled: PropTypes.any,
   onAdd: PropTypes.func.isRequired,
+  submitDisabled: PropTypes.any,
 };

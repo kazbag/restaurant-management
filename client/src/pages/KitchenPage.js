@@ -6,7 +6,7 @@ import {
   Container,
   List,
 } from '../components/Kitchen/kitchen_components';
-import { useLoad } from '../utils/hooks';
+import { usePeriodicalLoad } from '../utils/hooks';
 import { handleStatusToggle } from '../components/Kitchen/kitchen_methods';
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
@@ -18,13 +18,15 @@ const KitchenPage = ({ history }) => {
   // TODO: handle it
   // eslint-disable-next-line no-unused-vars
   const { isAuthenticated, setAuth } = useContext(AuthContext);
-  const [pendingOrders, setPendingOrders] = useLoad(
+  const [pendingOrders, setPendingOrders] = usePeriodicalLoad(
     [],
     `${SERVER_URL}/orders/pending`,
+    60 * 1000,
   );
-  const [completedOrders, setCompletedOrders] = useLoad(
+  const [completedOrders, setCompletedOrders] = usePeriodicalLoad(
     [],
     `${SERVER_URL}/orders/completed`,
+    60 * 1000,
   );
 
   const handleSubmit = (id) => handleStatusToggle(id, setPendingOrders, setCompletedOrders, () => {

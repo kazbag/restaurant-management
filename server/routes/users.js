@@ -82,6 +82,8 @@ router.post("/", async (req, res) => {
   // console.log(req.headers);
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  const users = await Users.find()
+  const newId = Math.max(...users.map((o) => o.newsId), 0);
 
   const user = new Users({
     name: req.body.name,
@@ -92,6 +94,8 @@ router.post("/", async (req, res) => {
     city: req.body.city,
     role: req.body.role,
     address: req.body.address,
+    phone: req.body.phone,
+    userId: newId
   });
   const userInDatabase = await Users.findOne({ login: user.login });
   if (userInDatabase) {
