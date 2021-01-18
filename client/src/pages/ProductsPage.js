@@ -12,6 +12,7 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
 
 const ProductsPage = () => {
   const [products] = useLoad([], `${SERVER_URL}/products`);
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [order, setOrder] = useState({
     products: [],
     code: '',
@@ -37,10 +38,11 @@ const ProductsPage = () => {
           <Menu products={products} onClick={addToOrder} />
           <Order
             codeDisabled={order.ratio !== 1}
+            submitDisabled={isSubmitting}
             order={order}
             onCodeChange={(e) => setOrder({ ...order, code: e.target.value })}
             onCodeSubmit={() => submitCode()}
-            onAdd={() => handleSubmit(order)}
+            onAdd={isSubmitting ? undefined : () => handleSubmit(order, setIsSubmitting)}
             onRemove={(id) => setOrder({
               ...order,
               products: order.products.filter((_item, index) => index !== id),

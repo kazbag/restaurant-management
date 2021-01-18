@@ -185,7 +185,9 @@ console.log(req.user);
   const orderRatio = retreivedCode ? 1 - retreivedCode.value : 1;
   const finalPrice =
     req.body.products.reduce((a, b) => +a + +b.price, 0) * orderRatio;
-
+  if(!req.body.products.length){
+   return res.status(400).json({message: "Nie możesz nic nie zamówić."})
+  }
   const order = new Orders({
     price: finalPrice,
     orderDate: new Date(),
@@ -199,7 +201,7 @@ console.log(req.user);
     const savedOrder = await order.save();
     res.json(savedOrder);
   } catch (err) {
-    res.json({ message: err });
+    res.status(500).json({ message: 'Błąd podczas tworzenia zamówienia.' });
   }
 });
 
