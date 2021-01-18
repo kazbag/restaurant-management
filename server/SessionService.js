@@ -52,6 +52,7 @@ const getAuth = (requiredRoles) => async (req, res, next) => {
       // admin can access anything
       user.role === "admin"
     ) {
+      req.user = user
       // if role is valid, allow to access data
       next();
     } else {

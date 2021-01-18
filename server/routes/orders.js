@@ -174,7 +174,11 @@ router.get(
  */
 
 router.post("/", getAuth("user"), async (req, res) => {
-  const products = req.body.products;
+const user = req.user;
+console.log(req.user);
+  if(!user){
+    return res.status(403).json({message: "Musisz się zalogować, by złożyć zamówienie."})
+  }
   const code = req.body.code;
   // check that is code valid
   const retreivedCode = await DiscountCodes.findOne({ code: code });
@@ -187,9 +191,9 @@ router.post("/", getAuth("user"), async (req, res) => {
     orderDate: new Date(),
     orderStatus: true,
     products: req.body.products,
-    address: req.body.address,
-    phone: req.body.phone,
-    userId: req.body.userId,
+    address: user.address,
+    phone: user.phone,
+    userId: user.userId,
   });
   try {
     const savedOrder = await order.save();

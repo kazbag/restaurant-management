@@ -162,6 +162,27 @@ const AccountForm = ({
                   <small className="form-text text-muted">Wprowadź miasto</small>
                   )}
                 </div>
+                <div className="form-group col-12 col-md-6">
+                  <label>Telefon</label>
+                  <input
+                    ref={register({
+                      required: true, minLength: 6, maxLength: 12, valueAsNumber: true,
+                    })}
+                    className={`form-control ${
+                      errors.phone ? 'border border-danger' : ''
+                    }`}
+                    type="text"
+                    placeholder="Twój numer telefonu"
+                    name="phone"
+                    onChange={handleChange}
+                  />
+                  {errors.phone && (
+                  <FormErrorMessage message="Numer telefonu jest wymagany" />
+                  )}
+                  {!errors.phone && (
+                  <small className="form-text text-muted">Wprowadź numer telefonu</small>
+                  )}
+                </div>
               </>
               )}
             </div>
