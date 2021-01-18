@@ -41,3 +41,35 @@ export const useLoad = function (initialState, uri) {
   }, [uri]);
   return [fields, setFields];
 };
+
+export const usePeriodicalLoad = (init, url, interval) => {
+  const [data, setData] = useState(init);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    const loadData = () => {
+      axios
+        .get(url)
+        .then((response) => {
+          setData(response.data);
+        })
+        .catch((err) => {
+          toast(err.response.data.message, 'error');
+          setIsError(true);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    };
+
+    loadData();
+
+    const refreshData = setInterval(() => {
+      loadData();
+    }, interval);
+    return () => clearInterval(refreshData);
+  }, [url, setData, interval]);
+
+  return [data, isLoading, isError, setData];
+};

@@ -12,7 +12,7 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
 
 const ProductsPage = () => {
   const [products] = useLoad([], `${SERVER_URL}/products`);
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [order, setOrder] = useState({
     products: [],
     code: '',
