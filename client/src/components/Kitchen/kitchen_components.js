@@ -14,6 +14,9 @@ export const List = ({
   isModalVisible,
   setIsModalVisible,
 }) => {
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState({});
 
@@ -36,7 +39,7 @@ export const List = ({
             <li className="list-item d-flex mb-4" key={item._id}>
               <span className="text-muted mr-2">
                 #
-                {index}
+                {index + 1}
               </span>
               <span className="text-muted mr-2">{item.address}</span>
               <button
@@ -75,9 +78,19 @@ export const List = ({
               {selectedOrder
                 && selectedOrder.products.map((product) => (
                   <li key={product} className="list-item">
-                    {product}
+                    {product.name}
+                    {' '}
+                    {product.price ? `${product.price} zł` : ''}
                   </li>
                 ))}
+              <li className="list-item mt-4" style={{borderTop: '1px solid black'}}>
+                <span className="d-block mt-4">Całkowity koszt zamówienia:</span>
+                <span className="d-block text-success">
+                  {selectedOrder.price}
+                  {' '}
+                  zł
+                </span>
+              </li>
             </ul>
           </div>
           <div className="card-footer mt-auto d-flex">
