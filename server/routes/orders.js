@@ -34,7 +34,7 @@ router.get("/", getAuth("employee"), async (req, res) => {
  */
 router.get("/completed", getAuth("employee"), async (req, res) => {
   try {
-    const orders = await Orders.find({ orderStatus: true });
+    const orders = await Orders.find({ isCompleted: true });
     res.json(orders);
   } catch (err) {
     res.json({ message: err });
@@ -52,7 +52,7 @@ router.get("/completed", getAuth("employee"), async (req, res) => {
  */
 router.get("/pending", getAuth("employee"), async (req, res) => {
   try {
-    const orders = await Orders.find({ orderStatus: false });
+    const orders = await Orders.find({ isCompleted: false });
     res.json(orders);
   } catch (err) {
     res.json({ message: err });
@@ -153,7 +153,7 @@ router.get(
  *      - name: orderDate
  *        in: formData
  *        type: date
- *      - name: orderStatus
+ *      - name: isCompleted
  *        in: formData
  *        type: string
  *      - name: products
@@ -191,9 +191,10 @@ console.log(req.user);
   const order = new Orders({
     price: finalPrice,
     orderDate: new Date(),
-    orderStatus: true,
+    isCompleted: false,
     products: req.body.products,
     address: user.address,
+    city: user.city,
     phone: user.phone,
     userId: user.userId,
   });
@@ -252,10 +253,10 @@ router.delete("/:orderId", getAuth("admin"), async (req, res) => {
 router.patch("/status/:id", getAuth("employee"), async (req, res) => {
   try {
     const order = await Orders.findOne({ _id: req.params.id });
-    const status = order.orderStatus;
+    const status = order.isCompleted;
     const updatedOrder = await Orders.updateOne(
       { _id: req.params.id },
-      { $set: { orderStatus: !status } }
+      { $set: { isCompleted: !status } }
     ).exec();
     res.json(updatedOrder);
   } catch (err) {
@@ -279,7 +280,7 @@ router.patch("/status/:id", getAuth("employee"), async (req, res) => {
  *      - name: orderDate
  *        in: formData
  *        type: date
- *      - name: orderStatus
+ *      - name: isCompleted
  *        in: formData
  *        type: date
  *      - name: products
@@ -303,7 +304,7 @@ router.patch("/:orderId", getAuth("employee"), async (req, res) => {
         $set: {
           price: req.body.price,
           orderDate: req.body.orderDate,
-          orderStatus: req.body.orderStatus,
+          isCompleted: req.body.isCompleted,
           products: req.body.products,
           phone: req.body.phone,
           address: req.body.address,

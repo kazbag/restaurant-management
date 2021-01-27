@@ -9,14 +9,18 @@ export const handleStatusToggle = (
   orderId,
   setPendingOrders,
   setCompletedOrders,
-  message,
+  callback,
 ) => {
   axios
     .patch(`${SERVER_URL}/orders/status/${orderId}`)
     .then(() => axios.get(`${SERVER_URL}/orders/pending`))
-    .then((response) => setPendingOrders(response.data))
+    .then((response) => {
+      setPendingOrders(response.data);
+    })
     .then(() => axios.get(`${SERVER_URL}/orders/completed`))
-    .then((response) => setCompletedOrders(response.data))
-    .then(() => message())
+    .then((response) => {
+      setCompletedOrders(response.data);
+    })
+    .then(() => callback())
     .catch((err) => toast(err.response.data.message, 'error'));
 };

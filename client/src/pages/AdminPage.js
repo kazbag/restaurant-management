@@ -40,7 +40,6 @@ const AdminPage = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isUserModalVisible, setIsUserModalVisible] = useState(false);
-  // TODO: unificate that orderStatus: true is completed or pending order
   const [ordersPending] = useLoad([], `${SERVER_URL}/orders/completed`);
   const [ordersCompleted] = useLoad([], `${SERVER_URL}/orders/pending`);
   const [news, setNews] = useState(EMPTY_NEWS_TEMPLATE);

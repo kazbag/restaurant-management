@@ -15,7 +15,11 @@ const OrdersSchema = mongoose.Schema({
     required: true,
   }
   */
-  orderStatus: {
+ city: {
+   type: String,
+   required: true,
+ },
+  isCompleted: {
     type: Boolean,
     required: true,
   },
@@ -28,6 +32,10 @@ const OrdersSchema = mongoose.Schema({
     required: true,
   },
   address: {
+    type: String,
+    required: true,
+  },
+  phone: {
     type: String,
     required: true,
   },
