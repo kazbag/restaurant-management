@@ -19,7 +19,7 @@ const OrdersSchema = mongoose.Schema({
    type: String,
    required: true,
  },
-  orderStatus: {
+  isCompleted: {
     type: Boolean,
     required: true,
   },
