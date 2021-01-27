@@ -18,18 +18,24 @@ const KitchenPage = ({ history }) => {
   // TODO: handle it
   // eslint-disable-next-line no-unused-vars
   const { isAuthenticated, setAuth } = useContext(AuthContext);
-  const [pendingOrders, setPendingOrders] = usePeriodicalLoad(
+  const [pendingOrders,,, setPendingOrders] = usePeriodicalLoad(
     [],
     `${SERVER_URL}/orders/pending`,
     60 * 1000,
   );
-  const [completedOrders, setCompletedOrders] = usePeriodicalLoad(
+  const [completedOrders,,, setCompletedOrders] = usePeriodicalLoad(
     [],
     `${SERVER_URL}/orders/completed`,
     60 * 1000,
   );
 
-  const handleSubmit = (id) => handleStatusToggle(id, setPendingOrders, setCompletedOrders, () => {
+  const handleSubmit = (id) => handleStatusToggle(id, (data) => {
+    setPendingOrders(data);
+  },
+  (data) => {
+    setCompletedOrders(data);
+  },
+  () => {
     setIsModalVisible(false);
     window.swal.fire('Zmieniono status zamówienia!');
   });
