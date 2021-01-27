@@ -194,6 +194,7 @@ console.log(req.user);
     orderStatus: true,
     products: req.body.products,
     address: user.address,
+    city: user.city,
     phone: user.phone,
     userId: user.userId,
   });

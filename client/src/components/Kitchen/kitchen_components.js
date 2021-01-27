@@ -64,10 +64,16 @@ export const List = ({
             boxShadow: '5px 5px rgba(0,0,0,0.3)',
           }}
         >
-          <div className="card-header">
+          <div className="card-header d-flex flex-column">
             <h3 className="card-title">
+              {selectedOrder ? `${selectedOrder.city},` : ''}
+              {' '}
+              {' '}
               {selectedOrder ? selectedOrder.address : ''}
             </h3>
+            {selectedOrder && selectedOrder.phone && (
+              <a href={`tel:${selectedOrder.phone}`}>{selectedOrder.phone}</a>
+            )}
           </div>
           <div className="card-body">
             <ul className="list list-unstyled">
