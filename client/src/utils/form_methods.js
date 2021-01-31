@@ -7,7 +7,6 @@ axios.defaults.withCredentials = true;
 export const submitOrder = (url, data) => {
   axios
     .post(`${url}/orders`, data)
-    // .then((res) => console.log(res))
     .catch((err) => toast(err.response.data.message, 'error'));
 };
 

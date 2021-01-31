@@ -96,8 +96,6 @@ const removeSession = (token, login) => {
   sessions = sessions.filter(
     (session) => session.token !== token && session.user.login !== login
   );
-  // TODO: remove
-  // console.log("current sessions after remove ", sessions);
 };
 
 const checkSession = (token) => {

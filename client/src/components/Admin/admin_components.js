@@ -323,9 +323,19 @@ export const OrderList = ({ orders }) => {
                 </li>
               ))}
             {/* TODO: handle it */}
-            {/* {orders
+            {orders
               && orderType === 'completed'
-              && orders[orderType].map((item, index) => {})} */}
+              && orders[orderType].map((order, index) => (
+                <li key={order._id} className="list-item d-flex mb-2 align-items-center">
+                  <span className="mr-auto">
+                    #
+                    {index}
+                    {' '}
+                    {order.address}
+                  </span>
+                  <button data-id={order._id} type="button" className="btn btn-sm btn-primary ml-auto">Szczegóły</button>
+                </li>
+              ))}
           </ul>
         </div>
       </div>

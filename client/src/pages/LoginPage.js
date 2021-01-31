@@ -105,7 +105,6 @@ const AccountForm = ({
                 <div className="form-group col-12 col-md-6">
                   <label>E-mail</label>
                   <input
-                // TODO: email pattern regex
                     ref={register({ required: true, pattern: /^\S+@\S+$/i })}
                     className={`form-control ${
                       errors.email ? 'border border-danger' : ''

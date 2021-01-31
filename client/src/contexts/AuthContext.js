@@ -19,8 +19,6 @@ const AuthContextProvider = ({ children }) => {
       withCredentials: true,
     })
       .then((response) => {
-        // TODO: remove
-        // console.log(response);
         setUserRole(response.data.user.role);
         setAuth(true);
       })

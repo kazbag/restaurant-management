@@ -12,7 +12,6 @@ const getLatestNews = (url, callback) => {
   axios
     .get(`${url}/news`)
     .then((response) => {
-      // console.log(response.data);
       callback(response.data);
     })
     .catch((err) => {
