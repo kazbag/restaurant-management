@@ -110,7 +110,6 @@ db.once("open", () => {
   app.post("/check", async (req, res, next) => {
     const token = req.cookies.session;
     if (!token) return;
-    // console.log("Token in check endpoint ", token);
     const [user, error] = await checkSession(token);
     if (!user) {
       res.status(400).json({ message: "Brak użytkownika." });
@@ -146,7 +145,6 @@ db.once("open", () => {
   });
 
   app.post("/logout", authorizationChain, async (req, res) => {
-    // console.log(req.token + " req token");
     removeSession(req.token, req.session.user.login);
     res.clearCookie("session");
     res.redirect("/");

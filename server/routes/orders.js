@@ -180,7 +180,6 @@ console.log(req.user);
     return res.status(403).json({message: "Musisz się zalogować, by złożyć zamówienie."})
   }
   const code = req.body.code;
-  // check that is code valid
   const retreivedCode = await DiscountCodes.findOne({ code: code });
   const orderRatio = retreivedCode ? 1 - retreivedCode.value : 1;
   const finalPrice =

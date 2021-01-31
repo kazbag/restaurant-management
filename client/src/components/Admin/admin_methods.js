@@ -1,5 +1,6 @@
 import axios from 'axios';
 import toast from 'toast-me';
+import moment from 'moment';
 
 axios.defaults.withCredentials = true;
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
@@ -80,3 +81,8 @@ export const handleRemoveMessage = (id, callback) => {
       }
     });
 };
+
+export const handleDataChange = (data) => {
+  console.log(data);
+  return data;
+}

@@ -13,6 +13,7 @@ import {
   handleNew,
   handleCreateMessage,
   handleRemoveMessage,
+  handleDataChange
 } from '../components/Admin/admin_methods';
 import { useLoad } from '../utils/hooks';
 
@@ -135,7 +136,7 @@ const AdminPage = () => {
         />
       )}
       <OrderList
-        orders={{ pending: ordersPending, completed: ordersCompleted }}
+        orders={{ pending: ordersPending, completed: handleDataChange(ordersCompleted) }}
       />
     </div>
   );
